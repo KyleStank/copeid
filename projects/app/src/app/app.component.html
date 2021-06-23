@@ -1,0 +1,10 @@
+<app-header-default *ngIf="showHeader"></app-header-default>
+
+<main>
+  <app-layout-default *ngIf="useContentContainer">
+    <router-outlet></router-outlet>
+  </app-layout-default>
+  <router-outlet *ngIf="!useContentContainer"></router-outlet>
+</main>
+
+<app-footer-default *ngIf="showFooter"></app-footer-default>

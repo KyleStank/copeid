@@ -1,0 +1,12 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.col {
+  padding: 15px;
+  border-radius: 4px;
+  background-color: rgba(255, 50, 25, 0.3);
+}
