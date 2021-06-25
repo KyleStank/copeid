@@ -6,8 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardPageComponent {
-  clicked(e: MouseEvent): void {
-    console.log(e);
-    alert('Clicked!');
-  }
+
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header-default',
@@ -6,4 +6,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./header-default.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderDefaultComponent {}
+export class HeaderDefaultComponent {
+  @Input()
+  text: string | undefined;
+
+  @Input()
+  color: string | undefined;
+
+  @Output()
+  menuClick = new EventEmitter<MouseEvent>();
+}

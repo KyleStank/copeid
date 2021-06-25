@@ -11,6 +11,8 @@ import { takeUntil } from 'rxjs/operators';
 export class AppComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
+  title = 'CopeID';
+
   showHeader = true;
   showFooter = true;
   useContentContainer = true;

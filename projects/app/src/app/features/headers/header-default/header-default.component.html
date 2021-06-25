@@ -1,3 +1,11 @@
 <header>
-  Header
+  <mat-toolbar [color]="color ?? 'primary'">
+    <button mat-icon-button aria-label="Header button with menu icon." (click)="menuClick.emit($event)">
+      <mat-icon>
+        menu
+      </mat-icon>
+    </button>
+
+    <span>{{ text ?? '' }}</span>
+  </mat-toolbar>
 </header>
