@@ -1,2 +1,2 @@
-export * from './environment.interface';
+export * from './environment.model';
 export * from './environment';

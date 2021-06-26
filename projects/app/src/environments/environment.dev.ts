@@ -1,6 +1,5 @@
-import { IEnviroment } from './environment.interface';
+import { Environment } from './environment.model';
 
-export const environment: IEnviroment = {
-  production: false,
-  local: false
-};
+export const environment = new Environment({
+  apiUrl: 'https://localhost:5001'
+});

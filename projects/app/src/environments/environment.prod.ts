@@ -1,6 +1,5 @@
-import { IEnviroment } from './environment.interface';
+import { Environment } from './environment.model';
 
-export const environment: IEnviroment = {
-  production: true,
-  local: false
-};
+export const environment = new Environment({
+  production: true
+});
