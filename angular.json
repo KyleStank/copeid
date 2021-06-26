@@ -35,7 +35,9 @@
               "projects/app/src/assets"
             ],
             "styles": [
-              "projects/app/src/styles/styles.scss"
+              "projects/app/src/styles/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap-utilities.min.css"
             ],
             "scripts": []
           },
@@ -109,7 +111,9 @@
               "projects/app/src/assets"
             ],
             "styles": [
-              "projects/app/src/styles/styles.scss"
+              "projects/app/src/styles/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap-utilities.min.css"
             ],
             "scripts": []
           }

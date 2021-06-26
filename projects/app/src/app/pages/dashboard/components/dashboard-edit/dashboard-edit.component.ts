@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { Copepod, CopepodService } from '@app/features';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard-edit',
@@ -9,15 +11,23 @@ import { Copepod, CopepodService } from '@app/features';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CopepodService]
 })
-export class DashboardEditPageComponent {
-  copepods: Copepod[] = [];
+export class DashboardEditPageComponent implements OnInit, OnDestroy {
+  private readonly _destroyed = new Subject<void>();
+
+  private readonly _copepods = new BehaviorSubject<Copepod[]>([]);
+  readonly copepods$: Observable<Copepod[]>;
 
   constructor(private readonly _copepodService: CopepodService) {
-    this._copepodService.getAllCopepods().subscribe(
-      (copepods: Copepod[]) => {
-        this.copepods = copepods;
-        console.log('Copepods:', this.copepods);
-      }
-    );
+    this.copepods$ = this._copepods.asObservable()
+      .pipe(takeUntil(this._destroyed));
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 }

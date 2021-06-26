@@ -23,6 +23,7 @@
     "@stankng/components": "0.0.1",
     "@stankng/services": "0.0.1",
     "@stankng/utils": "0.0.1",
+    "bootstrap": "^5.0.2",
     "rxjs": "~7.1.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
