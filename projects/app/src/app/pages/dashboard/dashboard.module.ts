@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
+import { DashboardEditPageComponent, DashboardPageComponent } from './components';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardPageComponent } from './dashboard.component';
 
 @NgModule({
   imports: [
@@ -11,6 +11,9 @@ import { DashboardPageComponent } from './dashboard.component';
     MatButtonModule,
     DashboardRoutingModule
   ],
-  declarations: [DashboardPageComponent]
+  declarations: [
+    DashboardEditPageComponent,
+    DashboardPageComponent
+  ]
 })
 export class DashboardPageModule {}
