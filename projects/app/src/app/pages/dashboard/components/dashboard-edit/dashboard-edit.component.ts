@@ -23,7 +23,7 @@ export class DashboardEditPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this._copepodService.getAllCopepods().subscribe(this._copepods.next.bind(this._copepods));
   }
 
   ngOnDestroy(): void {

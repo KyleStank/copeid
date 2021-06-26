@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 import { DashboardEditPageComponent, DashboardPageComponent } from './components';
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -11,6 +12,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     CommonModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
     DashboardRoutingModule
   ],
   declarations: [
