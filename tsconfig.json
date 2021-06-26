@@ -4,6 +4,16 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@app/features": [
+        "projects/app/src/app/features"
+      ],
+      "@app/pages": [
+        "projects/app/src/app/pages"
+      ],
+      "@app/environments": [
+        "projects/app/src/environments"
+      ],
+
       "@core": [
         "dist/core",
         "projects/core/src/public-api"
