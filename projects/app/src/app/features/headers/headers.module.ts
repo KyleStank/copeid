@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { HeaderDefaultComponent } from './header-default/header-default.component';
+import { HeaderDefaultComponent } from './components';
 
 const exportedDeclarations: any[] = [
   HeaderDefaultComponent

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { FooterDefaultComponent } from './footer-default/footer-default.component';
+import { FooterDefaultComponent } from './components';
 
 const exportedDeclarations: any[] = [
   FooterDefaultComponent
