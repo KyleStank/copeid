@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
-export class GenusService {
+import { environment } from '@app/environments';
+import { AbstractEntityService } from '@core';
+import { Genus } from '../models';
 
+@Injectable()
+export class GenusService extends AbstractEntityService<Genus> {
+  public getEndpoint(): string {
+    return `${environment.apiUrl}/Genus`;
+  }
 }
