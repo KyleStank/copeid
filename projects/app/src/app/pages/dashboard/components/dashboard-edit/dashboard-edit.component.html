@@ -1,24 +1,55 @@
 <div class="container py-2">
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>[copepod.genus]</mat-card-title>
-      <mat-card-subtitle>[copepod.gender]</mat-card-subtitle>
-    </mat-card-header>
+  <h1>Dashboard Edit</h1>
+  <div class="my-3">
+    <h2>mat-card Test</h2>
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>[copepod.genus]</mat-card-title>
+        <mat-card-subtitle>[copepod.gender]</mat-card-subtitle>
+      </mat-card-header>
 
-    [copepod.photograph.url]
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      [copepod.photograph.url]
+      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
 
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-        bred for hunting.
-      </p>
-    </mat-card-content>
+      <mat-card-content>
+        <p>
+          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+          bred for hunting.
+        </p>
+      </mat-card-content>
 
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-  </mat-card>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="my-3">
+    <h2>Genus</h2>
+    <mat-card class="my-2 mat-elevation-z1" *ngFor="let genus of (genuses$ | async)">
+      <pre>
+        {{ genus | json }}
+      </pre>
+    </mat-card>
+  </div>
+
+  <div class="my-3">
+    <h2>Photograph</h2>
+    <mat-card class="my-2 mat-elevation-z1" *ngFor="let photograph of (photographs$ | async )">
+      <pre>
+        {{ photograph | json }}
+      </pre>
+    </mat-card>
+  </div>
+
+  <div class="my-3">
+    <h2>Specimen</h2>
+    <mat-card class="my-2 mat-elevation-z1" *ngFor="let specimen of (specimens$ | async)">
+      <pre>
+        {{ specimen | json }}
+      </pre>
+    </mat-card>
+  </div>
 </div>
