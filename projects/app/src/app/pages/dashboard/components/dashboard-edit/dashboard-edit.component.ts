@@ -46,9 +46,9 @@ export class DashboardEditPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._genusService.getAllEntities().subscribe(this._genuses.next.bind(this._genuses));
+    this._genusService.getAllEntities(['photograph', 'specimens']).subscribe(this._genuses.next.bind(this._genuses));
     this._photographService.getAllEntities().subscribe(this._photographs.next.bind(this._photographs));
-    this._specimenService.getAllEntities().subscribe(this._specimens.next.bind(this._specimens));
+    this._specimenService.getAllEntities(['photograph', 'genus']).subscribe(this._specimens.next.bind(this._specimens));
   }
 
   ngOnDestroy(): void {

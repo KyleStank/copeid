@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -15,23 +16,44 @@ export abstract class AbstractEntityService<TEntity = IEntity, TId = string> {
 
   public abstract getEndpoint(): string;
 
-  public getAllEntities(): Observable<TEntity[]> {
-    return this._http.get<TEntity[]>(this._endpoint);
+  public getAllEntities(include?: Nullable<string[]>): Observable<TEntity[]> {
+    const endpoint = this._endpoint;
+    return this._http.get<TEntity[]>(include ?
+      this._createParamsEndpoint(
+        endpoint,
+        include.map(x => ({ key: 'include', value: x }))
+      ) : endpoint
+    );
   }
 
-  public getEntity(id: TId): Observable<TEntity> {
-    return this._http.get<TEntity>(`${this._endpoint}/${id}`);
+  public getEntity(id: TId, include?: Nullable<string[]>): Observable<TEntity> {
+    const endpoint = `${this._endpoint}/${id}`;
+    return this._http.get<TEntity>(include ?
+      this._createParamsEndpoint(
+        endpoint,
+        include.map(x => ({ key: 'include', value: x }))
+      ) : endpoint
+    );
   }
 
   public createEntity(model: TEntity): Observable<TEntity> {
-    return this._http.post<TEntity>(this._endpoint, model);
+    const endpoint = this._endpoint;
+    return this._http.post<TEntity>(endpoint, model);
   }
 
   public updateEntity(model: TEntity): Observable<TEntity> {
-    return this._http.put<TEntity>(this._endpoint, model);
+    const endpoint = this._endpoint;
+    return this._http.put<TEntity>(endpoint, model);
   }
 
   public deleteEntity(id: TId): Observable<Nullable<string>> {
-    return this._http.delete<Nullable<string>>(`${this._endpoint}/${id}`);
+    const endpoint = `${this._endpoint}/${id}`;
+    return this._http.delete<Nullable<string>>(endpoint);
+  }
+
+  protected _createParamsEndpoint(endpoint: string, params: KeyValue<string, string>[]): string {
+    let url = endpoint + '?';
+    params.forEach(p => url += `${p.key}=${p.value}&`);
+    return url.substring(0, url.lastIndexOf('&'));
   }
 }
