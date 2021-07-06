@@ -5,9 +5,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { HeaderDefaultComponent } from './components';
+import { FooterHostDirective, HeaderHostDirective, LayoutHostDirective } from './directives';
 
 const exportedDeclarations: any[] = [
-  HeaderDefaultComponent
+  // Components
+  HeaderDefaultComponent,
+
+  // Directives
+  FooterHostDirective,
+  HeaderHostDirective,
+  LayoutHostDirective
 ];
 
 @NgModule({
