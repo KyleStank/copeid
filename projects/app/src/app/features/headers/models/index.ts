@@ -1,1 +1,1 @@
-export * from './header-config.model';
+export * from './layout-config.model';

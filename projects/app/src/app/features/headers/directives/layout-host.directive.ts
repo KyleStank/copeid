@@ -1,8 +1,8 @@
-import { Directive, ViewContainerRef } from '@angular/core';
+import { Directive } from '@angular/core';
+
+import { AbstractComponentHostDirective } from './abstract-component-host.directive';
 
 @Directive({
   selector: '[layoutHost]'
 })
-export class LayoutHostDirective {
-  constructor(public readonly viewContainerRef: ViewContainerRef) {}
-}
+export class LayoutHostDirective extends AbstractComponentHostDirective {}

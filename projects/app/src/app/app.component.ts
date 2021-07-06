@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Nullable } from '@core';
-import { HeaderDefaultComponent, HeaderHostDirective, IHeaderConfig } from './features';
+import { AbstractComponentHostDirective, HeaderHostDirective, ILayoutConfig } from './features';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +19,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   title = 'CopeID';
 
-  showHeader = true;
   showFooter = true;
   useContentContainer = true;
 
-  headerComponent: Nullable<Component>;
+  headerComponentRef: Nullable<ComponentRef<any>>;
 
   constructor(
     private readonly _route: ActivatedRoute,
@@ -61,23 +60,31 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private _configureLayout(routeData: any): void {
     // TODO: Add support for layouts and footers.
     if (this.headerHost) {
-      const headerConfig: IHeaderConfig = routeData.header;
-      if (headerConfig?.component) {
-        // TODO: Improve typings support to be more strict and remove usage of "any".
-        const factory = this._factoryResolver.resolveComponentFactory(headerConfig.component as any);
-
-        if (this.headerHost) {
-          this.headerHost.viewContainerRef.clear();
-
-          // TODO: Store component ref?
-          const componentRef = this.headerHost.viewContainerRef.createComponent<HeaderDefaultComponent>(factory as any);
+      const headerConfig: ILayoutConfig = routeData.header;
+      if (headerConfig?.active !== false) {
+        this.headerComponentRef = this._createDynamicComponent<typeof headerConfig.component>(this.headerHost, headerConfig.component);
+        if (this.headerComponentRef && headerConfig.data) {
+          Object.keys(headerConfig.data).forEach(key => (this.headerComponentRef?.instance as any)[key] = headerConfig.data[key]);
         }
       }
     }
 
-    this.showHeader = routeData?.showHeader !== false;
     this.showFooter = routeData?.showFooter !== false;
     this.useContentContainer = routeData?.useContentContainer !== false;
+  }
+
+  private _createDynamicComponent<TComponent = any>(host?: AbstractComponentHostDirective, component?: Type<TComponent>): Nullable<ComponentRef<TComponent>> {
+    let componentRef: Nullable<ComponentRef<TComponent>>;
+
+    if (component) {
+      const factory = this._factoryResolver.resolveComponentFactory(component);
+      if (host && factory) {
+        host.viewContainerRef.clear();
+        componentRef = host.viewContainerRef.createComponent(factory);
+      }
+    }
+
+    return componentRef;
   }
 
   ngOnDestroy(): void {

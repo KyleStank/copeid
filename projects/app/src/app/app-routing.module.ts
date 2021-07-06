@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HeaderDefaultComponent, IHeaderConfig } from './features';
+import { HeaderDefaultComponent, ILayoutConfig } from './features';
 
 // TODO: Can we create a custom type that extends Routes and takes a generic type T to define the type of data?
 const routes: Routes = [
@@ -9,13 +9,14 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule),
     data: {
-      showHeader: true,
       showFooter: false,
 
       header: {
-        active: true,
-        component: HeaderDefaultComponent
-      } as IHeaderConfig
+        component: HeaderDefaultComponent,
+        data: {
+          text: 'Dashboard'
+        }
+      } as ILayoutConfig
     }
   },
   {
