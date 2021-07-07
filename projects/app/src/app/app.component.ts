@@ -1,11 +1,10 @@
-import { Component, ComponentFactoryResolver, ComponentRef, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Event, NavigationEnd, Router } from '@angular/router';
 import { merge } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Nullable } from '@core';
-import { AbstractComponentHostDirective, HeaderHostDirective, ILayoutConfig } from './features';
+import { AbstractComponentHostDirective, FooterHostDirective, HeaderHostDirective, ILayoutConfig } from './features';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +15,16 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   @ViewChild(HeaderHostDirective, { static: true })
-  headerHost: Nullable<HeaderHostDirective>;
+  headerHost?: HeaderHostDirective;
+  headerComponentRef?: ComponentRef<any>;
+
+  @ViewChild(FooterHostDirective, { static: true })
+  footerHost?: FooterHostDirective;
+  footerComponentRef?: ComponentRef<any>;
 
   title = 'CopeID';
 
-  showFooter = true;
   useContentContainer = true;
-
-  headerComponentRef: Nullable<ComponentRef<any>>;
 
   constructor(
     private readonly _route: ActivatedRoute,
@@ -69,18 +70,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param routeData Data retrieved from the route.
    */
   private _configureLayout(routeData: any): void {
-    // TODO: Add support for layouts and footers.
-    if (this.headerHost) {
-      const headerConfig: ILayoutConfig = routeData.header;
-      if (headerConfig?.active !== false) {
-        this.headerComponentRef = this._createHostComponent<typeof headerConfig.component>(this.headerHost, headerConfig.component);
-        if (this.headerComponentRef && headerConfig.config) {
-          Object.keys(headerConfig.config).forEach(key => (this.headerComponentRef?.instance as any)[key] = headerConfig.config[key]);
-        }
-      }
-    }
+    this.headerComponentRef = this._generateLayout(this.headerHost, routeData.header);
+    this.footerComponentRef = this._generateLayout(this.footerHost, routeData.footer);
 
-    this.showFooter = routeData?.showFooter !== false;
     this.useContentContainer = routeData?.useContentContainer !== false;
   }
 
@@ -88,17 +80,23 @@ export class AppComponent implements OnInit, OnDestroy {
    * Dynamically creates a component that will be rendered within a specified `AbstractComponentHostDirective`.
    *
    * @param host Target host directive where component will be rendered.
-   * @param component Component to create.
-   * @returns Reference to created component.
+   * @param layoutConfig Layout configuration that will be applied during generation.
+   * @returns Reference to dynamically created component.
    */
-  private _createHostComponent<TComponent = any>(host?: AbstractComponentHostDirective, component?: Type<TComponent>): Nullable<ComponentRef<TComponent>> {
-    let componentRef: Nullable<ComponentRef<TComponent>>;
+  private _generateLayout(host?: AbstractComponentHostDirective, layoutConfig?: ILayoutConfig): ComponentRef<any> | undefined {
+    if (!host) return undefined;
 
-    if (component) {
-      const factory = this._factoryResolver.resolveComponentFactory(component);
-      if (host && factory) {
+    let componentRef: ComponentRef<any> | undefined;
+    if (layoutConfig?.component && layoutConfig?.active !== false) {
+      const factory = this._factoryResolver.resolveComponentFactory(layoutConfig.component);
+      if (factory) {
         host.viewContainerRef.clear();
         componentRef = host.viewContainerRef.createComponent(factory);
+        if (componentRef && layoutConfig.config) {
+          Object.keys(layoutConfig.config).forEach(key =>
+            (componentRef?.instance as any)[key] = layoutConfig.config[key]
+          );
+        }
       }
     }
 
