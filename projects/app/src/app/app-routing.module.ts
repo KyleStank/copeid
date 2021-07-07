@@ -13,7 +13,7 @@ const routes: Routes = [
 
       header: {
         component: HeaderDefaultComponent,
-        data: {
+        config: {
           text: 'Dashboard'
         }
       } as ILayoutConfig
@@ -27,7 +27,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { paramsInheritanceStrategy: 'emptyOnly' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
