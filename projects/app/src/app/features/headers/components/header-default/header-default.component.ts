@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header-default',
@@ -6,13 +8,29 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
   styleUrls: ['./header-default.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderDefaultComponent {
+export class HeaderDefaultComponent implements OnDestroy {
+  private readonly _destroyed = new Subject<void>();
+
+  private readonly _menuClick = new Subject<MouseEvent>();
+  readonly menuClick$: Observable<MouseEvent>;
+
   @Input()
   text: string | undefined;
 
   @Input()
   color: string | undefined;
 
-  @Output()
-  menuClick = new EventEmitter<MouseEvent>();
+  constructor() {
+    this.menuClick$ = this._menuClick.asObservable()
+      .pipe(takeUntil(this._destroyed));
+  }
+
+  menuClick(event: MouseEvent): void {
+    this._menuClick.next(event);
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
+    this._destroyed.complete();
+  }
 }

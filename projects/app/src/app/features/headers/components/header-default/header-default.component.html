@@ -1,6 +1,6 @@
 <header>
   <mat-toolbar [color]="color ?? 'primary'">
-    <button mat-icon-button aria-label="Header button with menu icon." (click)="menuClick.emit($event)">
+    <button mat-icon-button matTooltip="Open" aria-label="Header button with menu icon." (click)="menuClick($event)">
       <mat-icon>
         menu
       </mat-icon>
