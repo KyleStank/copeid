@@ -1,10 +1,14 @@
-<ng-template headerHost></ng-template>
+<header class="header">
+  <ng-template headerHost></ng-template>
+</header>
 
-<main>
+<main class="content">
   <app-layout-default *ngIf="useContentContainer">
     <router-outlet></router-outlet>
   </app-layout-default>
   <router-outlet *ngIf="!useContentContainer"></router-outlet>
 </main>
 
-<ng-template footerHost></ng-template>
+<footer class="footer">
+  <ng-template footerHost></ng-template>
+</footer>
