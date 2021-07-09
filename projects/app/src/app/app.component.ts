@@ -1,15 +1,16 @@
-import { Component, ComponentFactoryResolver, ComponentRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Event, NavigationEnd, Router } from '@angular/router';
 import { merge } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AbstractComponentHostDirective, ILayoutConfig, LayoutHostDirective, TemplateDefaultComponent } from './features';
+import { ILayoutConfig, LayoutHostDirective, LayoutBuilder, TemplateDefaultComponent } from './features';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [LayoutBuilder]
 })
 export class AppComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _route: ActivatedRoute,
-    private readonly _factoryResolver: ComponentFactoryResolver,
+    private readonly _layoutBuilder: LayoutBuilder,
     private readonly _router: Router
   ) {}
 
@@ -63,34 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   private _configureLayout(routeData: any): void {
     const layoutConfig: ILayoutConfig = routeData.layout ?? { component: TemplateDefaultComponent };
-    this.layoutComponentRef = this._generateLayout(this.layoutHost, layoutConfig);
-  }
-
-  /**
-   * Dynamically creates a component that will be rendered within a specified `AbstractComponentHostDirective`.
-   *
-   * @param host Target host directive where component will be rendered.
-   * @param layoutConfig Layout configuration that will be applied during generation.
-   * @returns Reference to dynamically created component.
-   */
-  private _generateLayout(host?: AbstractComponentHostDirective, layoutConfig?: ILayoutConfig): ComponentRef<any> | undefined {
-    if (!host) return undefined;
-
-    let componentRef: ComponentRef<any> | undefined;
-    if (layoutConfig?.component && layoutConfig?.active !== false) {
-      const factory = this._factoryResolver.resolveComponentFactory(layoutConfig.component);
-      if (factory) {
-        host.viewContainerRef.clear();
-        componentRef = host.viewContainerRef.createComponent(factory);
-        if (componentRef && layoutConfig.config) {
-          Object.keys(layoutConfig.config).forEach(key =>
-            (componentRef?.instance as any)[key] = layoutConfig.config[key]
-          );
-        }
-      }
-    }
-
-    return componentRef;
+    this.layoutComponentRef = this._layoutBuilder.generateLayout(this.layoutHost, layoutConfig);
   }
 
   ngOnDestroy(): void {

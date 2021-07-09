@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
+import { LayoutDirectivesModule } from '../directives';
 import { TemplateDefaultComponent } from './components';
 
 const exportedDeclarations: any[] = [
@@ -8,8 +10,8 @@ const exportedDeclarations: any[] = [
 ];
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, LayoutDirectivesModule, RouterModule],
   declarations: exportedDeclarations,
-  exports: exportedDeclarations
+  exports: [...exportedDeclarations, LayoutDirectivesModule]
 })
 export class LayoutTemplatesModule {}
