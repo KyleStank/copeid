@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { FooterDefaultComponent } from './components';
+import { TemplateDefaultComponent } from './components';
 
 const exportedDeclarations: any[] = [
-  FooterDefaultComponent
+  TemplateDefaultComponent
 ];
 
 @NgModule({
@@ -12,4 +12,4 @@ const exportedDeclarations: any[] = [
   declarations: exportedDeclarations,
   exports: exportedDeclarations
 })
-export class FootersModule {}
+export class LayoutTemplatesModule {}

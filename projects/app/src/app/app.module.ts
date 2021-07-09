@@ -4,9 +4,11 @@ import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FootersModule } from './features/footers';
-import { HeadersModule } from './features/headers';
-import { LayoutsModule } from './features/layouts';
+// import { FootersModule } from './features/footers';
+// import { HeadersModule } from './features/headers';
+// import { SectionsModule } from './features/layouts';
+import { LayoutDirectivesModule, LayoutTemplatesModule } from './features';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
@@ -22,9 +24,12 @@ if (environment.local) {
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FootersModule,
-    HeadersModule,
-    LayoutsModule
+
+    LayoutDirectivesModule,
+    LayoutTemplatesModule
+    // FootersModule,
+    // HeadersModule,
+    // SectionsModule
   ],
   declarations: [AppComponent],
   providers: [...dynamicProviders],

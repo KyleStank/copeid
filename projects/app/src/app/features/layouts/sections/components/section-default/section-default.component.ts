@@ -2,12 +2,12 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'app-layout-default',
-  templateUrl: './layout-default.component.html',
-  styleUrls: ['./layout-default.component.scss'],
+  selector: 'app-section-default',
+  templateUrl: './section-default.component.html',
+  styleUrls: ['./section-default.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutDefaultComponent implements OnDestroy {
+export class SectionDefaultComponent implements OnDestroy {
   mobileQuery: MediaQueryList;
 
   fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);

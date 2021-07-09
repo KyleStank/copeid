@@ -4,7 +4,7 @@ import { merge } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AbstractComponentHostDirective, FooterHostDirective, HeaderHostDirective, ILayoutConfig } from './features';
+import { AbstractComponentHostDirective, ILayoutConfig, LayoutHostDirective, TemplateDefaultComponent } from './features';
 
 @Component({
   selector: 'app-root',
@@ -14,17 +14,9 @@ import { AbstractComponentHostDirective, FooterHostDirective, HeaderHostDirectiv
 export class AppComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
-  @ViewChild(HeaderHostDirective, { static: true })
-  headerHost?: HeaderHostDirective;
-  headerComponentRef?: ComponentRef<any>;
-
-  @ViewChild(FooterHostDirective, { static: true })
-  footerHost?: FooterHostDirective;
-  footerComponentRef?: ComponentRef<any>;
-
-  title = 'CopeID';
-
-  useContentContainer = true;
+  @ViewChild(LayoutHostDirective, { static: true })
+  layoutHost?: LayoutHostDirective;
+  layoutComponentRef?: ComponentRef<any>;
 
   constructor(
     private readonly _route: ActivatedRoute,
@@ -70,10 +62,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param routeData Data retrieved from the route.
    */
   private _configureLayout(routeData: any): void {
-    this.headerComponentRef = this._generateLayout(this.headerHost, routeData.header);
-    this.footerComponentRef = this._generateLayout(this.footerHost, routeData.footer);
-
-    this.useContentContainer = routeData?.useContentContainer !== false;
+    const layoutConfig: ILayoutConfig = routeData.layout ?? { component: TemplateDefaultComponent };
+    this.layoutComponentRef = this._generateLayout(this.layoutHost, layoutConfig);
   }
 
   /**

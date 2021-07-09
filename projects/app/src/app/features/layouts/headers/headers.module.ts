@@ -2,19 +2,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { LayoutDefaultComponent } from './components';
+import { HeaderDefaultComponent } from './components';
 
 const exportedDeclarations: any[] = [
-  LayoutDefaultComponent
+  HeaderDefaultComponent
 ];
 
 @NgModule({
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatToolbarModule],
   declarations: exportedDeclarations,
   exports: exportedDeclarations
 })
-export class LayoutsModule {}
+export class LayoutHeadersModule {}
