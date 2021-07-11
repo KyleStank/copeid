@@ -24,7 +24,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminPageModule),
     data: {
       layout: {
-        component: TemplateAdminComponent
+        component: TemplateAdminComponent,
+        config: {
+          menu: [
+            { label: 'Dashboard', logo: 'home' },
+            { label: 'Genuses', url: 'genuses', logo: 'pest_control' },
+            { label: 'Photographs', url: 'photographs', logo: 'photo_library' },
+            { label: 'Specimens', url: 'specimens', logo: 'science' }
+          ]
+        }
       } as ILayoutConfig
     }
   }

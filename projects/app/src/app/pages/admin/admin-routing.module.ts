@@ -11,12 +11,7 @@ const routes: Routes = [
     data: {
       layout: {
         config: {
-          menu: [
-            { label: 'Dashboard', logo: 'home' },
-            { label: 'Genuses', url: 'genuses', logo: 'pest_control' },
-            { label: 'Photographs', url: 'photographs', logo: 'photo_library' },
-            { label: 'Specimens', url: 'specimens', logo: 'science' }
-          ]
+          pageName: 'Dashboard'
         }
       } as ILayoutConfig
     }
