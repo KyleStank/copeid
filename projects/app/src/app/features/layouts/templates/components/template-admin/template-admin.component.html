@@ -1,53 +1,30 @@
-<!-- <header class="header">
-  <app-header-default></app-header-default>
-</header>
-
-<main class="content">
-  <div class="container p-3">
-    <router-outlet></router-outlet>
-  </div>
-</main> -->
-
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-  <!-- <mat-toolbar color="primary" class="example-toolbar">
-    <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1 class="ms-2">{{ title }}</h1>
-  </mat-toolbar> -->
-
-  <mat-sidenav-container
-    class="example-sidenav-container"
-    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
-  >
+<div class="template__container" [class.mobile]="mobileQuery.matches">
+  <mat-sidenav-container class="sidenav__container">
     <mat-sidenav
       #snav
-      fixedTopGap="56"
       class="sidenav"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [opened]="!mobileQuery.matches"
+      [opened]="true"
       [fixedInViewport]="mobileQuery.matches"
     >
-      <div class="sidenav__header">
-        <span class="header-title">AppName</span>
-      </div>
-      <div class="sidenav__nav">
-        <mat-nav-list class="nav-list">
-          <mat-list-item *ngFor="let nav of fillerNav">
-            <a matLine routerLink=".">{{ nav }}</a>
-          </mat-list-item>
-        </mat-nav-list>
+      <div class="sidenav__inner">
+        <div class="sidenav__header">
+          <span class="sidenav__header__title">{{ title }}</span>
+        </div>
+        <div class="sidenav__nav">
+          <mat-nav-list class="sidenav__nav__list">
+            <mat-list-item *ngFor="let nav of fillerNav">
+              <a matLine routerLink=".">{{ nav }}</a>
+            </mat-list-item>
+          </mat-nav-list>
+        </div>
       </div>
     </mat-sidenav>
 
-    <mat-sidenav-content>
+    <mat-sidenav-content class="sidenav__content">
       <div class="container p-3">
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
-
-<footer class="footer">
-  <app-footer-default></app-footer-default>
-</footer>

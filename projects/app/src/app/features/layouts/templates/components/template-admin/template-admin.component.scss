@@ -1,23 +1,41 @@
+$sidenavHeight: 50px;
+
 .sidenav {
   width: 200px;
+
+  .sidenav__inner {
+    position: relative;
+  }
+
+  .sidenav__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: $sidenavHeight;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .sidenav__header__title {
+      color: white;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+  }
+
+  .sidenav__nav {
+    padding-top: $sidenavHeight;
+
+    .sidenav__nav__list {
+      padding-top: 0;
+    }
+  }
 }
 
-.sidenav__header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: black;
-  padding: 10px;
-  height: 35px;
-}
-
-.header-title {
-  color: white;
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.example-container {
+.template__container {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -27,24 +45,14 @@
   right: 0;
 }
 
-.example-is-mobile .example-toolbar {
-  position: fixed;
-  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
-  z-index: 2;
-}
-
-.example-sidenav-container {
+.sidenav__container {
   /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   flex: 1;
-}
 
-.example-is-mobile .example-sidenav-container {
-  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+  &.mobile {
+    /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
      `<body>` to be our scrolling element for mobile layouts. */
-  flex: 1 0 auto;
-}
-
-.nav-list {
-  padding-top: 0;
+    flex: 1 0 auto;
+  }
 }
