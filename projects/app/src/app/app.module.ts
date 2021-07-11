@@ -1,6 +1,7 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
+import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -24,7 +25,19 @@ if (environment.local) {
     LayoutTemplatesModule
   ],
   declarations: [AppComponent],
-  providers: [...dynamicProviders],
+  providers: [
+    ...dynamicProviders,
+    {
+      provide: MAT_RIPPLE_GLOBAL_OPTIONS,
+      useValue: {
+        disabled: false,
+        animation: {
+          enterDuration: 300,
+          exitDuration: 0
+        }
+      } as RippleGlobalOptions
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

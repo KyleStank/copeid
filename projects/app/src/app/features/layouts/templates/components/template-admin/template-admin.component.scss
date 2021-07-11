@@ -1,7 +1,13 @@
-$sidenavHeight: 50px;
+$sidenavWidth: 250px;
+$sidenavHeight: 64px;
 
 .sidenav {
-  width: 200px;
+  width: $sidenavWidth;
+  border: none;
+
+  &.mat-drawer-opened {
+
+  }
 
   .sidenav__inner {
     position: relative;
@@ -33,6 +39,22 @@ $sidenavHeight: 50px;
       padding-top: 0;
     }
   }
+}
+
+.header .header__toolbar.header__toolbar--opened {
+  padding-left: 5px !important;
+}
+
+.header-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.header-title {
+  margin: 0;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .template__container {
