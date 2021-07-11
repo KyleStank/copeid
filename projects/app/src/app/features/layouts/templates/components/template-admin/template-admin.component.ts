@@ -1,8 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-template-admin',
@@ -11,15 +8,17 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplateAdminComponent implements OnDestroy {
-  private readonly _destroyed = new Subject<void>();
-
+  @Input()
   appName: string = 'Admin';
+
+  @Input()
   pageName: string = 'Page';
 
+  @Input()
+  menu: { label: string; url?: string; logo?: string; }[] = [];
+
   mobileQuery: MediaQueryList;
-
   fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
-
   fillerContent = Array.from({length: 50}, () =>
       `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -31,32 +30,11 @@ export class TemplateAdminComponent implements OnDestroy {
 
   constructor(
     private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _media: MediaMatcher,
-    private readonly _router: Router
+    private readonly _media: MediaMatcher
   ) {
-    this._router.events
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(this._handleRouterEvent.bind(this));
-
     this.mobileQuery = this._media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => this._changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-  }
-
-  /**
-   * Handles each event that is fired by Angular's router.
-   *
-   * @param event Router event to handle.
-   */
-   private _handleRouterEvent(event: Event): void {
-     if (event instanceof NavigationEnd) {
-       console.log('Event:', event);
-     }
-
-    // const routeData = getSnapshotDataRecursive(this._route.snapshot) ?? {};
-    // if (event instanceof NavigationEnd) {
-    //   this._configureLayout(routeData);
-    // }
   }
 
   ngOnDestroy(): void {

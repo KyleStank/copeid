@@ -1,9 +1,15 @@
+@use '/src/styles/theme';
+
 $sidenavWidth: 250px;
 $sidenavHeight: 64px;
+$sidenavHeaderBackground: rgba(0, 0, 0, 0.85);
+$sidenavBackground: rgba(0, 0, 0, 0.1);
+
+$headerOpacity: 0.2;
+$contentOpacity: 0.2;
 
 .sidenav {
   width: $sidenavWidth;
-  border: none;
 
   &.mat-drawer-opened {
 
@@ -20,8 +26,9 @@ $sidenavHeight: 64px;
     right: 0;
     bottom: 0;
     height: $sidenavHeight;
-    background-color: black;
+    background: $sidenavHeaderBackground;
     display: flex;
+    z-index: 2;
     justify-content: center;
     align-items: center;
 
@@ -37,6 +44,14 @@ $sidenavHeight: 64px;
 
     .sidenav__nav__list {
       padding-top: 0;
+
+      $size: 20px;
+      .sidenav__nav__list__item .mat-icon {
+        width: $size;
+        height: $size;
+        font-size: $size;
+        opacity: 0.7;
+      }
     }
   }
 }
