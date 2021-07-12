@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@app/features';
-import { AdminPageComponent } from './components';
+import { AdminGenusesPageComponent, AdminPageComponent } from './components';
 
 const routes: Routes = [
   {
@@ -14,6 +14,17 @@ const routes: Routes = [
           pageName: 'Dashboard'
         }
       } as ILayoutConfig
+    }
+  },
+  {
+    path: 'genuses',
+    component: AdminGenusesPageComponent,
+    data: {
+      layout: {
+        config: {
+          pageName: 'Genuses'
+        }
+      }
     }
   }
 ];
