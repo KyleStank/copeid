@@ -28,6 +28,8 @@ const routes: Routes = [
         config: {
           menu: [
             { label: 'Dashboard', url: ['admin'], logo: 'home' },
+            { label: 'Contributors', url: ['admin', 'contributors'], logo: 'group' },
+            { label: 'Definitions', url: ['admin', 'definitions'], logo: 'library_books' },
             { label: 'Genuses', url: ['admin', 'genuses'], logo: 'pest_control' },
             { label: 'Photographs', url: ['admin', 'photographs'], logo: 'photo_library' },
             { label: 'Specimens', url: ['admin', 'specimens'], logo: 'science' }

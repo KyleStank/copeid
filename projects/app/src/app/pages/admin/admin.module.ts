@@ -4,7 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AdminPageComponent } from './components';
+import {
+  AdminContributorsPageComponent,
+  AdminDefinitionsPageComponent,
+  AdminGenusesPageComponent,
+  AdminPageComponent,
+  AdminPhotographsPageComponent,
+  AdminSpecimensPageComponent
+} from './components';
 import { AdminRoutingModule } from './admin-routing.module';
 
 @NgModule({
@@ -16,7 +23,12 @@ import { AdminRoutingModule } from './admin-routing.module';
     AdminRoutingModule
   ],
   declarations: [
-    AdminPageComponent
+    AdminPageComponent,
+    AdminContributorsPageComponent,
+    AdminDefinitionsPageComponent,
+    AdminGenusesPageComponent,
+    AdminPhotographsPageComponent,
+    AdminSpecimensPageComponent
   ]
 })
 export class AdminPageModule {}

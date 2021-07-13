@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@app/features';
-import { AdminGenusesPageComponent, AdminPageComponent, AdminPhotographsPageComponent, AdminSpecimensPageComponent } from './components';
+import {
+  AdminContributorsPageComponent,
+  AdminDefinitionsPageComponent,
+  AdminGenusesPageComponent,
+  AdminPageComponent,
+  AdminPhotographsPageComponent,
+  AdminSpecimensPageComponent
+} from './components';
 
 const routes: Routes = [
   {
@@ -12,6 +19,28 @@ const routes: Routes = [
       layout: {
         config: {
           pageName: 'Dashboard'
+        }
+      } as ILayoutConfig
+    }
+  },
+  {
+    path: 'contributors',
+    component: AdminContributorsPageComponent,
+    data: {
+      layout: {
+        config: {
+          pageName: 'Contributors'
+        }
+      } as ILayoutConfig
+    }
+  },
+  {
+    path: 'definitions',
+    component: AdminDefinitionsPageComponent,
+    data: {
+      layout: {
+        config: {
+          pageName: 'Definitions'
         }
       } as ILayoutConfig
     }
