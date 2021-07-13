@@ -1,4 +1,5 @@
-export * from './contributors';
+export * from './contributor';
+export * from './definition';
 export * from './genus';
 export * from './layouts';
 export * from './photograph';
