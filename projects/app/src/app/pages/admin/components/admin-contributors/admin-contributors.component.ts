@@ -1,3 +1,4 @@
+import { ComponentPortal, Portal } from '@angular/cdk/portal';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -6,6 +7,12 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Contributor, ContributorService } from '@app/features';
+
+@Component({
+  selector: 'app-tester-comp',
+  template: `<h1>Component portal!</h1>`
+})
+export class TesterComponent {}
 
 @Component({
   selector: 'app-admin-contributors',
@@ -29,6 +36,8 @@ export class AdminContributorsPageComponent implements OnInit, AfterViewInit, On
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator | undefined;
 
+  selectedPortal: Portal<any> | undefined;
+
   constructor(
     private readonly _detectorRef: ChangeDetectorRef,
     private readonly _contributorService: ContributorService
@@ -44,6 +53,9 @@ export class AdminContributorsPageComponent implements OnInit, AfterViewInit, On
   }
 
   ngAfterViewInit(): void {
+    const portal = new ComponentPortal(TesterComponent);
+    this.selectedPortal = portal;
+
     if (this.sort) {
       this.dataSource.sort = this.sort;
     }

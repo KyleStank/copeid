@@ -1,3 +1,4 @@
+import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +9,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
+import { AdminRoutingModule } from './admin-routing.module';
+import { AdminDataTableComponent } from './common';
 import {
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
@@ -16,10 +19,10 @@ import {
   AdminPhotographsPageComponent,
   AdminSpecimensPageComponent
 } from './components';
-import { AdminRoutingModule } from './admin-routing.module';
 
 @NgModule({
   imports: [
+    AdminRoutingModule,
     CommonModule,
     MatButtonModule,
     MatCardModule,
@@ -28,9 +31,13 @@ import { AdminRoutingModule } from './admin-routing.module';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    AdminRoutingModule
+    PortalModule
   ],
   declarations: [
+    // Common
+    AdminDataTableComponent,
+
+    // Components
     AdminPageComponent,
     AdminContributorsPageComponent,
     AdminDefinitionsPageComponent,
