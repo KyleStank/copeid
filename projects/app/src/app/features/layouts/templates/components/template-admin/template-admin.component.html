@@ -1,11 +1,11 @@
-<div class="template__container" [class.mobile]="mobileQuery.matches">
+<div class="template__container" [class.mobile]="isMobile">
   <mat-sidenav-container class="sidenav__container">
     <mat-sidenav
       #sidenav
       class="sidenav"
-      [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [opened]="true"
-      [fixedInViewport]="mobileQuery.matches"
+      [mode]="isMobile ? 'over' : 'side'"
+      [opened]="!isMobile"
+      [fixedInViewport]="isMobile"
     >
       <div class="sidenav__header mat-primary">
         <img class="header-logo" src="/assets/angular.svg" />

@@ -1,7 +1,6 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ChildActivationStart } from '@angular/router';
 import { KeyboardService, KeyCode } from '@stankng/services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,22 +27,32 @@ export class TemplateAdminComponent implements OnDestroy {
   @Input()
   menu: { label: string; url?: string; logo?: string; }[] = [];
 
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  private readonly _mobileWidth = '600px';
+  isMobile = false;
 
   constructor(
+    private readonly _breakpointObserver: BreakpointObserver,
     private readonly _detectorRef: ChangeDetectorRef,
-    private readonly _keyboardService: KeyboardService,
-    private readonly _media: MediaMatcher
+    private readonly _keyboardService: KeyboardService
   ) {
-    // Setup mobile query listener.
-    this.mobileQuery = this._media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => this._detectorRef.markForCheck();
-    this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    this._breakpointObserver.observe(`(max-width: ${this._mobileWidth})`)
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(this._checkMobileBreakpoint.bind(this));
 
     this._registerKeyboardShorts();
   }
 
+  /**
+   * Toggles mobile sidenav based on whether the mobile breakpoint is matched.
+   **/
+  private _checkMobileBreakpoint(state: BreakpointState): void {
+    this.isMobile = state.matches;
+    this._detectorRef.markForCheck();
+  }
+
+  /**
+   * Creates keyboard shortcuts for actions sidenav.
+   */
   private _registerKeyboardShorts(): void {
     // Commands:
     //  - Toggle_Sidenav
@@ -63,10 +72,6 @@ export class TemplateAdminComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.mobileQuery.removeAllListeners) {
-      this.mobileQuery.removeAllListeners();
-    }
-
     this._destroyed.next();
     this._destroyed.complete();
   }
