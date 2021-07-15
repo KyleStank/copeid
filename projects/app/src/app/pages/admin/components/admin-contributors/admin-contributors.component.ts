@@ -91,18 +91,19 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
   editContributor(contributor: Contributor): void {
     const dialogRef = this._dialog.open(AdminEditModalComponent, {
       data: {
-        name: 'Test'
+        title: 'Edit Contributor',
+        model: contributor
       },
       width: '500px'
     });
 
     dialogRef.afterClosed()
       .pipe(takeUntil(this._destroyed))
-      .subscribe(
-        (result) => {
-          console.log('Result:', result);
-        }
-      );
+      .subscribe(this._saveContributor.bind(this));
+  }
+
+  private _saveContributor(contributor: Contributor): void {
+    console.log('Save:', contributor);
   }
 
   deleteContributor(contributor: Contributor): void {
@@ -124,7 +125,20 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
   }
 
   newContributor(): void {
-    console.log('Create new!');
+    const dialogRef = this._dialog.open(AdminEditModalComponent, {
+      data: {
+        title: 'Create Contributor'
+      },
+      width: '500px'
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(
+        (result) => {
+          console.log('Result:', result);
+        }
+      );
   }
 
   deleteSelectedContributors(): void {
