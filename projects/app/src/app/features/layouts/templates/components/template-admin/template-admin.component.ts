@@ -44,7 +44,7 @@ export class TemplateAdminComponent implements OnDestroy {
 
   /**
    * Toggles mobile sidenav based on whether the mobile breakpoint is matched.
-   **/
+   */
   private _checkMobileBreakpoint(state: BreakpointState): void {
     this.isMobile = state.matches;
     this._detectorRef.markForCheck();
