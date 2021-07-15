@@ -1,5 +1,4 @@
-import { ComponentPortal, Portal } from '@angular/cdk/portal';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,14 +10,9 @@ import { ConfirmationAlertModalCompoonent, recursivePropertySearch } from '@shar
 import { Contributor, ContributorService } from '@app/features';
 import { AdminEditModalComponent } from '../../modals';
 
-@Component({
-  selector: 'app-tester-comp',
-  template: `<h1>Component portal!</h1>`
-})
-export class TesterComponent {}
-
 export interface IndexedItem<T> {
   index: number;
+  selected: boolean;
   value: T;
 }
 
@@ -44,8 +38,7 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator | undefined;
 
-  selectedContributors: Contributor[] | undefined[] = [];
-  selectedPortal: Portal<any> | undefined;
+  selectedContributors: IndexedItem<Contributor>[] | any[] = [];
 
   constructor(
     private readonly _detectorRef: ChangeDetectorRef,
@@ -58,16 +51,13 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
     this._contributorService.getAllEntities().subscribe(this._contributors.next.bind(this._contributors));
     this.contributors$.subscribe((contributors: Contributor[]) => {
       this.dataSource.data = this.createIndexedData(contributors);
-      this.selectedContributors = Array(this.dataSource.data.length).fill(undefined);
+      this._detectorRef.markForCheck();
     });
 
     this.dataSource.sortingDataAccessor = (item, property) => recursivePropertySearch(item.value, property);
   }
 
   ngAfterViewInit(): void {
-    const portal = new ComponentPortal(TesterComponent);
-    this.selectedPortal = portal;
-
     if (this.sort) {
       this.dataSource.sort = this.sort;
     }
@@ -80,14 +70,22 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
   createIndexedData(data: Contributor[]): IndexedItem<Contributor>[] {
     return data.map((item, index) => ({
       index,
-      value: item
+      value: item,
+      selected: false
     })) as IndexedItem<Contributor>[];
   }
 
-  selectContributor(contributor: Contributor, rowIndex: number): void {
-    this.selectedContributors[rowIndex] = this.selectedContributors[rowIndex] ? undefined : contributor;
+  toggleContributor(item: IndexedItem<Contributor>): void {
+    if (item) {
+      item.selected = !item.selected;
 
-    // this._detectorRef.markForCheck();
+      const index = this.selectedContributors.indexOf(item);
+      if (item.selected && index === -1) {
+        this.selectedContributors.push(item);
+      } else if (!item.selected && index !== -1) {
+        this.selectedContributors.splice(index, 1);
+      }
+    }
   }
 
   editContributor(contributor: Contributor): void {
@@ -112,6 +110,28 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
       data: {
         title: 'Delete Contributor?',
         message: `Are you sure you want to delete contributor "${contributor.name}"?`
+      },
+      width: '500px'
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(
+        (result) => {
+          console.log('Result:', result);
+        }
+      );
+  }
+
+  newContributor(): void {
+    console.log('Create new!');
+  }
+
+  deleteSelectedContributors(): void {
+    const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
+      data: {
+        title: `Delete Selected ${this.selectedContributors.length === 1 ? 'Contributor' : 'Contributors'}?`,
+        message: `Are you sure you want to delete ${this.selectedContributors.length === 1 ? 'this contributor' : 'these contributors'}?`
       },
       width: '500px'
     });

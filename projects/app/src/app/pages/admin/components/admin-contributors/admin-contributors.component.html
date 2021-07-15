@@ -1,19 +1,42 @@
 <div class="mb-3 pb-3">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap">
+    <h2 class="my-0">Manage Contributors</h2>
+    <div class="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap;">
+      <button
+        class="my-1 me-2"
+        mat-raised-button
+        color="primary"
+        (click)="newContributor()"
+      >
+        New Contributor
+      </button>
+      <button
+        class="my-1"
+        mat-raised-button
+        color="warn"
+        [disabled]="selectedContributors.length === 0"
+        (click)="deleteSelectedContributors()"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+  <mat-divider class="my-2"></mat-divider>
   <mat-table matSort [dataSource]="dataSource">
     <ng-container matColumnDef="select">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell (click)="selectContributor(row.value, row.index)" *matCellDef="let row; let index = index">
+      <mat-cell (click)="toggleContributor(row)" *matCellDef="let row; let index = index">
         <mat-checkbox
-          [checked]="selectedContributors[row.index] === row.value"
+          [checked]="row.selected"
           [disableRipple]="true"
-          (click)="$event.stopPropagation(); $event.preventDefault(); selectContributor(row.value, row.index)"
+          (click)="$event.stopPropagation(); $event.preventDefault(); toggleContributor(row)"
         ></mat-checkbox>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="options">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell (click)="selectContributor(row.value, row.index)" *matCellDef="let row">
+      <mat-cell (click)="toggleContributor(row)" *matCellDef="let row">
         <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
           <mat-icon>more_vert</mat-icon>
         </button>
@@ -32,7 +55,7 @@
 
     <ng-container matColumnDef="name">
       <mat-header-cell mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
-      <mat-cell (click)="selectContributor(row.value, row.index)" *matCellDef="let row">
+      <mat-cell (click)="toggleContributor(row)" *matCellDef="let row">
         {{ row.value.name }}
       </mat-cell>
     </ng-container>
@@ -46,12 +69,8 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-    <mat-row class="data-row" [ngClass]="{ 'selected': selectedContributors[row.index] === row.value }" *matRowDef="let row; columns: columns;"></mat-row>
+    <mat-row class="data-row" [ngClass]="{ 'selected': row.selected }" *matRowDef="let row; columns: columns;"></mat-row>
   </mat-table>
 
   <mat-paginator [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
-</div>
-
-<div class="mt-3 pt-3">
-  <ng-template [cdkPortalOutlet]="selectedPortal"></ng-template>
 </div>

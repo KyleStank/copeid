@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -32,6 +33,7 @@ import { AdminEditModalComponent } from './modals';
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatDividerModule,
     MatIconModule,
     MatMenuModule,
     MatPaginatorModule,
@@ -45,10 +47,10 @@ import { AdminEditModalComponent } from './modals';
     AdminDataTableComponent,
 
     // Components
-    AdminPageComponent,
     AdminContributorsPageComponent,
     AdminDefinitionsPageComponent,
     AdminGenusesPageComponent,
+    AdminPageComponent,
     AdminPhotographsPageComponent,
     AdminSpecimensPageComponent,
 
