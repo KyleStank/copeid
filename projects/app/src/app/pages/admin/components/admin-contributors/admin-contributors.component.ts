@@ -1,12 +1,15 @@
 import { ComponentPortal, Portal } from '@angular/cdk/portal';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { ConfirmationAlertModalCompoonent } from '@shared';
 import { Contributor, ContributorService } from '@app/features';
+import { AdminEditModalComponent } from '../../modals';
 
 @Component({
   selector: 'app-tester-comp',
@@ -40,7 +43,8 @@ export class AdminContributorsPageComponent implements OnInit, AfterViewInit, On
 
   constructor(
     private readonly _detectorRef: ChangeDetectorRef,
-    private readonly _contributorService: ContributorService
+    private readonly _contributorService: ContributorService,
+    private readonly _dialog: MatDialog
   ) {
     this.contributors$ = this._contributors.asObservable()
       .pipe(takeUntil(this._destroyed));
@@ -63,6 +67,41 @@ export class AdminContributorsPageComponent implements OnInit, AfterViewInit, On
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
     }
+  }
+
+  editContributor(contributor: Contributor): void {
+    const dialogRef = this._dialog.open(AdminEditModalComponent, {
+      data: {
+        name: 'Test'
+      },
+      width: '500px'
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(
+        (result) => {
+          console.log('Result:', result);
+        }
+      );
+  }
+
+  deleteContributor(contributor: Contributor): void {
+    const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
+      data: {
+        title: 'Delete Contributor?',
+        message: `Are you sure you want to delete contributor "${contributor.name}"?`
+      },
+      width: '500px'
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(
+        (result) => {
+          console.log('Result:', result);
+        }
+      );
   }
 
   ngOnDestroy(): void {

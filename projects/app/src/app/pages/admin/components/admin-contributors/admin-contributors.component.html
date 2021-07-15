@@ -1,6 +1,4 @@
 <div class="mb-3 pb-3">
-  <app-admin-data-table [data]="(contributors$ | async)"></app-admin-data-table>
-
   <mat-table matSort [dataSource]="dataSource">
     <ng-container matColumnDef="options">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -9,11 +7,11 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item (click)="editContributor(row)">
             <mat-icon color="primary">edit</mat-icon>
             <span>Edit</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item (click)="deleteContributor(row)">
             <mat-icon color="warn">delete</mat-icon>
             <span>Delete</span>
           </button>
