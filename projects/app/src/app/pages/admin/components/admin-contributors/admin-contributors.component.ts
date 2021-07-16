@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationAlertModalCompoonent, recursivePropertySearch } from '@shared';
 import { Contributor, ContributorService } from '@app/features';
@@ -38,7 +38,7 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator | undefined;
 
-  selectedContributors: IndexedItem<Contributor>[] | any[] = [];
+  selectedContributors: IndexedItem<Contributor>[] = [];
 
   constructor(
     private readonly _detectorRef: ChangeDetectorRef,
@@ -50,6 +50,7 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
 
     this._contributorService.getAllEntities().subscribe(this._contributors.next.bind(this._contributors));
     this.contributors$.subscribe((contributors: Contributor[]) => {
+      this.selectedContributors = [];
       this.dataSource.data = this.createIndexedData(contributors);
       this._detectorRef.markForCheck();
     });
@@ -88,13 +89,24 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
     }
   }
 
+  newContributor(): void {
+    const dialogRef = this._dialog.open(AdminEditModalComponent, {
+      data: {
+        title: 'Create Contributor'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(this._saveContributor.bind(this));
+  }
+
   editContributor(contributor: Contributor): void {
     const dialogRef = this._dialog.open(AdminEditModalComponent, {
       data: {
         title: 'Edit Contributor',
         model: contributor
-      },
-      width: '500px'
+      }
     });
 
     dialogRef.afterClosed()
@@ -103,42 +115,29 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
   }
 
   private _saveContributor(contributor: Contributor): void {
-    console.log('Save:', contributor);
-  }
+    if (!contributor) return;
 
-  deleteContributor(contributor: Contributor): void {
-    const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
-      data: {
-        title: 'Delete Contributor?',
-        message: `Are you sure you want to delete contributor "${contributor.name}"?`
-      },
-      width: '500px'
-    });
+    if (contributor.id) {
+      this._contributorService.updateEntity(contributor).subscribe({
+        next: (result: Contributor) => {
+          const contributors = this._contributors.value;
+          const index = contributors.findIndex(c => c.id === result.id);
+          if (index !== -1) {
+            contributors[index] = result;
+          }
 
-    dialogRef.afterClosed()
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(
-        (result) => {
-          console.log('Result:', result);
-        }
-      );
-  }
-
-  newContributor(): void {
-    const dialogRef = this._dialog.open(AdminEditModalComponent, {
-      data: {
-        title: 'Create Contributor'
-      },
-      width: '500px'
-    });
-
-    dialogRef.afterClosed()
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(
-        (result) => {
-          console.log('Result:', result);
-        }
-      );
+          this._contributors.next(contributors);
+        },
+        error: (error: any) => console.error('Error:', error)
+      });
+    } else {
+      this._contributorService.createEntity(contributor).subscribe({
+        next: (result: Contributor) => {
+          this._contributors.next([...this._contributors.value, result]);
+        },
+        error: (error: any) => console.error('Error:', error)
+      });
+    }
   }
 
   deleteSelectedContributors(): void {
@@ -146,17 +145,56 @@ export class AdminContributorsPageComponent implements AfterViewInit, OnDestroy 
       data: {
         title: `Delete Selected ${this.selectedContributors.length === 1 ? 'Contributor' : 'Contributors'}?`,
         message: `Are you sure you want to delete ${this.selectedContributors.length === 1 ? 'this contributor' : 'these contributors'}?`
-      },
-      width: '500px'
+      }
     });
 
     dialogRef.afterClosed()
       .pipe(takeUntil(this._destroyed))
       .subscribe(
-        (result) => {
-          console.log('Result:', result);
+        (result: boolean) => {
+          if (result) {
+            // TODO: DO NOT use a loop in production. Create an endpoint that accepts an array of IDs instead.
+            const contributors = this.selectedContributors.map(x => x.value);
+            contributors.forEach(c => this._deleteContributor(c));
+          }
         }
       );
+  }
+
+  deleteContributor(contributor: Contributor): void {
+    const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
+      data: {
+        title: 'Delete Contributor?',
+        message: `Are you sure you want to delete contributor "${contributor.name}"?`
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(
+        (result: boolean) => {
+          if (result) {
+            this._deleteContributor(contributor);
+          }
+        }
+      );
+  }
+
+  private _deleteContributor(contributor: Contributor): void {
+    if (!contributor) return;
+
+    this._contributorService.deleteEntity(contributor.id as string).subscribe({
+      next: () => {
+        let contributors = this._contributors.value;
+        const index = contributors.findIndex(c => c.id === contributor.id);
+        if (index !== -1) {
+          contributors.splice(index, 1);
+        }
+
+        this._contributors.next(contributors);
+      },
+      error: (error: any) => console.error('Error:', error)
+    });
   }
 
   ngOnDestroy(): void {
