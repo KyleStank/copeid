@@ -3,7 +3,7 @@ import { ComponentFactoryResolver, ComponentRef, Injectable } from '@angular/cor
 import { AbstractComponentHostDirective } from '../directives';
 import { ILayoutConfig } from '../models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LayoutBuilder {
   constructor(private readonly _factoryResolver: ComponentFactoryResolver) {}
 

@@ -1,23 +1,8 @@
 <h2 class="my-0" mat-dialog-title>{{ data?.title }}</h2>
 <div class="py-2" mat-dialog-content>
-  <mat-form-field class="w-100" appearance="fill">
-    <mat-label>Name</mat-label>
-
-    <input
-      #nameInput
-      matInput
-      required
-      type="text"
-      aria-label="Contributor name text input."
-      [(ngModel)]="model.name"
-    />
-
-    <mat-error>
-      Field is required.
-    </mat-error>
-  </mat-form-field>
+  <ng-template #portalOutlet cdkPortalOutlet></ng-template>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button color="warn" [mat-dialog-close]="null">Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="nameInput.value.length === 0" [mat-dialog-close]="model">Save</button>
+  <button mat-raised-button color="primary" [disabled]="model?.name?.length === 0" [mat-dialog-close]="model">Save</button>
 </div>

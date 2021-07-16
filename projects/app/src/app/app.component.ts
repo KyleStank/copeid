@@ -9,8 +9,7 @@ import { ILayoutConfig, LayoutHostDirective, LayoutBuilder, TemplateDefaultCompo
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  providers: [LayoutBuilder]
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
