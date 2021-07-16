@@ -1,0 +1,76 @@
+<div class="mb-3 pb-3">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap">
+    <h2 class="my-0">Manage {{ pluralName }}</h2>
+    <div class="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap;">
+      <button
+        class="my-1 me-2"
+        mat-raised-button
+        color="primary"
+        (click)="newEntity()"
+      >
+        New {{ singularName }}
+      </button>
+      <button
+        class="my-1"
+        mat-raised-button
+        color="warn"
+        [disabled]="selectedEntities.length === 0"
+        (click)="deleteSelectedEntities()"
+      >
+        Delete {{ singularName }}
+      </button>
+    </div>
+  </div>
+  <mat-divider class="my-2"></mat-divider>
+  <mat-table matSort [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell (click)="toggleEntity(row)" *matCellDef="let row; let index = index">
+        <mat-checkbox
+          [checked]="row.selected"
+          [disableRipple]="true"
+          (click)="$event.stopPropagation(); $event.preventDefault(); toggleEntity(row)"
+        ></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="options">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell (click)="toggleEntity(row)" *matCellDef="let row">
+        <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editEntity(row.value)">
+            <mat-icon color="primary">edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="deleteEntity(row.value)">
+            <mat-icon color="warn">delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell (click)="toggleEntity(row)" *matCellDef="let row">
+        {{ row.value.name }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="noResults">
+      <mat-footer-cell [attr.colSpan]="columns.length" *matFooterCellDef>
+        <em>
+          No results found.
+        </em>
+      </mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row class="data-row" [ngClass]="{ 'selected': row.selected }" *matRowDef="let row; columns: columns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
+</div>
