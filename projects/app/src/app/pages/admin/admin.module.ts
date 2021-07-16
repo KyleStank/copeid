@@ -16,7 +16,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { ModalsModule } from '@shared';
-import { AbstractAdminPage } from './abstracts';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminDataTableComponent } from './common';
 import {
@@ -50,9 +49,6 @@ import { AdminEditModalComponent } from './modals';
     PortalModule
   ],
   declarations: [
-    // Abstracts
-    AbstractAdminPage,
-
     // Common
     AdminDataTableComponent,
 

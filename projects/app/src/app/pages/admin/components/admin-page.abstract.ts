@@ -1,4 +1,14 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, InjectionToken, Injector, OnDestroy, Optional, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Directive,
+  Inject,
+  InjectionToken,
+  Injector,
+  OnDestroy,
+  Optional,
+  ViewChild
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -8,7 +18,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AbstractEntityService, IEntity } from '@core';
 import { ConfirmationAlertModalCompoonent, recursivePropertySearch } from '@shared';
-import { AdminEditModalComponent } from '../modals';
 
 export interface IndexedItem<TItem> {
   index: number;
@@ -23,12 +32,10 @@ export interface EntitySetup {
 
 export const ENTITY_SERVICE = new InjectionToken<AbstractEntityService<any, any>>('ENTITY_SERVICE');
 export const ENTITY_SETUP = new InjectionToken<EntitySetup>('ENTITY_SETUP');
+export const ENTITY_EDIT_MODAL = new InjectionToken<any>(`ENTITY_EDIT_MODAL`);
 
-@Component({
-  templateUrl: './admin-page.abstract.html',
-  styleUrls: ['./admin-page.abstract.scss']
-})
-export class AbstractAdminPage<TEntity extends IEntity> implements AfterViewInit, OnDestroy {
+@Directive()
+export abstract class AbstractAdminPage<TEntity extends IEntity> implements AfterViewInit, OnDestroy {
   protected readonly _destroyed = new Subject<void>();
 
   protected readonly _entities = new BehaviorSubject<TEntity[]>([]);
@@ -54,7 +61,8 @@ export class AbstractAdminPage<TEntity extends IEntity> implements AfterViewInit
   constructor(
     protected readonly _injector: Injector,
     @Inject(ENTITY_SERVICE) protected readonly _entityService: AbstractEntityService<TEntity>,
-    @Inject(ENTITY_SETUP) @Optional() protected readonly _entitySetup?: EntitySetup
+    @Inject(ENTITY_SETUP) @Optional() protected readonly _entitySetup?: EntitySetup,
+    @Inject(ENTITY_EDIT_MODAL) @Optional() protected readonly _entityEditModal?: any
   ) {
     this._detectorRef = this._injector.get(ChangeDetectorRef);
     this._dialog = this._injector.get(MatDialog);
@@ -99,7 +107,12 @@ export class AbstractAdminPage<TEntity extends IEntity> implements AfterViewInit
   }
 
   public newEntity(): void {
-    const dialogRef = this._dialog.open(AdminEditModalComponent, {
+    if (!this._entityEditModal) {
+      console.warn('No edit modal provided.');
+      return;
+    }
+
+    const dialogRef = this._dialog.open(this._entityEditModal, {
       data: {
         title: `Create ${this.singularName}`
       }
@@ -111,7 +124,12 @@ export class AbstractAdminPage<TEntity extends IEntity> implements AfterViewInit
   }
 
   public editEntity(entity: TEntity): void {
-    const dialogRef = this._dialog.open(AdminEditModalComponent, {
+    if (!this._entityEditModal) {
+      console.warn('No edit modal provided.');
+      return;
+    }
+
+    const dialogRef = this._dialog.open(this._entityEditModal, {
       data: {
         title: `Edit ${this.singularName}`,
         model: entity
