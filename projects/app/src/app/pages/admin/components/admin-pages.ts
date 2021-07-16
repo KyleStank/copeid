@@ -13,7 +13,7 @@ import {
   SpecimenService
 } from '@app/features';
 import { AdminEditModalComponent } from '../modals';
-import { AbstractAdminPage, ENTITY_SETUP, ENTITY_SERVICE, ENTITY_EDIT_MODAL } from './admin-page.abstract';
+import { AbstractAdminPage, ENTITY_SERVICE } from './admin-page.abstract';
 
 @Component({
   selector: 'app-admin-contributors',
@@ -21,13 +21,15 @@ import { AbstractAdminPage, ENTITY_SETUP, ENTITY_SERVICE, ENTITY_EDIT_MODAL } fr
   styleUrls: ['./admin-page.abstract.scss'],
   providers: [
     ContributorService,
-    { provide: ENTITY_SERVICE, useExisting: ContributorService },
-    { provide: ENTITY_SETUP, useValue: { singularName: 'Contributor', pluralName: 'Contributors' } },
-    { provide: ENTITY_EDIT_MODAL, useValue: AdminEditModalComponent }
+    { provide: ENTITY_SERVICE, useExisting: ContributorService }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorsPageComponent extends AbstractAdminPage<Contributor> {}
+export class AdminContributorsPageComponent extends AbstractAdminPage<Contributor> {
+  public readonly singularName = 'Contributor';
+  public readonly pluralName = 'Contributors';
+  public readonly editModal = AdminEditModalComponent;
+}
 
 @Component({
   selector: 'app-admin-definitions',
@@ -35,13 +37,15 @@ export class AdminContributorsPageComponent extends AbstractAdminPage<Contributo
   styleUrls: ['./admin-page.abstract.scss'],
   providers: [
     DefinitionService,
-    { provide: ENTITY_SERVICE, useExisting: DefinitionService },
-    { provide: ENTITY_SETUP, useValue: { singularName: 'Definition', pluralName: 'Definitions' } },
-    // { provide: ENTITY_EDIT_MODAL, useValue: AdminEditModalComponent } // TODO: Change modal
+    { provide: ENTITY_SERVICE, useExisting: DefinitionService }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition> {}
+export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition> {
+  public readonly singularName = 'Definition';
+  public readonly pluralName = 'Definitions';
+  public readonly editModal = null;
+}
 
 @Component({
   selector: 'app-admin-genuses',
@@ -49,13 +53,15 @@ export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition>
   styleUrls: ['./admin-page.abstract.scss'],
   providers: [
     GenusService,
-    { provide: ENTITY_SERVICE, useExisting: GenusService },
-    { provide: ENTITY_SETUP, useValue: { singularName: 'Genus', pluralName: 'Genuses' } },
-    // { provide: ENTITY_EDIT_MODAL, useValue: AdminEditModalComponent } // TODO: Change modal
+    { provide: ENTITY_SERVICE, useExisting: GenusService }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminGenusesPageComponent extends AbstractAdminPage<Genus> {}
+export class AdminGenusesPageComponent extends AbstractAdminPage<Genus> {
+  public readonly singularName = 'Genus';
+  public readonly pluralName = 'Genuses';
+  public readonly editModal = null;
+}
 
 @Component({
   selector: 'app-admin-photographs',
@@ -63,13 +69,15 @@ export class AdminGenusesPageComponent extends AbstractAdminPage<Genus> {}
   styleUrls: ['./admin-page.abstract.scss'],
   providers: [
     PhotographService,
-    { provide: ENTITY_SERVICE, useExisting: PhotographService },
-    { provide: ENTITY_SETUP, useValue: { singularName: 'Photograph', pluralName: 'Photographs' } },
-    // { provide: ENTITY_EDIT_MODAL, useValue: AdminEditModalComponent } // TODO: Change modal
+    { provide: ENTITY_SERVICE, useExisting: PhotographService }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph> {}
+export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph> {
+  public readonly singularName = 'Photograph';
+  public readonly pluralName = 'Photographs';
+  public readonly editModal = null;
+}
 
 @Component({
   selector: 'app-admin-specimens',
@@ -77,10 +85,12 @@ export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph>
   styleUrls: ['./admin-page.abstract.scss'],
   providers: [
     SpecimenService,
-    { provide: ENTITY_SERVICE, useExisting: SpecimenService },
-    { provide: ENTITY_SETUP, useValue: { singularName: 'Specimen', pluralName: 'Specimens' } },
-    // { provide: ENTITY_EDIT_MODAL, useValue: AdminEditModalComponent } // TODO: Change modal
+    { provide: ENTITY_SERVICE, useExisting: SpecimenService }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {}
+export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {
+  public readonly singularName = 'Specimen';
+  public readonly pluralName = 'Specimens';
+  public readonly editModal = null;
+}

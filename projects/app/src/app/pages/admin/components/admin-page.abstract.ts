@@ -6,7 +6,6 @@ import {
   InjectionToken,
   Injector,
   OnDestroy,
-  Optional,
   ViewChild
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,8 +30,6 @@ export interface EntitySetup {
 }
 
 export const ENTITY_SERVICE = new InjectionToken<AbstractEntityService<any, any>>('ENTITY_SERVICE');
-export const ENTITY_SETUP = new InjectionToken<EntitySetup>('ENTITY_SETUP');
-export const ENTITY_EDIT_MODAL = new InjectionToken<any>(`ENTITY_EDIT_MODAL`);
 
 @Directive()
 export abstract class AbstractAdminPage<TEntity extends IEntity> implements AfterViewInit, OnDestroy {
@@ -43,9 +40,6 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
 
   protected readonly _detectorRef: ChangeDetectorRef;
   protected readonly _dialog: MatDialog;
-
-  public readonly singularName: string;
-  public readonly pluralName: string;
 
   public readonly dataSource = new MatTableDataSource<IndexedItem<TEntity>>();
   public readonly columns = ['select', 'name', 'options'];
@@ -60,9 +54,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
 
   constructor(
     protected readonly _injector: Injector,
-    @Inject(ENTITY_SERVICE) protected readonly _entityService: AbstractEntityService<TEntity>,
-    @Inject(ENTITY_SETUP) @Optional() protected readonly _entitySetup?: EntitySetup,
-    @Inject(ENTITY_EDIT_MODAL) @Optional() protected readonly _entityEditModal?: any
+    @Inject(ENTITY_SERVICE) protected readonly _entityService: AbstractEntityService<TEntity>
   ) {
     this._detectorRef = this._injector.get(ChangeDetectorRef);
     this._dialog = this._injector.get(MatDialog);
@@ -78,10 +70,11 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
     });
 
     this.dataSource.sortingDataAccessor = (item, property) => recursivePropertySearch(item.value, property);
-
-    this.singularName = this._entitySetup?.singularName ?? 'Entity';
-    this.pluralName = this._entitySetup?.pluralName ?? 'Entities';
   }
+
+  public abstract singularName: string;
+  public abstract pluralName: string;
+  public abstract editModal: any;
 
   protected _createIndexedData(data: TEntity[]): IndexedItem<TEntity>[] {
     return data.map((item, index) => ({
@@ -107,12 +100,12 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
   }
 
   public newEntity(): void {
-    if (!this._entityEditModal) {
+    if (!this.editModal) {
       console.warn('No edit modal provided.');
       return;
     }
 
-    const dialogRef = this._dialog.open(this._entityEditModal, {
+    const dialogRef = this._dialog.open(this.editModal, {
       data: {
         title: `Create ${this.singularName}`
       }
@@ -124,12 +117,12 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
   }
 
   public editEntity(entity: TEntity): void {
-    if (!this._entityEditModal) {
+    if (!this.editModal) {
       console.warn('No edit modal provided.');
       return;
     }
 
-    const dialogRef = this._dialog.open(this._entityEditModal, {
+    const dialogRef = this._dialog.open(this.editModal, {
       data: {
         title: `Edit ${this.singularName}`,
         model: entity

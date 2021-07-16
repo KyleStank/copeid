@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ComponentPortal, Portal, TemplatePortal } from '@angular/cdk/portal';
+import { ChangeDetectionStrategy, Component, Inject, InjectionToken, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Contributor } from '@app/features';
@@ -18,8 +19,8 @@ export class AdminEditModalComponent {
   model: Contributor;
 
   constructor(
-    public dialogRef: MatDialogRef<AdminEditModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AdminEditDialogData
+    public readonly dialogRef: MatDialogRef<AdminEditModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public readonly data: AdminEditDialogData
   ) {
     this.model = {
       ...(data?.model || {}),
