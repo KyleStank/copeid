@@ -26,7 +26,7 @@ import {
   AdminPhotographsPageComponent,
   AdminSpecimensPageComponent
 } from './components';
-import { AdminEditModalComponent } from './modals';
+import { AdminEditModalComponent, AdminTestComponent, AdminEditModalTitleComponent, AdminEditModalActionsComponent } from './modals';
 
 @NgModule({
   imports: [
@@ -61,7 +61,10 @@ import { AdminEditModalComponent } from './modals';
     AdminSpecimensPageComponent,
 
     // Modals
-    AdminEditModalComponent
+    AdminEditModalComponent,
+    AdminTestComponent,
+    AdminEditModalTitleComponent,
+    AdminEditModalActionsComponent
   ]
 })
 export class AdminPageModule {}

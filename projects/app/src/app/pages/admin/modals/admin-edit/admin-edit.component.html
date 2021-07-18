@@ -1,8 +1,0 @@
-<h2 class="my-0" mat-dialog-title>{{ data?.title }}</h2>
-<div class="py-2" mat-dialog-content>
-  <ng-template #portalOutlet cdkPortalOutlet></ng-template>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="warn" [mat-dialog-close]="null">Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="model?.name?.length === 0" [mat-dialog-close]="model">Save</button>
-</div>

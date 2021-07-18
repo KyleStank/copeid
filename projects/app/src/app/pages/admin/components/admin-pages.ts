@@ -13,6 +13,7 @@ import {
   SpecimenService
 } from '@app/features';
 import { AdminEditModalComponent } from '../modals';
+// import { AdminEditModalComponent } from '../modals';
 import { AbstractAdminPage, ENTITY_SERVICE } from './admin-page.abstract';
 
 @Component({
