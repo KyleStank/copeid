@@ -1,10 +1,9 @@
-import { CdkPortalOutlet, CdkPortalOutletAttachedRef, ComponentPortal, ComponentType, Portal } from '@angular/cdk/portal';
+import { CdkPortalOutlet, CdkPortalOutletAttachedRef, ComponentPortal, Portal } from '@angular/cdk/portal';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentRef,
   Inject,
   InjectionToken,
   Injector,
@@ -38,11 +37,7 @@ import { Contributor } from '@app/features';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminTestComponent {
-  // constructor(@Inject(ADMIN_FORM_MODEL) public model?: any) {}
-}
-
-const ADMIN_FORM_MODEL = new InjectionToken<any>('ADMIN_FORM_MODEL');
+export class AdminTestComponent {}
 
 export interface AdminEditDialogData {
   title: string;
@@ -68,7 +63,6 @@ export class AdminEditModalActionsComponent {}
 @Component({
   selector: 'app-admin-edit',
   template: `
-    <!-- <h2 class="my-0" mat-dialog-title>{{ data?.title }}</h2> -->
     <div mat-dialog-title>
       <ng-template #titlePortal cdkPortalOutlet></ng-template>
     </div>

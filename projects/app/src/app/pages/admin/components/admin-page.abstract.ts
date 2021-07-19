@@ -24,11 +24,6 @@ export interface IndexedItem<TItem> {
   value: TItem;
 }
 
-export interface EntitySetup {
-  singularName: string;
-  pluralName: string;
-}
-
 export const ENTITY_SERVICE = new InjectionToken<AbstractEntityService<any, any>>('ENTITY_SERVICE');
 
 @Directive()
