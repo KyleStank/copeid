@@ -6,6 +6,7 @@ import {
   InjectionToken,
   Injector,
   OnDestroy,
+  OnInit,
   ViewChild
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,10 +25,15 @@ export interface IndexedItem<TItem> {
   value: TItem;
 }
 
+export interface DataColumn {
+  title: string;
+  property: string;
+}
+
 export const ENTITY_SERVICE = new InjectionToken<AbstractEntityService<any, any>>('ENTITY_SERVICE');
 
 @Directive()
-export abstract class AbstractAdminPage<TEntity extends IEntity> implements AfterViewInit, OnDestroy {
+export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnInit, AfterViewInit, OnDestroy {
   protected readonly _destroyed = new Subject<void>();
 
   protected readonly _entities = new BehaviorSubject<TEntity[]>([]);
@@ -36,8 +42,13 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
   protected readonly _detectorRef: ChangeDetectorRef;
   protected readonly _dialog: MatDialog;
 
+  public abstract singularName: string;
+  public abstract pluralName: string;
+  public abstract editModal: any;
+  public abstract dataColumns: DataColumn[];
+
   public readonly dataSource = new MatTableDataSource<IndexedItem<TEntity>>();
-  public readonly columns = ['select', 'name', 'options'];
+  public columns: string[] = [];
 
   @ViewChild(MatSort, { static: true })
   public sort: MatSort | undefined;
@@ -67,16 +78,16 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
     this.dataSource.sortingDataAccessor = (item, property) => recursivePropertySearch(item.value, property);
   }
 
-  public abstract singularName: string;
-  public abstract pluralName: string;
-  public abstract editModal: any;
-
   protected _createIndexedData(data: TEntity[]): IndexedItem<TEntity>[] {
     return data.map((item, index) => ({
       index,
       value: item,
       selected: false
     })) as IndexedItem<TEntity>[];
+  }
+
+  public ngOnInit(): void {
+    this.columns = ['select'].concat(this.dataColumns?.map(c => c.property) ?? []).concat(['options']);
   }
 
   public ngAfterViewInit(): void {

@@ -53,10 +53,17 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="name">
+    <!-- <ng-container matColumnDef="name">
       <mat-header-cell mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
       <mat-cell (click)="toggleEntity(row)" *matCellDef="let row">
         {{ row.value.name }}
+      </mat-cell>
+    </ng-container> -->
+
+    <ng-container [matColumnDef]="col.property" *ngFor="let col of dataColumns">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>{{ col.title }}</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.value[col.property] }}
       </mat-cell>
     </ng-container>
 
@@ -69,7 +76,12 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-    <mat-row class="data-row" [ngClass]="{ 'selected': row.selected }" *matRowDef="let row; columns: columns;"></mat-row>
+    <mat-row
+      class="data-row"
+      [ngClass]="{ 'selected': row.selected }"
+      (click)="toggleEntity(row)"
+      *matRowDef="let row; columns: columns;"
+    ></mat-row>
   </mat-table>
 
   <mat-paginator [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
