@@ -102,8 +102,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements Afte
 
     const dialogRef = this._dialog.open(this.editModal, {
       data: {
-        title: `Create ${this.singularName}`,
-        contentComponent: null
+        title: `Create ${this.singularName}`
       }
     });
 

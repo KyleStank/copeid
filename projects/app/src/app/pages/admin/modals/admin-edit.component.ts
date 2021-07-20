@@ -5,7 +5,6 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
-  InjectionToken,
   Injector,
   OnDestroy,
   Optional,
@@ -15,6 +14,20 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Contributor } from '@app/features';
+
+export interface AdminEditDialogData {
+  title: string;
+  form: any;
+
+  model: Contributor;
+  contentComponent: any;
+}
+
+@Component({
+  selector: 'app-admin-edit-title',
+  template: `<h2>Mat Dialog Title</h2>`
+})
+export class AdminEditModalTitleComponent {}
 
 @Component({
   selector: 'app-admin-test',
@@ -38,18 +51,6 @@ import { Contributor } from '@app/features';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminTestComponent {}
-
-export interface AdminEditDialogData {
-  title: string;
-  model: Contributor;
-  contentComponent: any;
-}
-
-@Component({
-  selector: 'app-admin-edit-title',
-  template: `<h2>Mat Dialog Title</h2>`
-})
-export class AdminEditModalTitleComponent {}
 
 @Component({
   selector: 'app-admin-edit-actions',

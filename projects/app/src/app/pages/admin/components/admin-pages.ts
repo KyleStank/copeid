@@ -12,7 +12,7 @@ import {
   Specimen,
   SpecimenService
 } from '@app/features';
-import { AdminEditModalComponent } from '../modals';
+import { AdminContributorEditModal } from '../modals';
 import { AbstractAdminPage, ENTITY_SERVICE } from './admin-page.abstract';
 
 @Component({
@@ -28,7 +28,7 @@ import { AbstractAdminPage, ENTITY_SERVICE } from './admin-page.abstract';
 export class AdminContributorsPageComponent extends AbstractAdminPage<Contributor> {
   public readonly singularName = 'Contributor';
   public readonly pluralName = 'Contributors';
-  public readonly editModal = AdminEditModalComponent;
+  public readonly editModal = AdminContributorEditModal;
 }
 
 @Component({
