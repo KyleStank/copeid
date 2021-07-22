@@ -12,7 +12,13 @@ import {
   Specimen,
   SpecimenService
 } from '@app/features';
-import { AdminContributorEditModal } from '../modals';
+import {
+  AdminContributorEditModal,
+  AdminDefinitionEditModal,
+  AdminGenusEditModal,
+  AdminPhotographEditModal,
+  AdminSpecimenEditModal
+} from '../modals';
 import { AbstractAdminPage, DataColumn, ENTITY_SERVICE } from './admin-page.abstract';
 
 @Component({
@@ -47,7 +53,7 @@ export class AdminContributorsPageComponent extends AbstractAdminPage<Contributo
 export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition> {
   public readonly singularName = 'Definition';
   public readonly pluralName = 'Definitions';
-  public readonly editModal = null;
+  public readonly editModal = AdminDefinitionEditModal;
   public readonly dataColumns: DataColumn[] = [
     { title: 'Name', property: 'name' },
     { title: 'Meaning', property: 'meaning' }
@@ -67,7 +73,7 @@ export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition>
 export class AdminGenusesPageComponent extends AbstractAdminPage<Genus> {
   public readonly singularName = 'Genus';
   public readonly pluralName = 'Genuses';
-  public readonly editModal = null;
+  public readonly editModal = AdminGenusEditModal;
   public readonly dataColumns: DataColumn[] = [
     { title: 'Name', property: 'name' }
   ];
@@ -86,7 +92,7 @@ export class AdminGenusesPageComponent extends AbstractAdminPage<Genus> {
 export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph> {
   public readonly singularName = 'Photograph';
   public readonly pluralName = 'Photographs';
-  public readonly editModal = null;
+  public readonly editModal = AdminPhotographEditModal;
   public readonly dataColumns: DataColumn[] = [
     { title: 'Title', property: 'title' },
     { title: 'Alt', property: 'alt' },
@@ -108,7 +114,7 @@ export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph>
 export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {
   public readonly singularName = 'Specimen';
   public readonly pluralName = 'Specimens';
-  public readonly editModal = null;
+  public readonly editModal = AdminSpecimenEditModal;
   public readonly dataColumns: DataColumn[] = [
     { title: 'Gender', property: 'gender' },
     { title: 'Length', property: 'length' }

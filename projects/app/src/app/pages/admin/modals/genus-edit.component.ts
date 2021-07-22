@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Contributor } from '@app/features';
+import { Genus } from '@app/features';
 
-export interface ContributorEditDialogData {
+export interface GenusEditDialogData {
   title: string;
-  model: Contributor;
+  model: Genus;
 }
 
 @Component({
-  selector: 'app-admin-contributor-edit-modal',
+  selector: 'app-admin-genus-edit-modal',
   template: `
     <div mat-dialog-title>
       <h2>{{ data?.title }}</h2>
@@ -25,7 +25,7 @@ export interface ContributorEditDialogData {
               matInput
               required
               type="text"
-              aria-label="Contributor name text input."
+              aria-label="Genus name text input."
               [(ngModel)]="model.name"
             />
 
@@ -43,17 +43,20 @@ export interface ContributorEditDialogData {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorEditModal {
-  model: Contributor;
+export class AdminGenusEditModal {
+  model: Genus;
 
   constructor(
-    public readonly dialogRef: MatDialogRef<AdminContributorEditModal>,
-    @Inject(MAT_DIALOG_DATA) @Optional() public readonly data?: ContributorEditDialogData
+    public readonly dialogRef: MatDialogRef<AdminGenusEditModal>,
+    @Inject(MAT_DIALOG_DATA) @Optional() public readonly data?: GenusEditDialogData
   ) {
     this.model = {
       ...(data?.model || {}),
       id: data?.model?.id || null,
-      name: data?.model?.name || ''
+      name: data?.model?.name || '',
+      photograph: data?.model?.photograph || null,
+      photographId: data?.model?.photographId || null,
+      specimens: data?.model?.specimens || null
     };
   }
 }
