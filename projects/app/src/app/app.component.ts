@@ -1,7 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ComponentRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { getSnapshotDataRecursive } from '@shared';
+import { ILayoutConfig, LayoutHostDirective, LayoutBuilder, TemplateDefaultComponent } from './features';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +14,13 @@ import { takeUntil } from 'rxjs/operators';
 export class AppComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
-  title = 'CopeID';
-
-  showHeader = true;
-  showFooter = true;
-  useContentContainer = true;
+  @ViewChild(LayoutHostDirective, { static: true })
+  layoutHost?: LayoutHostDirective;
+  layoutComponentRef?: ComponentRef<any>;
 
   constructor(
     private readonly _route: ActivatedRoute,
+    private readonly _layoutBuilder: LayoutBuilder,
     private readonly _router: Router
   ) {}
 
@@ -34,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param event Router event to handle.
    */
   private _handleRouterEvent(event: Event): void {
-    const routeData = this._route.firstChild?.snapshot?.data || {};
+    const routeData = getSnapshotDataRecursive(this._route.snapshot) ?? {};
     if (event instanceof NavigationEnd) {
       this._configureLayout(routeData);
     }
@@ -46,9 +48,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param routeData Data retrieved from the route.
    */
   private _configureLayout(routeData: any): void {
-    this.showHeader = routeData?.showHeader !== false;
-    this.showFooter = routeData?.showFooter !== false;
-    this.useContentContainer = routeData?.useContentContainer !== false;
+    const layoutConfig: ILayoutConfig = routeData.layout ?? { component: TemplateDefaultComponent };
+    this.layoutComponentRef = this._layoutBuilder.generateLayout(this.layoutHost, layoutConfig);
   }
 
   ngOnDestroy(): void {

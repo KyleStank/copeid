@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { IEntity } from '../models';
-import { Nullable } from '../types';
 
 @Injectable()
 export abstract class AbstractEntityService<TEntity = IEntity, TId = string> {
@@ -16,7 +15,7 @@ export abstract class AbstractEntityService<TEntity = IEntity, TId = string> {
 
   public abstract getEndpoint(): string;
 
-  public getAllEntities(include?: Nullable<string[]>): Observable<TEntity[]> {
+  public getAllEntities(include?: string[]): Observable<TEntity[]> {
     const endpoint = this._endpoint;
     return this._http.get<TEntity[]>(include ?
       this._createParamsEndpoint(
@@ -26,7 +25,7 @@ export abstract class AbstractEntityService<TEntity = IEntity, TId = string> {
     );
   }
 
-  public getEntity(id: TId, include?: Nullable<string[]>): Observable<TEntity> {
+  public getEntity(id: TId, include?: string[]): Observable<TEntity> {
     const endpoint = `${this._endpoint}/${id}`;
     return this._http.get<TEntity>(include ?
       this._createParamsEndpoint(
@@ -46,9 +45,9 @@ export abstract class AbstractEntityService<TEntity = IEntity, TId = string> {
     return this._http.put<TEntity>(endpoint, model);
   }
 
-  public deleteEntity(id: TId): Observable<Nullable<string>> {
+  public deleteEntity(id: TId): Observable<string> {
     const endpoint = `${this._endpoint}/${id}`;
-    return this._http.delete<Nullable<string>>(endpoint);
+    return this._http.delete<string>(endpoint);
   }
 
   protected _createParamsEndpoint(endpoint: string, params: KeyValue<string, string>[]): string {
