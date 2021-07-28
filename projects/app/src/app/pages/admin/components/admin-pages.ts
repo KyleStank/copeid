@@ -9,6 +9,8 @@ import {
   GenusService,
   Photograph,
   PhotographService,
+  Reference,
+  ReferenceService,
   Specimen,
   SpecimenService
 } from '@app/features';
@@ -17,6 +19,7 @@ import {
   AdminDefinitionEditModal,
   AdminGenusEditModal,
   AdminPhotographEditModal,
+  AdminReferenceEditModal,
   AdminSpecimenEditModal
 } from '../modals';
 import { AbstractAdminPage, DataColumn, ENTITY_SERVICE } from './admin-page.abstract';
@@ -118,5 +121,24 @@ export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {
   public readonly dataColumns: DataColumn[] = [
     { title: 'Gender', property: 'gender' },
     { title: 'Length', property: 'length' }
+  ];
+}
+
+@Component({
+  selector: 'app-admin-references',
+  templateUrl: './admin-page.abstract.html',
+  styleUrls: ['./admin-page.abstract.scss'],
+  providers: [
+    ReferenceService,
+    { provide: ENTITY_SERVICE, useExisting: ReferenceService }
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class AdminReferencesPageComponent extends AbstractAdminPage<Reference> {
+  public readonly singularName = 'Reference';
+  public readonly pluralName = 'References';
+  public readonly editModal = AdminReferenceEditModal;
+  public readonly dataColumns: DataColumn[] = [
+    { title: 'Content', property: 'content' }
   ];
 }

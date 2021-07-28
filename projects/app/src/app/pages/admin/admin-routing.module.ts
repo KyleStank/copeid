@@ -8,6 +8,7 @@ import {
   AdminGenusesPageComponent,
   AdminPageComponent,
   AdminPhotographsPageComponent,
+  AdminReferencesPageComponent,
   AdminSpecimensPageComponent
 } from './components';
 
@@ -74,6 +75,17 @@ const routes: Routes = [
       layout: {
         config: {
           pageName: 'Specimens'
+        }
+      }
+    }
+  },
+  {
+    path: 'references',
+    component: AdminReferencesPageComponent,
+    data: {
+      layout: {
+        config: {
+          pageName: 'References'
         }
       }
     }

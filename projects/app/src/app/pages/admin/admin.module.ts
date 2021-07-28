@@ -25,6 +25,7 @@ import {
   AdminGenusesPageComponent,
   AdminPageComponent,
   AdminPhotographsPageComponent,
+  AdminReferencesPageComponent,
   AdminSpecimensPageComponent
 } from './components';
 import {
@@ -36,6 +37,7 @@ import {
   AdminDefinitionEditModal,
   AdminGenusEditModal,
   AdminPhotographEditModal,
+  AdminReferenceEditModal,
   AdminSpecimenEditModal
 } from './modals';
 
@@ -70,6 +72,7 @@ import {
     AdminGenusesPageComponent,
     AdminPageComponent,
     AdminPhotographsPageComponent,
+    AdminReferencesPageComponent,
     AdminSpecimensPageComponent,
 
     // Modals
@@ -81,6 +84,7 @@ import {
     AdminDefinitionEditModal,
     AdminGenusEditModal,
     AdminPhotographEditModal,
+    AdminReferenceEditModal,
     AdminSpecimenEditModal
   ]
 })

@@ -32,6 +32,7 @@ const routes: Routes = [
             { label: 'Definitions', url: ['admin', 'definitions'], logo: 'library_books' },
             { label: 'Genuses', url: ['admin', 'genuses'], logo: 'pest_control' },
             { label: 'Photographs', url: ['admin', 'photographs'], logo: 'photo_library' },
+            { label: 'References', url: ['admin', 'references'], logo: 'menu_book' },
             { label: 'Specimens', url: ['admin', 'specimens'], logo: 'science' }
           ]
         }
