@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-// import { DashboardEditPageComponent, DashboardPageComponent } from './components';
+import { ReferencesPageComponent } from './components';
 import { ReferencesRoutingModule } from './references-routing.module';
 
 @NgModule({
@@ -16,8 +16,7 @@ import { ReferencesRoutingModule } from './references-routing.module';
     ReferencesRoutingModule
   ],
   declarations: [
-    // DashboardEditPageComponent,
-    // DashboardPageComponent
+    ReferencesPageComponent
   ]
 })
 export class ReferencesPageModule {}
