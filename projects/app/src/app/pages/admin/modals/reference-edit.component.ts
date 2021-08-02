@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Editor } from 'ngx-editor';
 
 import { Reference } from '@app/features';
 
@@ -17,6 +18,11 @@ export interface ReferenceEditDialogData {
     <div class="py-2" mat-dialog-content>
       <div class="row">
         <div class="col-md-auto">
+          <ngx-editor
+            [editor]="editor"
+            [ngModel]="html"
+          ></ngx-editor>
+
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Content</mat-label>
 
@@ -50,7 +56,10 @@ export interface ReferenceEditDialogData {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminReferenceEditModal {
+export class AdminReferenceEditModal implements OnInit, OnDestroy {
+  html = '';
+  editor!: Editor;
+
   model: Reference;
 
   constructor(
@@ -62,5 +71,13 @@ export class AdminReferenceEditModal {
       id: data?.model?.id || null,
       content: data?.model?.content || ''
     };
+  }
+
+  ngOnInit(): void {
+    this.editor = new Editor();
+  }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
   }
 }

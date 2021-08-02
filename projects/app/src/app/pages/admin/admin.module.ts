@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { NgxEditorModule } from 'ngx-editor';
 
 import { ModalsModule } from '@shared';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -60,6 +61,7 @@ import {
     MatSortModule,
     MatTableModule,
     ModalsModule,
+    NgxEditorModule,
     PortalModule
   ],
   declarations: [
