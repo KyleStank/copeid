@@ -1,7 +1,7 @@
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
@@ -39,7 +39,8 @@ import {
   AdminGenusEditModal,
   AdminPhotographEditModal,
   AdminReferenceEditModal,
-  AdminSpecimenEditModal
+  AdminSpecimenEditModal,
+  EditorMenuComponent
 } from './modals';
 
 @NgModule({
@@ -62,7 +63,8 @@ import {
     MatTableModule,
     ModalsModule,
     NgxEditorModule,
-    PortalModule
+    PortalModule,
+    ReactiveFormsModule
   ],
   declarations: [
     // Common
@@ -87,7 +89,9 @@ import {
     AdminGenusEditModal,
     AdminPhotographEditModal,
     AdminReferenceEditModal,
-    AdminSpecimenEditModal
+    AdminSpecimenEditModal,
+
+    EditorMenuComponent // TODO: Put elsewhere
   ]
 })
 export class AdminPageModule {}
