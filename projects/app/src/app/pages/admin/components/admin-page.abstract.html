@@ -62,8 +62,8 @@
 
     <ng-container [matColumnDef]="col.property" *ngFor="let col of dataColumns">
       <mat-header-cell mat-sort-header *matHeaderCellDef>{{ col.title }}</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        {{ row.value[col.property] }}
+      <mat-cell [innerHTML]="row.value[col.property]" *matCellDef="let row">
+        <!-- {{  }} -->
       </mat-cell>
     </ng-container>
 

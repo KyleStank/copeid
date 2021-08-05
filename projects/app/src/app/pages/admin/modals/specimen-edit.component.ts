@@ -16,7 +16,7 @@ export interface SpecimenEditDialogData {
     </div>
     <div class="py-2" mat-dialog-content>
       <div class="row">
-        <div class="col-md-auto">
+        <div class="col-md">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Gender</mat-label>
 
@@ -36,7 +36,7 @@ export interface SpecimenEditDialogData {
           </mat-form-field>
         </div>
 
-        <div class="col-md-auto">
+        <div class="col-md">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Length</mat-label>
 

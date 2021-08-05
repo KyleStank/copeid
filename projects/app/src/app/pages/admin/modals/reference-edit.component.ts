@@ -20,7 +20,7 @@ export interface ReferenceEditDialogData {
     </div>
     <div class="py-2" mat-dialog-content>
       <div class="row">
-        <div class="col-md-auto">
+        <div class="col-md">
           <form [formGroup]="formGroup">
             <div class="NgxEditor__Wrapper">
               <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
@@ -40,7 +40,7 @@ export interface ReferenceEditDialogData {
         mat-raised-button
         color="primary"
         [disabled]="formGroup.invalid"
-        [mat-dialog-close]="model"
+        [mat-dialog-close]="save()"
       >
         Save
       </button>
@@ -84,6 +84,11 @@ export class AdminReferenceEditModal implements OnDestroy {
   editorValidator(control: AbstractControl): ValidationErrors | null {
     const htmlValue = toHTML(control.value)?.replace(/<\/?[^>]+(>|$)/g, '') ?? '';
     return htmlValue.length === 0 ? { editorInvalid: true } : null;
+  }
+
+  save(): any {
+    this.model.content = toHTML(this.formGroup.get('content')?.value);
+    return this.model;
   }
 
   ngOnDestroy(): void {

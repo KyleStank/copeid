@@ -16,7 +16,7 @@ export interface PhotographEditDialogData {
     </div>
     <div class="py-2" mat-dialog-content>
       <div class="row">
-        <div class="col-md-auto">
+        <div class="col-md">
           <mat-form-field class="my-1 w-100" appearance="fill">
             <mat-label>Title</mat-label>
 
@@ -52,7 +52,7 @@ export interface PhotographEditDialogData {
           </mat-form-field>
         </div>
 
-        <div class="col-md-auto">
+        <div class="col-md">
           <mat-form-field class="my-1 w-100" appearance="fill">
             <mat-label>Alt</mat-label>
 
