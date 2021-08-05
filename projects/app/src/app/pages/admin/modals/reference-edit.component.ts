@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup } from '@angular/forms';
-import { setBlockType } from 'prosemirror-commands';
-import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Editor, toDoc, toHTML, Toolbar } from 'ngx-editor';
-import { isNodeActive } from 'ngx-editor/helpers';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Reference } from '@app/features';
 
@@ -23,37 +21,16 @@ export interface ReferenceEditDialogData {
     <div class="py-2" mat-dialog-content>
       <div class="row">
         <div class="col-md-auto">
-          <!-- <ngx-editor
-            [editor]="editor"
-            [ngModel]="html"
-          ></ngx-editor> -->
-
           <form [formGroup]="formGroup">
             <div class="NgxEditor__Wrapper">
-              <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" [customMenuRef]="customMenu"></ngx-editor-menu>
-              <ng-template #customMenu>
-                <app-editor-menu [editor]="editor"></app-editor-menu>
-              </ng-template>
+              <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
               <ngx-editor [editor]="editor" formControlName="content"></ngx-editor>
             </div>
-          </form>
 
-          <mat-form-field class="w-100" appearance="fill">
-            <mat-label>Content</mat-label>
-
-            <input
-              #contentInput
-              matInput
-              required
-              type="text"
-              aria-label="Reference content text input."
-              [(ngModel)]="model.content"
-            />
-
-            <mat-error>
+            <mat-error class="my-1" *ngIf="formGroup.controls['content'].errors">
               Field is required.
             </mat-error>
-          </mat-form-field>
+          </form>
         </div>
       </div>
     </div>
@@ -62,7 +39,7 @@ export interface ReferenceEditDialogData {
       <button
         mat-raised-button
         color="primary"
-        [disabled]="contentInput.value?.length === 0"
+        [disabled]="formGroup.invalid"
         [mat-dialog-close]="model"
       >
         Save
@@ -71,19 +48,20 @@ export interface ReferenceEditDialogData {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminReferenceEditModal implements OnInit, OnDestroy {
+export class AdminReferenceEditModal implements OnDestroy {
+  private readonly _destroyed = new Subject<void>();
+
   readonly editor: Editor = new Editor();
   readonly toolbar: Toolbar = [
     ['bold', 'italic'],
     ['underline', 'strike']
   ];
+  readonly formGroup!: FormGroup;
 
-  html = '';
-  formGroup!: FormGroup;
-
-  model: Reference;
+  model!: Reference;
 
   constructor(
+    public readonly detectorRef: ChangeDetectorRef,
     public readonly dialogRef: MatDialogRef<AdminReferenceEditModal>,
     @Inject(MAT_DIALOG_DATA) @Optional() public readonly data?: ReferenceEditDialogData
   ) {
@@ -94,81 +72,24 @@ export class AdminReferenceEditModal implements OnInit, OnDestroy {
     };
 
     this.formGroup = new FormGroup({
-      content: new FormControl('')
+      content: new FormControl(toDoc(this.model.content as string), this.editorValidator)
     });
+
+    // Change detection is required to detect errors in the view.
+    this.formGroup.valueChanges
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(() => this.detectorRef.markForCheck());
   }
 
-  ngOnInit(): void {
-
+  editorValidator(control: AbstractControl): ValidationErrors | null {
+    const htmlValue = toHTML(control.value)?.replace(/<\/?[^>]+(>|$)/g, '') ?? '';
+    return htmlValue.length === 0 ? { editorInvalid: true } : null;
   }
 
   ngOnDestroy(): void {
     this.editor.destroy();
-  }
-}
 
-// TODO: Put elsewhere.
-@Component({
-  selector: 'app-editor-menu',
-  template: `
-    <div class="NgxEditor__Seperator"></div>
-    <div
-      class="NgxEditor__MenuItem NgxEditor__MenuItem--Text"
-      (mousedown)="onClick($event)"
-      [ngClass]="{'NgxEditor__MenuItem--Active': isActive, 'NgxEditor--Disabled': isDisabled}"
-    >
-      CodeMirror
-    </div>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class EditorMenuComponent implements OnInit {
-  @Input()
-  editor?: Editor;
-
-  isActive = false;
-  isDisabled = false;
-
-  ngOnInit(): void {
-    if (this.editor) {
-      const plugin = new Plugin({
-        key: new PluginKey('custom-menu-text'),
-        view: () => {
-          return {
-            update: this.update.bind(this)
-          }
-        }
-      });
-
-      this.editor.registerPlugin(plugin);
-    }
-  }
-
-  onClick(e: MouseEvent): void {
-    e.preventDefault();
-    if (this.editor) {
-      const view = this.editor.view;
-      this.execute(view.state, view.dispatch);
-    }
-  }
-
-  execute(state: EditorState, dispatch?: (tr: Transaction) => void): boolean {
-    const schema = state.schema;
-
-    console.log('Schema:', schema);
-    console.log('Is Active?', this.isActive);
-
-    if (this.isActive) {
-      return setBlockType(schema.nodes.paragraph)(state, dispatch);
-    }
-
-    return setBlockType(schema.nodes.text)(state, dispatch);
-  }
-
-  update(view: EditorView): void {
-    const state = view.state;
-    const schema = state.schema;
-    this.isActive = isNodeActive(state, schema.nodes.text);
-    this.isDisabled = !this.execute(state, undefined); // Returns true if executable.
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 }

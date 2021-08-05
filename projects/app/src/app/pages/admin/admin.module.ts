@@ -39,8 +39,7 @@ import {
   AdminGenusEditModal,
   AdminPhotographEditModal,
   AdminReferenceEditModal,
-  AdminSpecimenEditModal,
-  EditorMenuComponent
+  AdminSpecimenEditModal
 } from './modals';
 
 @NgModule({
@@ -89,9 +88,7 @@ import {
     AdminGenusEditModal,
     AdminPhotographEditModal,
     AdminReferenceEditModal,
-    AdminSpecimenEditModal,
-
-    EditorMenuComponent // TODO: Put elsewhere
+    AdminSpecimenEditModal
   ]
 })
 export class AdminPageModule {}
