@@ -1,7 +1,7 @@
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { NgxEditorModule } from 'ngx-editor';
 
 import { ModalsModule } from '@shared';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -60,7 +61,9 @@ import {
     MatSortModule,
     MatTableModule,
     ModalsModule,
-    PortalModule
+    NgxEditorModule,
+    PortalModule,
+    ReactiveFormsModule
   ],
   declarations: [
     // Common

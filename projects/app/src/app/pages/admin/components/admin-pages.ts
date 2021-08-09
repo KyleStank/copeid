@@ -141,4 +141,5 @@ export class AdminReferencesPageComponent extends AbstractAdminPage<Reference> {
   public readonly dataColumns: DataColumn[] = [
     { title: 'Content', property: 'content' }
   ];
+  public minEditorModalWidth = '500px';
 }

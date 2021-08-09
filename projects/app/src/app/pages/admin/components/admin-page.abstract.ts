@@ -46,6 +46,8 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
   public abstract pluralName: string;
   public abstract editModal: any;
   public abstract dataColumns: DataColumn[];
+  public minEditorModalWidth?: string;
+  public maxEditorModalWidth?: string;
 
   public readonly dataSource = new MatTableDataSource<IndexedItem<TEntity>>();
   public columns: string[] = [];
@@ -114,7 +116,9 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
     const dialogRef = this._dialog.open(this.editModal, {
       data: {
         title: `Create ${this.singularName}`
-      }
+      },
+      minWidth: this.minEditorModalWidth,
+      maxWidth: this.maxEditorModalWidth
     });
 
     dialogRef.afterClosed()
@@ -132,7 +136,9 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
       data: {
         title: `Edit ${this.singularName}`,
         model: entity
-      }
+      },
+      minWidth: this.minEditorModalWidth,
+      maxWidth: this.maxEditorModalWidth
     });
 
     dialogRef.afterClosed()

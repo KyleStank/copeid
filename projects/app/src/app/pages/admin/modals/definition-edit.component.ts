@@ -16,7 +16,7 @@ export interface DefinitionEditDialogData {
     </div>
     <div class="py-2" mat-dialog-content>
       <div class="row">
-        <div class="col-md-auto">
+        <div class="col-md">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Name</mat-label>
 
@@ -35,7 +35,7 @@ export interface DefinitionEditDialogData {
           </mat-form-field>
         </div>
 
-        <div class="col-md-auto">
+        <div class="col-md">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Meaning</mat-label>
 

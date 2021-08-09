@@ -38,6 +38,15 @@ const routes: Routes = [
         }
       } as ILayoutConfig
     }
+  },
+  {
+    path: 'references',
+    loadChildren: () => import('./pages/references/references.module').then(m => m.ReferencesPageModule),
+    data: {
+      layout: {
+        component: TemplateDefaultComponent
+      } as ILayoutConfig
+    }
   }
 ];
 
