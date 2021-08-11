@@ -1,0 +1,7 @@
+<h1>Definitions!</h1>
+
+<div  *ngFor="let definition of (definitions$ | async)">
+  <p>Name: {{ definition.name }}</p>
+  <p>Meaning: {{ definition.meaning }}</p>
+  <hr />
+</div>

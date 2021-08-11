@@ -47,6 +47,15 @@ const routes: Routes = [
         component: TemplateDefaultComponent
       } as ILayoutConfig
     }
+  },
+  {
+    path: 'definitions',
+    loadChildren: () => import('./pages/definitions/definitions.module').then(m => m.DefinitionsPageModule),
+    data: {
+      layout: {
+        component: TemplateDefaultComponent
+      } as ILayoutConfig
+    }
   }
 ];
 
