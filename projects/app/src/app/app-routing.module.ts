@@ -14,13 +14,13 @@ const defaultMenu = [
 ];
 
 const adminMenu = [
-  { label: 'Home', url: [''], logo: 'home' },
-  { label: 'Contributors', url: ['contributors'], logo: 'group' },
-  { label: 'Definitions', url: ['definitions'], logo: 'library_books' },
-  { label: 'Genuses', url: ['genuses'], logo: 'pest_control' },
-  { label: 'Photographs', url: ['photographs'], logo: 'photo_library' },
-  { label: 'References', url: ['references'], logo: 'menu_book' },
-  { label: 'Specimens', url: ['specimens'], logo: 'science' }
+  { label: 'Home', url: ['admin'], logo: 'home' },
+  { label: 'Contributors', url: ['admin', 'contributors'], logo: 'group' },
+  { label: 'Definitions', url: ['admin', 'definitions'], logo: 'library_books' },
+  { label: 'Genuses', url: ['admin', 'genuses'], logo: 'pest_control' },
+  { label: 'Photographs', url: ['admin', 'photographs'], logo: 'photo_library' },
+  { label: 'References', url: ['admin', 'references'], logo: 'menu_book' },
+  { label: 'Specimens', url: ['admin', 'specimens'], logo: 'science' }
 ];
 
 // TODO: Can we create a custom type that extends Routes and takes a generic type T to define the type of data?
