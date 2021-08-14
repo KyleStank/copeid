@@ -1,5 +1,3 @@
-<app-page-header color="primary">Anatamy & Definitions</app-page-header>
-
 <div  *ngFor="let definition of (definitions$ | async)">
   <p>Name: {{ definition.name }}</p>
   <p>Meaning: {{ definition.meaning }}</p>

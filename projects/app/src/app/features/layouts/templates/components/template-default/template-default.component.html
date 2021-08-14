@@ -31,8 +31,6 @@
             <mat-icon class="material-icons-outlined">{{ sidenav.opened ? 'chevron_left' : 'view_sidebar_outlined' }}</mat-icon>
           </button>
 
-          <!-- TODO: Re-enable "pageName"? -->
-          <!-- <h1 class="header-title ms-2">{{ pageName }}</h1> -->
           <p class="header-title ms-2">{{ appName }}</p>
         </mat-toolbar>
       </header>
@@ -40,6 +38,7 @@
       <main class="main">
         <div class="container g-0">
           <div class="p-3">
+            <app-page-header class="page-header mt-2 mb-3" color="primary">{{ pageName }}</app-page-header>
             <router-outlet></router-outlet>
           </div>
         </div>

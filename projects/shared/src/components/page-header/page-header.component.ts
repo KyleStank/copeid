@@ -5,9 +5,6 @@ import { ThemePalette } from '@angular/material/core';
   selector: 'app-page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
-  host: {
-    class: 'mt-2 mb-3'
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageHeaderComponent {
