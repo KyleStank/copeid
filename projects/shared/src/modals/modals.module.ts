@@ -18,4 +18,4 @@ const exportedDeclarations: any[] = [
   declarations: exportedDeclarations,
   exports: exportedDeclarations
 })
-export class ModalsModule {}
+export class SharedModalsModule {}
