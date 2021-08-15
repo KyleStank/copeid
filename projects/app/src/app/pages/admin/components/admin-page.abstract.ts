@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AbstractEntityService, IEntity } from '@core';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { recursivePropertySearch } from '@shared/utils/src';
+import { recursivePropertySearch } from '@shared/utils';
 
 export interface IndexedItem<TItem> {
   index: number;
