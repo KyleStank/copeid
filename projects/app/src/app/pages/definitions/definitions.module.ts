@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
+import { SnackBarModule } from '@core';
 import { SharedPageHeaderModule } from '@shared/components/page-header';
 import { SingleDefinitionComponent } from './common';
 import { DefinitionsPageComponent } from './components';
@@ -19,6 +20,7 @@ import { DefinitionsRoutingModule } from './definitions-routing.module';
     MatIconModule,
     DefinitionsRoutingModule,
     SharedPageHeaderModule,
+    SnackBarModule
   ],
   declarations: [
     // Common

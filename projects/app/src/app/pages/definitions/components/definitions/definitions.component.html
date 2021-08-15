@@ -5,6 +5,8 @@
         <app-single-definition
           class="my-2"
           [definition]="definition"
+          (titleCopied)="copyToClipboard($event)"
+          (contentCopied)="copyToClipboard($event)"
         ></app-single-definition>
       </div>
     </ng-container>

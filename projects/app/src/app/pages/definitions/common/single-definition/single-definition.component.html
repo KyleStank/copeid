@@ -1,8 +1,24 @@
-<mat-card class="mat-elevation-z2" *ngIf="definition">
-  <div class="mb-3">
-    <mat-card-title color="accent">{{ definition.name }}</mat-card-title>
+<mat-card class="mat-elevation-z2">
+  <div class="mb-2">
+    <div class="justified py-1">
+      <button class="copy-button" mat-icon-button (click)="titleCopied.emit($any(definition?.name))">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+
+      <mat-card-title class="m-0" color="accent">
+        {{ definition?.name || 'NA' }}
+      </mat-card-title>
+    </div>
     <mat-divider [inset]="true"></mat-divider>
   </div>
 
-  <mat-card-content>{{ definition.meaning }}</mat-card-content>
+  <div class="justified py-1">
+    <button class="copy-button" mat-icon-button (click)="contentCopied.emit($any(definition?.meaning))">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+
+    <mat-card-content class="m-0">
+      {{ definition?.meaning || 'NA' }}
+    </mat-card-content>
+  </div>
 </mat-card>

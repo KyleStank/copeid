@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Definition } from '@app/features';
 
@@ -11,4 +11,10 @@ import { Definition } from '@app/features';
 export class SingleDefinitionComponent {
   @Input()
   definition?: Definition;
+
+  @Output()
+  titleCopied = new EventEmitter<string>();
+
+  @Output()
+  contentCopied = new EventEmitter<string>();
 }

@@ -18,3 +18,36 @@ mat-card-title {
     color: map-get(variables.$warn-palette, 500);
   }
 }
+
+.justified {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+:host ::ng-deep .copy-button {
+  $btnSize: 2rem;
+  $iconSize: 1.25rem;
+
+  opacity: 0.35;
+  width: $btnSize;
+  height: $btnSize;
+  line-height: $btnSize;
+  transition: opacity 250ms ease-in-out;
+
+  .mat-button-wrapper {
+    line-height: $btnSize;
+  }
+
+  .mat-icon {
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
+    font-size: $iconSize;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
