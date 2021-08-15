@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { SharedComponentsModule } from '@shared';
+import { SharedPageHeaderModule } from '@shared/components/page-header';
 import { DefinitionsPageComponent } from './components';
 import { DefinitionsRoutingModule } from './definitions-routing.module';
 
@@ -15,7 +15,7 @@ import { DefinitionsRoutingModule } from './definitions-routing.module';
     MatCardModule,
     MatIconModule,
     DefinitionsRoutingModule,
-    SharedComponentsModule,
+    SharedPageHeaderModule,
   ],
   declarations: [
     DefinitionsPageComponent

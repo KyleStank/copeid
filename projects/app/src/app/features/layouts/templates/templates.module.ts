@@ -8,7 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 
-import { SharedComponentsModule } from '@shared';
+import { SharedPageHeaderModule } from '@shared/components/page-header';
 import { LayoutDirectivesModule } from '../directives';
 import { LayoutFootersModule } from '../footers';
 import { LayoutHeadersModule } from '../headers';
@@ -32,7 +32,7 @@ const exportedDeclarations: any[] = [
     MatSidenavModule,
     MatToolbarModule,
     RouterModule,
-    SharedComponentsModule
+    SharedPageHeaderModule
   ],
   declarations: exportedDeclarations,
   exports: [...exportedDeclarations, LayoutDirectivesModule]

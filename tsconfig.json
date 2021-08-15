@@ -21,6 +21,10 @@
       "@shared": [
         "./projects/shared/src/index"
       ],
+      "@shared/*": [
+        "./dist/shared/*",
+        "./projects/shared/*"
+      ],
       "@shared/utils": [
         "./projects/shared/utils/src/index"
       ]
@@ -41,7 +45,7 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
