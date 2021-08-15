@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Definition, DefinitionService } from '@app/features';
 import { SnackBarService } from '@core';
-import { createListAnimation, createSlideFadeUpAnimation } from '@shared/animations';
+import { createFade, createListAnimation, createSlideFadeUpAnimation } from '@shared/animations';
 
 @Component({
   selector: 'app-definitions',
@@ -14,7 +14,8 @@ import { createListAnimation, createSlideFadeUpAnimation } from '@shared/animati
   providers: [DefinitionService],
   animations: [
     createListAnimation('pageAnimations', '@*'),
-    createSlideFadeUpAnimation('slideFadeUp')
+    createSlideFadeUpAnimation('slideFadeUp'),
+    createFade('fadeInOut')
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -40,16 +41,16 @@ export class DefinitionsPageComponent implements OnInit, OnDestroy {
     this._definitionService.getAllEntities().subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
   }
 
+  ngOnDestroy(): void {
+    this._destroyed.next();
+    this._destroyed.complete();
+  }
+
   copyToClipboard(text: string): void {
     this._clipboard.copy(text);
     this._snackBarService.open('Copied to clipboard', {
       action: 'OK',
       duration: 2000
     });
-  }
-
-  ngOnDestroy(): void {
-    this._destroyed.next();
-    this._destroyed.complete();
   }
 }

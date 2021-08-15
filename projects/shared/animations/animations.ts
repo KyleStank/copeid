@@ -39,3 +39,31 @@ export function createSlideFadeUpAnimation(triggerName: string, options?: { ente
 
   return animation;
 }
+
+export function createFade(triggerName: string): AnimationTriggerMetadata {
+  return trigger(triggerName, [
+    transition(':enter', [
+      style({ opacity: 0 }),
+      animate('300ms ease-in-out', style({ opacity: 1 }))
+    ]),
+
+    transition(':leave', [
+      style({ opacity: 1 }),
+      animate('300ms ease-in-out', style({ opacity: 0 }))
+    ])
+  ]);
+}
+
+export function createSlideFadeLeft(triggerName: string): AnimationTriggerMetadata {
+  return trigger(triggerName, [
+    transition(':enter', [
+      style({ opacity: 0, transform: 'translateX(-100%)' }),
+      animate('250ms ease-in-out', style({ opacity: 1, transform: 'translateX(0)' }))
+    ]),
+
+    transition(':leave', [
+      style({ opacity: 1, transform: 'translateX(0)' }),
+      animate('250ms ease-in-out', style({ opacity: 0, transform: 'translateX(-100%)' }))
+    ])
+  ]);
+}

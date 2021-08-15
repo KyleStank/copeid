@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 
 import { Definition } from '@app/features';
 
@@ -9,6 +10,9 @@ import { Definition } from '@app/features';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SingleDefinitionComponent {
+  @Input()
+  color?: ThemePalette;
+
   @Input()
   definition?: Definition;
 

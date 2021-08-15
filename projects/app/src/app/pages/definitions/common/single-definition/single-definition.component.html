@@ -1,18 +1,18 @@
 <mat-card class="mat-elevation-z2">
   <div class="mb-2">
-    <div class="justified py-1">
+    <div class="py-1 d-flex justify-content-start align-items-center flex-wrap">
       <button class="copy-button" mat-icon-button (click)="titleCopied.emit($any(definition?.name))">
         <mat-icon>content_copy</mat-icon>
       </button>
 
-      <mat-card-title class="m-0" color="accent">
+      <mat-card-title class="m-0" [attr.color]="color">
         {{ definition?.name || 'NA' }}
       </mat-card-title>
     </div>
     <mat-divider [inset]="true"></mat-divider>
   </div>
 
-  <div class="justified py-1">
+  <div class="py-1 d-flex justify-content-start align-items-center flex-wrap">
     <button class="copy-button" mat-icon-button (click)="contentCopied.emit($any(definition?.meaning))">
       <mat-icon>content_copy</mat-icon>
     </button>

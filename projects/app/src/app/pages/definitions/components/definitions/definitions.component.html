@@ -1,9 +1,18 @@
-<div class="definitions-list">
-  <div class="row">
+<div class="anatomy my-2" @fadeInOut>
+  <h2 class="my-0 d-none" color="accent">Anatomy Details</h2>
+  <img class="img-fluid mx-auto d-block border rounded" src="/assets/anatomy.png" alt="Anatomy Details Image" />
+</div>
+
+<mat-divider @fadeInOut></mat-divider>
+
+<div class="definitions my-2" @fadeInOut>
+  <h2 class="my-0 d-none" color="accent">Definitions</h2>
+  <div class="row justify-content-center">
     <ng-container *ngFor="let definition of (definitions$ | async); let index = index;">
       <div class="col-md-auto" @slideFadeUp>
         <app-single-definition
           class="my-2"
+          color="accent"
           [definition]="definition"
           (titleCopied)="copyToClipboard($event)"
           (contentCopied)="copyToClipboard($event)"

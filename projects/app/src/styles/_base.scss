@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use '~bootstrap/scss/mixins/image' as image;
 @use './variables' as variables;
 
 html,
@@ -25,4 +26,8 @@ h1, h2, h3, h4, h5, h6 {
   &[color=warn] {
     color: map-get(variables.$warn-palette, 500);
   }
+}
+
+.img-fluid {
+  @include image.img-fluid();
 }

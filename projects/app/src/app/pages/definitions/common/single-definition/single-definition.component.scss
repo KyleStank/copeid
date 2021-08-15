@@ -19,13 +19,6 @@ mat-card-title {
   }
 }
 
-.justified {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
 :host ::ng-deep .copy-button {
   $btnSize: 2rem;
   $iconSize: 1.25rem;
