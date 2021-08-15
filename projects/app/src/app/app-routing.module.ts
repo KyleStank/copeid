@@ -6,7 +6,7 @@ import { ILayoutConfig, TemplateAdminComponent, TemplateDefaultComponent } from 
 const defaultMenu = [
   { label: 'Home', url: [''], logo: 'home' },
   // { label: 'Contributors', url: ['contributors'], logo: 'group' },
-  { label: 'Definitions', url: ['definitions'], logo: 'library_books' },
+  { label: 'Anatomy & Definitions', url: ['definitions'], logo: 'library_books' },
   // { label: 'Genuses', url: ['genuses'], logo: 'pest_control' },
   // { label: 'Photographs', url: ['photographs'], logo: 'photo_library' },
   { label: 'References', url: ['references'], logo: 'menu_book' },
@@ -78,7 +78,7 @@ const routes: Routes = [
         component: TemplateDefaultComponent,
         config: {
           appName: 'CopeID',
-          pageName: 'Definitions',
+          pageName: 'Anatomy & Definitions',
           menu: defaultMenu
         }
       } as ILayoutConfig

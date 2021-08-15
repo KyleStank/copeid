@@ -42,7 +42,10 @@ export class DefinitionsPageComponent implements OnInit, OnDestroy {
 
   copyToClipboard(text: string): void {
     this._clipboard.copy(text);
-    this._snackBarService.open('Copied to clipboard', { action: 'OK' });
+    this._snackBarService.open('Copied to clipboard', {
+      action: 'OK',
+      duration: 2000
+    });
   }
 
   ngOnDestroy(): void {
