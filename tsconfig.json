@@ -18,15 +18,9 @@
         "./projects/core/src/index"
       ],
 
-      "@shared": [
-        "./projects/shared/src/index"
-      ],
       "@shared/*": [
         "./dist/shared/*",
         "./projects/shared/*"
-      ],
-      "@shared/utils": [
-        "./projects/shared/utils/src/index"
       ]
     },
     "outDir": "./dist/out-tsc",

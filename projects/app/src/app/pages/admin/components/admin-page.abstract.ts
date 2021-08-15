@@ -17,7 +17,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AbstractEntityService, IEntity } from '@core';
-import { ConfirmationAlertModalCompoonent } from '@shared';
+import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { recursivePropertySearch } from '@shared/utils';
 
 export interface IndexedItem<TItem> {
