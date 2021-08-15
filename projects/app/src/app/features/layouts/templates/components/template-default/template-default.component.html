@@ -13,7 +13,7 @@
       <div class="sidenav__inner">
         <div class="sidenav__nav">
           <mat-nav-list class="sidenav__nav__list">
-            <mat-list-item class="sidenav__nav__list__item" [routerLink]="item.url" *ngFor="let item of menu">
+            <mat-list-item class="sidenav__nav__list__item" [routerLink]="item.url" (click)="sidenav.toggle()" *ngFor="let item of menu">
               <mat-icon class="material-icons-outlined me-2" color="primary" *ngIf="item.logo">
                 {{ item.logo }}
               </mat-icon>

@@ -4,13 +4,15 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { ILayoutTemplate } from '../../../models';
+
 @Component({
   selector: 'app-template-default',
   templateUrl: './template-default.component.html',
   styleUrls: ['./template-default.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateDefaultComponent implements OnDestroy {
+export class TemplateDefaultComponent implements ILayoutTemplate, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   @ViewChild('sidenav', { static: true, read: MatSidenav })
@@ -48,5 +50,11 @@ export class TemplateDefaultComponent implements OnDestroy {
   ngOnDestroy(): void {
     this._destroyed.next();
     this._destroyed.complete();
+  }
+
+  resetLayout(): void {
+    this.appName = 'AppName';
+    this.pageName = 'Page';
+    this.menu = [];
   }
 }

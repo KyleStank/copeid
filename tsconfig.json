@@ -15,14 +15,11 @@
       ],
 
       "@core": [
-        "dist/core/index",
         "projects/core/src/index"
       ],
 
       "@shared": [
-        "dist/shared/index",
-        "projects/shared/src/index",
-        "project/shared/src/animations"
+        "projects/shared/src/index"
       ],
     },
     "outDir": "./dist/out-tsc",
