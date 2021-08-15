@@ -3,7 +3,7 @@
     <mat-sidenav
       #sidenav
       class="sidenav"
-      [mode]="isMobile ? 'over' : 'over'"
+      [mode]="isMobile ? 'push' : 'push'"
       [fixedInViewport]="isMobile"
     >
       <div class="sidenav__header mat-primary">
@@ -28,7 +28,7 @@
       <header class="header">
         <mat-toolbar class="header__toolbar" color="primary" [ngClass]="{ 'header__toolbar--opened': sidenav.opened }">
           <button mat-icon-button (click)="sidenav.toggle()">
-            <mat-icon class="material-icons-outlined">{{ sidenav.opened ? 'chevron_left' : 'view_sidebar_outlined' }}</mat-icon>
+            <mat-icon class="material-icons-outlined">{{ sidenav.opened ? 'chevron_left' : 'menu' }}</mat-icon>
           </button>
 
           <p class="header-title ms-2">{{ appName }}</p>
