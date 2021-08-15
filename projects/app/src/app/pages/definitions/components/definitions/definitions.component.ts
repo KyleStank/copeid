@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { createListAnimation, createSlideFadeUpAnimation } from '@shared/animati
   styleUrls: ['./definitions.component.scss'],
   providers: [DefinitionService],
   animations: [
-    createListAnimation('listAnimations', '@slideFadeUp'),
+    createListAnimation('pageAnimations', '@*'),
     createSlideFadeUpAnimation('slideFadeUp')
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,11 +22,12 @@ export class DefinitionsPageComponent implements OnInit, OnDestroy {
   private readonly _definitionsSubject = new BehaviorSubject<Definition[]>([]);
   readonly definitions$ = this._definitionsSubject.asObservable();
 
-  animateList: boolean = false;
+  @HostBinding('@pageAnimations')
+  animatePage: boolean = false;
 
   constructor(private readonly _definitionService: DefinitionService) {
     this.definitions$ = this.definitions$.pipe(takeUntil(this._destroyed));
-    this.definitions$.subscribe(() => this.animateList = !this.animateList);
+    this.definitions$.subscribe(() => this.animatePage = !this.animatePage);
   }
 
   ngOnInit(): void {
