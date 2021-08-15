@@ -1,0 +1,20 @@
+@use 'sass:map';
+@use '/src/styles/variables' as variables;
+
+:host {
+  display: block;
+}
+
+mat-card-title {
+  &[color=primary] {
+    color: map-get(variables.$primary-palette, 500);
+  }
+
+  &[color=accent] {
+    color: map-get(variables.$accent-palette, 500);
+  }
+
+  &[color=warn] {
+    color: map-get(variables.$warn-palette, 500);
+  }
+}

@@ -1,5 +1,12 @@
-<div  *ngFor="let definition of (definitions$ | async)">
-  <p>Name: {{ definition.name }}</p>
-  <p>Meaning: {{ definition.meaning }}</p>
-  <hr />
+<div class="definitions-list">
+  <div class="row">
+    <ng-container *ngFor="let definition of (definitions$ | async); let index = index;">
+      <div class="col-md-auto">
+        <app-single-definition
+          class="my-2"
+          [definition]="definition"
+        ></app-single-definition>
+      </div>
+    </ng-container>
+  </div>
 </div>

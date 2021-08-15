@@ -1,0 +1,8 @@
+<mat-card class="mat-elevation-z2" *ngIf="definition">
+  <div class="mb-3">
+    <mat-card-title color="accent">{{ definition.name }}</mat-card-title>
+    <mat-divider [inset]="true"></mat-divider>
+  </div>
+
+  <mat-card-content>{{ definition.meaning }}</mat-card-content>
+</mat-card>
