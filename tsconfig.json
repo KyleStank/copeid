@@ -15,13 +15,15 @@
       ],
 
       "@core": [
-        "dist/core",
-        "projects/core/src/public-api"
+        "dist/core/index",
+        "projects/core/src/index"
       ],
+
       "@shared": [
-        "dist/shared",
-        "projects/shared/src/public-api"
-      ]
+        "dist/shared/index",
+        "projects/shared/src/index",
+        "project/shared/src/animations"
+      ],
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
