@@ -3,7 +3,7 @@ import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { getSnapshotDataRecursive } from '@shared';
+import { getSnapshotDataRecursive } from '@shared/utils';
 import { ILayoutConfig, LayoutHostDirective, LayoutBuilder, TemplateDefaultComponent, ILayoutTemplate } from './features';
 
 @Component({

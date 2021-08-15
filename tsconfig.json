@@ -5,22 +5,25 @@
     "baseUrl": "./",
     "paths": {
       "@app/features": [
-        "projects/app/src/app/features"
+        "./projects/app/src/app/features"
       ],
       "@app/pages": [
-        "projects/app/src/app/pages"
+        "./projects/app/src/app/pages"
       ],
       "@app/environments": [
-        "projects/app/src/environments"
+        "./projects/app/src/environments"
       ],
 
       "@core": [
-        "projects/core/src/index"
+        "./projects/core/src/index"
       ],
 
       "@shared": [
-        "projects/shared/src/index"
+        "./projects/shared/src/index"
       ],
+      "@shared/utils": [
+        "./projects/shared/utils/src/index"
+      ]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
