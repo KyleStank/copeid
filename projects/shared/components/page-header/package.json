@@ -1,0 +1,8 @@
+{
+  "name": "@shared/components/page-header",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts"
+    }
+  }
+}

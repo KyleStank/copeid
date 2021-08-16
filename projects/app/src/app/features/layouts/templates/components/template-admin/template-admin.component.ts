@@ -5,6 +5,8 @@ import { KeyboardService, KeyCode } from '@stankng/services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { ILayoutTemplate } from '../../../models';
+
 @Component({
   selector: 'app-template-admin',
   templateUrl: './template-admin.component.html',
@@ -12,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
   providers: [KeyboardService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateAdminComponent implements OnDestroy {
+export class TemplateAdminComponent implements ILayoutTemplate, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   @ViewChild('sidenav', { static: true, read: MatSidenav })
@@ -74,5 +76,11 @@ export class TemplateAdminComponent implements OnDestroy {
   ngOnDestroy(): void {
     this._destroyed.next();
     this._destroyed.complete();
+  }
+
+  resetLayout(): void {
+    this.appName = 'Admin';
+    this.pageName = 'Page';
+    this.menu = [];
   }
 }

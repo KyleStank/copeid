@@ -1,0 +1,8 @@
+{
+  "name": "@shared/modals/confirmation-alert",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts"
+    }
+  }
+}

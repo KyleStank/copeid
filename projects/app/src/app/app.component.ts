@@ -3,8 +3,8 @@ import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { getSnapshotDataRecursive } from '@shared';
-import { ILayoutConfig, LayoutHostDirective, LayoutBuilder, TemplateDefaultComponent } from './features';
+import { getSnapshotDataRecursive } from '@shared/utils';
+import { ILayoutConfig, LayoutHostDirective, LayoutBuilder, TemplateDefaultComponent, ILayoutTemplate } from './features';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild(LayoutHostDirective, { static: true })
   layoutHost?: LayoutHostDirective;
-  layoutComponentRef?: ComponentRef<any>;
+  layoutComponentRef?: ComponentRef<ILayoutTemplate>;
 
   constructor(
     private readonly _route: ActivatedRoute,
@@ -49,7 +49,9 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   private _configureLayout(routeData: any): void {
     const layoutConfig: ILayoutConfig = routeData.layout ?? { component: TemplateDefaultComponent };
-    this.layoutComponentRef = this._layoutBuilder.generateLayout(this.layoutHost, layoutConfig);
+    this.layoutComponentRef = this.layoutComponentRef ?
+      this._layoutBuilder.refreshLayout(this.layoutComponentRef, layoutConfig, true) :
+      this._layoutBuilder.generateLayout(this.layoutHost, layoutConfig);
   }
 
   ngOnDestroy(): void {

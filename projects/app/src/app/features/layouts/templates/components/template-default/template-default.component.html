@@ -1,13 +1,48 @@
-<header class="header">
-  <app-header-default></app-header-default>
-</header>
+<div class="template__container" [class.mobile]="isMobile">
+  <mat-sidenav-container class="sidenav__container">
+    <mat-sidenav
+      #sidenav
+      class="sidenav"
+      [mode]="isMobile ? 'push' : 'push'"
+      [fixedInViewport]="isMobile"
+    >
+      <div class="sidenav__header mat-primary">
+        <img class="header-logo" src="/assets/angular.svg" />
+        <p class="header-title ms-2">{{ appName }}</p>
+      </div>
+      <div class="sidenav__inner">
+        <div class="sidenav__nav">
+          <mat-nav-list class="sidenav__nav__list">
+            <mat-list-item class="sidenav__nav__list__item" [routerLink]="item.url" (click)="sidenav.toggle()" *ngFor="let item of menu">
+              <mat-icon class="material-icons-outlined me-2" color="primary" *ngIf="item.logo">
+                {{ item.logo }}
+              </mat-icon>
+              <span>{{ item.label }}</span>
+            </mat-list-item>
+          </mat-nav-list>
+        </div>
+      </div>
+    </mat-sidenav>
 
-<main class="content">
-  <div class="container p-3">
-    <router-outlet></router-outlet>
-  </div>
-</main>
+    <mat-sidenav-content class="sidenav__content">
+      <header class="header">
+        <mat-toolbar class="header__toolbar" color="primary" [ngClass]="{ 'header__toolbar--opened': sidenav.opened }">
+          <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon class="material-icons-outlined">{{ sidenav.opened ? 'chevron_left' : 'menu' }}</mat-icon>
+          </button>
 
-<footer class="footer">
-  <app-footer-default></app-footer-default>
-</footer>
+          <p class="header-title ms-2">{{ appName }}</p>
+        </mat-toolbar>
+      </header>
+
+      <main class="main">
+        <div class="container g-0">
+          <div class="p-3">
+            <app-page-header class="page-header mt-2 mb-3" color="primary">{{ pageName }}</app-page-header>
+            <router-outlet #outlet="outlet"></router-outlet>
+          </div>
+        </div>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
