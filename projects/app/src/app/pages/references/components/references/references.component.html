@@ -1,22 +1,32 @@
 <div class="contributors my-2" @fadeInOut>
   <h2 class="my-0 d-none" color="accent">Contributors</h2>
-  <ng-container *ngFor="let contributor of (contributors$ | async); let index = index;">
-    <div class="row justify-content-center">
+  <div class="row justify-content-center">
+    <ng-container *ngFor="let contributor of (contributors$ | async); let index = index;">
       <div class="col-md-auto" @slideFadeUp>
-        <span [innerHTML]="contributor?.name" *ngIf="contributor?.name"></span>
+        <app-info-card
+          class="my-2"
+          color="accent"
+          headerProperty="name"
+          [data]="contributor"
+        ></app-info-card>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </div>
 
 <mat-divider @fadeInOut></mat-divider>
 
-<div class="definitions my-2" @fadeInOut>
+<div class="references my-2" @fadeInOut>
   <h2 class="my-0 d-none" color="accent">References</h2>
   <ng-container *ngFor="let reference of (references$ | async); let index = index;">
     <div class="row justify-content-center">
       <div class="col-md-auto" @slideFadeUp>
-        <span [innerHTML]="reference?.content" *ngIf="reference?.content"></span>
+        <app-info-card
+          class="my-2"
+          color="accent"
+          contentProperty="content"
+          [data]="reference"
+        ></app-info-card>
       </div>
     </div>
   </ng-container>

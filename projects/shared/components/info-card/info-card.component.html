@@ -1,5 +1,5 @@
 <mat-card class="mat-elevation-z2">
-  <div class="mb-2">
+  <div class="mb-2" *ngIf="data && headerProperty && data[headerProperty]">
     <div class="py-1 d-flex justify-content-start align-items-center flex-wrap">
       <button
         class="copy-button"
@@ -10,14 +10,16 @@
         <mat-icon>content_copy</mat-icon>
       </button>
 
-      <mat-card-title class="m-0" [attr.color]="color">
-        {{ (data && headerProperty ? data[headerProperty] : 'NA') || 'NA' }}
-      </mat-card-title>
+      <mat-card-title
+        class="m-0"
+        [attr.color]="color"
+        [innerHTML]="(data && headerProperty ? data[headerProperty] : 'NA') || 'NA'"
+      ></mat-card-title>
     </div>
-    <mat-divider [inset]="true"></mat-divider>
+    <mat-divider [inset]="true" *ngIf="data && contentProperty && data[contentProperty]"></mat-divider>
   </div>
 
-  <div class="py-1 d-flex justify-content-start align-items-center flex-wrap">
+  <div class="py-1 d-flex justify-content-start align-items-center flex-wrap" *ngIf="data && contentProperty && data[contentProperty]">
     <button
       class="copy-button"
       mat-icon-button
@@ -27,8 +29,9 @@
       <mat-icon>content_copy</mat-icon>
     </button>
 
-    <mat-card-content class="m-0">
-      {{ (data && contentProperty ? data[contentProperty] : 'NA') || 'NA' }}
-    </mat-card-content>
+    <mat-card-content
+      class="m-0"
+      [innerHTML]="(data && contentProperty ? data[contentProperty] : 'NA') || 'NA'"
+    ></mat-card-content>
   </div>
 </mat-card>

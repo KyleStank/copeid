@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
+import { SharedInfoCardModule } from '@shared/components/info-card';
 import { SharedPageHeaderModule } from '@shared/components/page-header';
 import { ReferencesPageComponent } from './components';
 import { ReferencesRoutingModule } from './references-routing.module';
@@ -17,6 +18,7 @@ import { ReferencesRoutingModule } from './references-routing.module';
     MatDividerModule,
     MatIconModule,
     ReferencesRoutingModule,
+    SharedInfoCardModule,
     SharedPageHeaderModule
   ],
   declarations: [
