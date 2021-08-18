@@ -18,8 +18,8 @@
 
 <div class="references my-2" @fadeInOut>
   <h2 class="my-0 d-none" color="accent">References</h2>
-  <ng-container *ngFor="let reference of (references$ | async); let index = index;">
-    <div class="row justify-content-center">
+  <div class="row justify-content-center">
+    <ng-container *ngFor="let reference of (references$ | async); let index = index;">
       <div class="col-md-auto" @slideFadeUp>
         <app-info-card
           class="my-2"
@@ -28,6 +28,6 @@
           [data]="reference"
         ></app-info-card>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </div>
