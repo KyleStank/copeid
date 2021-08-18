@@ -9,7 +9,7 @@ const defaultMenu = [
   { label: 'Anatomy & Definitions', url: ['definitions'], logo: 'library_books' },
   // { label: 'Genuses', url: ['genuses'], logo: 'pest_control' },
   // { label: 'Photographs', url: ['photographs'], logo: 'photo_library' },
-  { label: 'References', url: ['references'], logo: 'menu_book' },
+  { label: 'Contributors & References', url: ['references'], logo: 'menu_book' },
   // { label: 'Specimens', url: ['specimens'], logo: 'science' }
 ];
 
@@ -64,7 +64,7 @@ const routes: Routes = [
         component: TemplateDefaultComponent,
         config: {
           appName: 'CopeID',
-          pageName: 'References',
+          pageName: 'Contributors & References',
           menu: defaultMenu
         }
       } as ILayoutConfig

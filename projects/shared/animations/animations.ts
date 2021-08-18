@@ -1,6 +1,6 @@
 import { animate, animateChild, AnimationTriggerMetadata, query, stagger, style, transition, trigger } from '@angular/animations';
 
-export function createListAnimation(triggerName: string, queryName: string, staggerAmount?: number): AnimationTriggerMetadata {
+export function createListTrigger(triggerName: string, queryName: string, staggerAmount?: number): AnimationTriggerMetadata {
   return trigger(triggerName, [
     transition('* => *', [
       query(queryName, [
@@ -12,7 +12,7 @@ export function createListAnimation(triggerName: string, queryName: string, stag
   ]);
 }
 
-export function createSlideFadeUpAnimation(triggerName: string, options?: { enter?: boolean; leave?: boolean }): AnimationTriggerMetadata {
+export function createSlideFadeUpTrigger(triggerName: string, options?: { enter?: boolean; leave?: boolean }): AnimationTriggerMetadata {
   options = {
     enter: options?.enter ?? true,
     leave: options?.leave ?? true
@@ -40,21 +40,7 @@ export function createSlideFadeUpAnimation(triggerName: string, options?: { ente
   return animation;
 }
 
-export function createFade(triggerName: string): AnimationTriggerMetadata {
-  return trigger(triggerName, [
-    transition(':enter', [
-      style({ opacity: 0 }),
-      animate('300ms ease-in-out', style({ opacity: 1 }))
-    ]),
-
-    transition(':leave', [
-      style({ opacity: 1 }),
-      animate('300ms ease-in-out', style({ opacity: 0 }))
-    ])
-  ]);
-}
-
-export function createSlideFadeLeft(triggerName: string): AnimationTriggerMetadata {
+export function createSlideFadeLeftTrigger(triggerName: string): AnimationTriggerMetadata {
   return trigger(triggerName, [
     transition(':enter', [
       style({ opacity: 0, transform: 'translateX(-100%)' }),
@@ -64,6 +50,20 @@ export function createSlideFadeLeft(triggerName: string): AnimationTriggerMetada
     transition(':leave', [
       style({ opacity: 1, transform: 'translateX(0)' }),
       animate('250ms ease-in-out', style({ opacity: 0, transform: 'translateX(-100%)' }))
+    ])
+  ]);
+}
+
+export function createFadeTrigger(triggerName: string): AnimationTriggerMetadata {
+  return trigger(triggerName, [
+    transition(':enter', [
+      style({ opacity: 0 }),
+      animate('300ms ease-in-out', style({ opacity: 1 }))
+    ]),
+
+    transition(':leave', [
+      style({ opacity: 1 }),
+      animate('300ms ease-in-out', style({ opacity: 0 }))
     ])
   ]);
 }
