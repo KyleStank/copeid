@@ -1,20 +1,30 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 
-import { Definition } from '@app/features';
-
 @Component({
-  selector: 'app-single-definition',
-  templateUrl: './single-definition.component.html',
-  styleUrls: ['./single-definition.component.scss'],
+  selector: 'app-info-card',
+  templateUrl: './info-card.component.html',
+  styleUrls: ['./info-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SingleDefinitionComponent {
+export class InfoCardComponent {
   @Input()
   color?: ThemePalette;
 
   @Input()
-  definition?: Definition;
+  data?: any;
+
+  @Input()
+  headerProperty?: string;
+
+  @Input()
+  contentProperty?: string;
+
+  @Input()
+  copyHeader?: boolean;
+
+  @Input()
+  copyContent?: boolean;
 
   @Output()
   titleCopied = new EventEmitter<string>();

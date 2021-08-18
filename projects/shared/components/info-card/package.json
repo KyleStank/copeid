@@ -1,0 +1,8 @@
+{
+  "name": "@shared/components/info-card",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts"
+    }
+  }
+}
