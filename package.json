@@ -1,5 +1,5 @@
 {
-  "name": "quickstartng",
+  "name": "copeid",
   "version": "0.0.0",
   "scripts": {
     "build": "npm-run-all clean build:core build:shared build:app",
