@@ -2,7 +2,8 @@
   "name": "@shared/components/info-card",
   "ngPackage": {
     "lib": {
-      "entryFile": "index.ts"
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
     }
   }
 }

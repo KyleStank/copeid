@@ -2,7 +2,8 @@
   "name": "@shared/components/page-header",
   "ngPackage": {
     "lib": {
-      "entryFile": "index.ts"
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
     }
   }
 }

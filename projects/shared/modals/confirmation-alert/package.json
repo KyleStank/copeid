@@ -2,7 +2,8 @@
   "name": "@shared/modals/confirmation-alert",
   "ngPackage": {
     "lib": {
-      "entryFile": "index.ts"
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
     }
   }
 }
