@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, Optional } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Specimen, SpecimenGender } from '@app/features';
+import { Genus, GenusService, Specimen, SpecimenGender } from '@app/features';
 
 export interface SpecimenEditDialogData {
   title: string;
@@ -15,67 +16,92 @@ export interface SpecimenEditDialogData {
       <h2>{{ data?.title }}</h2>
     </div>
     <div class="py-2" mat-dialog-content>
-      <div class="row">
-        <div class="col-md">
-          <mat-form-field class="w-100" appearance="fill">
-            <mat-label>Gender</mat-label>
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="row my-1">
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Gender</mat-label>
 
-            <mat-select
-              #genderInput
-              aria-label="Specimen gender dropdown input."
-              required
-              [(ngModel)]="model.gender"
-            >
-              <mat-option [value]="enumSpecimenGender.Male">Male</mat-option>
-              <mat-option [value]="enumSpecimenGender.Female">Female</mat-option>
-            </mat-select>
+              <mat-select
+                #genderInput
+                required
+                aria-label="Specimen gender dropdown input."
+                name="gender"
+                [(ngModel)]="model.gender"
+              >
+                <mat-option [value]="enumSpecimenGender.Male">Male</mat-option>
+                <mat-option [value]="enumSpecimenGender.Female">Female</mat-option>
+              </mat-select>
 
-            <mat-error>
-              Field is required.
-            </mat-error>
-          </mat-form-field>
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Genus</mat-label>
+
+              <mat-select required name="genusId" [(ngModel)]="model.genusId">
+                <mat-option *ngFor="let genus of genuses" [value]="genus.id">
+                  {{ genus.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error>
+                Field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
 
-        <div class="col-md">
-          <mat-form-field class="w-100" appearance="fill">
-            <mat-label>Length</mat-label>
+        <div class="row my-1">
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Length</mat-label>
 
-            <input
-              #lengthInput
-              matInput
-              required
-              type="number"
-              aria-label="Specimen length number input."
-              [(ngModel)]="model.length"
-            />
+              <input
+                #lengthInput
+                matInput
+                required
+                type="number"
+                aria-label="Specimen length number input."
+                name="length"
+                [(ngModel)]="model.length"
+              />
 
-            <mat-error>
-              Field is required.
-            </mat-error>
-          </mat-form-field>
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
     <div mat-dialog-actions>
       <button mat-raised-button color="warn" [mat-dialog-close]="null">Cancel</button>
       <button
         mat-raised-button
         color="primary"
-        [disabled]="genderInput.value?.length === 0 || lengthInput.value?.length === 0"
+        [disabled]="form.invalid"
         [mat-dialog-close]="model"
       >
         Save
       </button>
     </div>
   `,
+  providers: [GenusService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminSpecimenEditModal {
   readonly enumSpecimenGender: typeof SpecimenGender = SpecimenGender;
 
   model: Specimen;
+  genuses: Genus[] = [];
 
   constructor(
+    private readonly _genusService: GenusService,
     public readonly dialogRef: MatDialogRef<AdminSpecimenEditModal>,
     @Inject(MAT_DIALOG_DATA) @Optional() public readonly data?: SpecimenEditDialogData
   ) {
@@ -89,5 +115,15 @@ export class AdminSpecimenEditModal {
       photographId: data?.model?.photographId || null,
       photograph: data?.model?.photograph || null
     };
+
+    this._genusService.getAllEntities().subscribe({
+      next: genuses => this.genuses = genuses
+    });
+  }
+
+  onSubmit(form: NgForm): void {
+    if (form.valid) {
+      this.dialogRef.close(this.model);
+    }
   }
 }

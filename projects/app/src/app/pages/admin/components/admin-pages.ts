@@ -122,6 +122,7 @@ export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {
     { title: 'Gender', property: 'gender' },
     { title: 'Length', property: 'length' }
   ];
+  public maxEditorModalWidth = '1000px';
 }
 
 @Component({
