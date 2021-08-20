@@ -6,7 +6,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 import { SharedInfoCardModule } from '@shared/components/info-card';
-import { SharedPageHeaderModule } from '@shared/components/page-header';
 import { FilterPageComponent } from './components';
 import { FilterRoutingModule } from './filter-routing.module';
 
@@ -18,8 +17,7 @@ import { FilterRoutingModule } from './filter-routing.module';
     MatDividerModule,
     MatIconModule,
     FilterRoutingModule,
-    SharedInfoCardModule,
-    SharedPageHeaderModule
+    SharedInfoCardModule
   ],
   declarations: [
     FilterPageComponent
