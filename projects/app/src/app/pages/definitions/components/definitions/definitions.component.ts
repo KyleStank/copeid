@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Definition, DefinitionService } from '@app/features';
 import { SnackBarService } from '@core';
-import { createFade, createListAnimation, createSlideFadeUpAnimation } from '@shared/animations';
+import { createFadeTrigger, createListTrigger, createSlideFadeUpTrigger } from '@shared/animations';
 
 @Component({
   selector: 'app-definitions',
@@ -13,9 +13,9 @@ import { createFade, createListAnimation, createSlideFadeUpAnimation } from '@sh
   styleUrls: ['./definitions.component.scss'],
   providers: [DefinitionService],
   animations: [
-    createListAnimation('pageAnimations', '@*'),
-    createSlideFadeUpAnimation('slideFadeUp'),
-    createFade('fadeInOut')
+    createListTrigger('pageAnimations', '@*'),
+    createSlideFadeUpTrigger('slideFadeUp'),
+    createFadeTrigger('fadeInOut')
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

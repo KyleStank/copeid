@@ -1,1 +1,33 @@
-<div [innerHTML]="reference.content" *ngFor="let reference of (references$ | async)"></div>
+<div class="contributors my-2" @fadeInOut>
+  <h2 class="my-0 d-none" color="accent">Contributors</h2>
+  <div class="row justify-content-center">
+    <ng-container *ngFor="let contributor of (contributors$ | async); let index = index;">
+      <div class="col-md-auto" @slideFadeUp>
+        <app-info-card
+          class="my-2"
+          color="accent"
+          headerProperty="name"
+          [data]="contributor"
+        ></app-info-card>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<mat-divider @fadeInOut></mat-divider>
+
+<div class="references my-2" @fadeInOut>
+  <h2 class="my-0 d-none" color="accent">References</h2>
+  <div class="row justify-content-center">
+    <ng-container *ngFor="let reference of (references$ | async); let index = index;">
+      <div class="col-md-auto" @slideFadeUp>
+        <app-info-card
+          class="my-2"
+          color="accent"
+          contentProperty="content"
+          [data]="reference"
+        ></app-info-card>
+      </div>
+    </ng-container>
+  </div>
+</div>
