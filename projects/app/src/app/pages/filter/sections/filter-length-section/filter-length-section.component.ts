@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { AbstractFilterSectionComponent } from '../filter-section.abstract.component';
+import { IFilterSection } from '../../models';
 
 @Component({
   selector: 'app-filter-length-section',
@@ -8,10 +8,6 @@ import { AbstractFilterSectionComponent } from '../filter-section.abstract.compo
   styleUrls: ['./filter-length-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FilterLengthSectionComponent extends AbstractFilterSectionComponent {
-  constructor() {
-    super();
-
-    console.log('Filter Length Section!');
-  }
+export class FilterLengthSectionComponent implements IFilterSection {
+  resetLayout(): void {}
 }

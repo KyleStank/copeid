@@ -23,8 +23,12 @@ export class LayoutBuilder {
       if (factory) {
         host.viewContainerRef.clear();
         componentRef = host.viewContainerRef.createComponent(factory);
-        if (componentRef && layoutConfig.config) {
-          componentRef = this.refreshLayout(componentRef, layoutConfig);
+        if (componentRef) {
+          if (layoutConfig.config) {
+            componentRef = this.refreshLayout(componentRef, layoutConfig);
+          }
+
+          componentRef!.changeDetectorRef.markForCheck();
         }
       }
     }

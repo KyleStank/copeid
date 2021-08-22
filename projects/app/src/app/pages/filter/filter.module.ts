@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
+import { LayoutTemplatesModule } from '@app/features';
 import { SharedInfoCardModule } from '@shared/components/info-card';
 import { FilterSectionCardComponent } from './common';
 import { FilterPageComponent } from './components';
@@ -14,11 +15,12 @@ import { FilterRoutingModule } from './filter-routing.module';
 @NgModule({
   imports: [
     CommonModule,
+    FilterRoutingModule,
+    LayoutTemplatesModule,
     MatButtonModule,
     MatCardModule,
     MatDividerModule,
     MatIconModule,
-    FilterRoutingModule,
     SharedInfoCardModule
   ],
   declarations: [
