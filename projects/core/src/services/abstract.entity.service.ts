@@ -17,26 +17,32 @@ export abstract class AbstractEntityService<TEntity = IEntity, TQuery = IEntityQ
 
   public getAll(query?: TQuery): Observable<TEntity[]> {
     const endpoint = this._endpoint;
-    return this._http.get<TEntity[]>(query ?
-      this._createQueryEndpoint(endpoint, query) : endpoint
+    return this._http.get<TEntity[]>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint
     );
   }
 
   public getSingle(id: string, query?: TQuery): Observable<TEntity> {
     const endpoint = `${this._endpoint}/${id}`;
-    return this._http.get<TEntity>(query ?
-      this._createQueryEndpoint(endpoint, query) : endpoint
+    return this._http.get<TEntity>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint
     );
   }
 
-  public create(model: TEntity): Observable<TEntity> {
+  public create(model: TEntity, query?: TQuery): Observable<TEntity> {
     const endpoint = this._endpoint;
-    return this._http.post<TEntity>(endpoint, model);
+    return this._http.post<TEntity>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint,
+      model
+    );
   }
 
-  public update(model: TEntity): Observable<TEntity> {
+  public update(model: TEntity, query?: TQuery): Observable<TEntity> {
     const endpoint = this._endpoint;
-    return this._http.put<TEntity>(endpoint, model);
+    return this._http.put<TEntity>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint,
+      model
+    );
   }
 
   public delete(id: string): Observable<string> {
