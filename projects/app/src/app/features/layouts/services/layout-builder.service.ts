@@ -14,10 +14,13 @@ export class LayoutBuilder {
    * @param layoutConfig Layout configuration that will be applied during generation.
    * @returns Reference to dynamically created component.
    */
-  generateLayout(host?: AbstractComponentHostDirective, layoutConfig?: ILayoutConfig): ComponentRef<ILayoutTemplate> | undefined {
+  generateLayout<TLayoutTemplate extends ILayoutTemplate, TLayoutConfig extends ILayoutConfig<TLayoutTemplate>>(
+    host?: AbstractComponentHostDirective,
+    layoutConfig?: TLayoutConfig
+  ): ComponentRef<TLayoutTemplate> | undefined {
     if (!host) return undefined;
 
-    let componentRef: ComponentRef<ILayoutTemplate> | undefined;
+    let componentRef: ComponentRef<TLayoutTemplate> | undefined;
     if (layoutConfig?.component && layoutConfig?.active !== false) {
       const factory = this._factoryResolver.resolveComponentFactory(layoutConfig.component);
       if (factory) {
@@ -43,7 +46,11 @@ export class LayoutBuilder {
    * @param layoutConfig Layout configuration to apply.
    * @returns Reference to the updated component.
    */
-  refreshLayout(componentRef: ComponentRef<ILayoutTemplate>, layoutConfig?: ILayoutConfig, reset?: boolean): ComponentRef<ILayoutTemplate> | undefined {
+  refreshLayout<TLayoutTemplate extends ILayoutTemplate, TLayoutConfig extends ILayoutConfig<TLayoutTemplate>>(
+    componentRef: ComponentRef<TLayoutTemplate>,
+    layoutConfig?: TLayoutConfig,
+    reset?: boolean
+  ): ComponentRef<TLayoutTemplate> | undefined {
     if (!componentRef) return undefined;
     if (!layoutConfig || !layoutConfig?.config) return componentRef;
 

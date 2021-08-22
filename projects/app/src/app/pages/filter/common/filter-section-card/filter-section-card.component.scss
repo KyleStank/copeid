@@ -1,3 +1,34 @@
+@use 'sass:map';
+@use '~/src/styles/variables' as variables;
+
 :host {
   display: block;
+
+  mat-card {
+    transition: border 200ms cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+
+  .card-content {
+    font-size: 1.5rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    mat-card {
+      border-color: darken(#dee2e6, 30) !important;
+    }
+
+    &[color=primary] mat-card {
+      border-color: map-get(variables.$primary-palette, 500) !important;
+    }
+
+    &[color=accent] mat-card {
+      border-color: map-get(variables.$accent-palette, 500) !important;
+    }
+
+    &[color=warn] mat-card {
+      border-color: map-get(variables.$warn-palette, 500) !important;
+    }
+  }
 }
