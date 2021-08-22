@@ -7,10 +7,8 @@
     "build:shared": "ng build shared --configuration production",
     "build:app": "ng build app --configuration production",
     "clean": "rm -rf dist/",
-
     "serve:app": "ng serve app --configuration development",
     "start": "npm-run-all clean build:core build:shared serve:app --parallel watch:**",
-
     "watch:core": "ng build core --configuration development --watch",
     "watch:shared": "ng build shared --configuration development --watch"
   },
