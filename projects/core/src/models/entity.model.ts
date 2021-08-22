@@ -1,4 +1,4 @@
-import { Nullable } from './types';
+import { Nullable } from '../types';
 
 export interface IEntity<TId = string> {
   id: Nullable<TId>;

@@ -116,7 +116,7 @@ export class AdminSpecimenEditModal {
       photograph: data?.model?.photograph || null
     };
 
-    this._genusService.getAllEntities().subscribe({
+    this._genusService.getAll().subscribe({
       next: genuses => this.genuses = genuses
     });
   }

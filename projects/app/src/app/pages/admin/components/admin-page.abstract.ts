@@ -71,7 +71,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
     this.entities$ = this._entities.asObservable()
       .pipe(takeUntil(this._destroyed));
 
-    this._entityService.getAllEntities().subscribe(this._entities.next.bind(this._entities) as any);
+    this._entityService.getAll().subscribe(this._entities.next.bind(this._entities) as any);
     this.entities$.subscribe((entities: TEntity[]) => {
       this.selectedEntities = [];
       this.dataSource.data = this._createIndexedData(entities);
@@ -151,7 +151,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
     if (!entity) return;
 
     if (entity.id) {
-      this._entityService.updateEntity(entity).subscribe({
+      this._entityService.update(entity).subscribe({
         next: (result: any) => { // TODO: Replace any
           const entities = this._entities.value;
           const index = entities.findIndex(c => c.id === result.id);
@@ -164,7 +164,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
         error: (error: any) => console.error('Error:', error)
       });
     } else {
-      this._entityService.createEntity(entity).subscribe({
+      this._entityService.create(entity).subscribe({
         next: (result: any) => { // TODO: Replace any
           this._entities.next([...this._entities.value, result]);
         },
@@ -219,7 +219,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
   protected _deleteEntity(entity: TEntity): void {
     if (!entity) return;
 
-    this._entityService.deleteEntity(entity.id as string).subscribe({
+    this._entityService.delete(entity.id as string).subscribe({
       next: () => {
         let entities = this._entities.value;
         const index = entities.findIndex(c => c.id === entity.id);

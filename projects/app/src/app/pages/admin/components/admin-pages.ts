@@ -119,6 +119,7 @@ export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {
   public readonly pluralName = 'Specimens';
   public readonly editModal = AdminSpecimenEditModal;
   public readonly dataColumns: DataColumn[] = [
+    { title: 'Genus', property: 'genus.name' },
     { title: 'Gender', property: 'gender' },
     { title: 'Length', property: 'length' }
   ];
