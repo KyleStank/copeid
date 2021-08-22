@@ -6,7 +6,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 import { SharedInfoCardModule } from '@shared/components/info-card';
+import { FilterSectionCardComponent } from './common';
 import { FilterPageComponent } from './components';
+import { FilterLengthSectionComponent } from './sections';
 import { FilterRoutingModule } from './filter-routing.module';
 
 @NgModule({
@@ -20,7 +22,14 @@ import { FilterRoutingModule } from './filter-routing.module';
     SharedInfoCardModule
   ],
   declarations: [
-    FilterPageComponent
+    // Common
+    FilterSectionCardComponent,
+
+    // Components
+    FilterPageComponent,
+
+    // Sections
+    FilterLengthSectionComponent
   ]
 })
 export class FilterPageModule {}
