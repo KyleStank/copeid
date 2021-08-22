@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 
-import { IFilterDefinition, IFilterOption, IFilterSection } from '../../models';
+import { IFilterDefinition, IFilterDefinitionSelected, IFilterOption, IFilterSection } from '../../models';
 
 @Component({
   selector: 'app-filter-length-section',
@@ -11,8 +12,13 @@ import { IFilterDefinition, IFilterOption, IFilterSection } from '../../models';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FilterLengthSectionComponent implements IFilterSection {
-  filterDefinition: IFilterDefinition<string, number> = {
+export class FilterLengthSectionComponent implements IFilterSection, OnDestroy {
+  private readonly _destroyed = new Subject<void>();
+
+  private readonly _optionSelectedSubject = new Subject<IFilterDefinitionSelected>();
+  readonly optionSelected$ = this._optionSelectedSubject.asObservable();
+
+  readonly filterDefinition: IFilterDefinition<string, number> = {
     identifier: 'L',
     options: [
       { key: 'Z', value: 0.5 },
@@ -22,9 +28,21 @@ export class FilterLengthSectionComponent implements IFilterSection {
     ]
   };
 
-  optionClicked(option: IFilterOption<string, number>): void {
-    console.log('Option:', option);
+  constructor() {
+    this.optionSelected$ = this.optionSelected$.pipe(takeUntil(this._destroyed));
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 
   resetLayout(): void {}
+
+  selectOption(option: IFilterOption<string, number>): void {
+    this._optionSelectedSubject.next({
+      identifier: this.filterDefinition.identifier,
+      option
+    });
+  }
 }

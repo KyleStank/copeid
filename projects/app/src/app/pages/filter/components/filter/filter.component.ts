@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ComponentRef, OnDestroy, OnInit, Ty
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { ILayoutConfig, LayoutBuilder, LayoutHostDirective, Specimen, SpecimenService } from '@app/features';
-import { IFilterSection } from '../../models';
+import { IFilterDefinitionSelected, IFilterSection } from '../../models';
 import { FilterLengthSectionComponent } from '../../sections';
 
 @Component({
@@ -18,6 +18,8 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
   readonly specimens$ = this._specimensSubject.asObservable();
 
+  private readonly _selectedDefinitions: IFilterDefinitionSelected[] = [];
+
   @ViewChild(LayoutHostDirective, { static: true })
   layoutHost?: LayoutHostDirective;
   layoutComponentRef?: ComponentRef<IFilterSection>;
@@ -27,9 +29,6 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     private readonly _specimenService: SpecimenService
   ) {
     this.specimens$ = this.specimens$.pipe(takeUntil(this._destroyed));
-    this.specimens$.subscribe({
-      next: specimens => console.log('Specimens:', specimens)
-    });
   }
 
   ngOnInit(): void {
@@ -50,5 +49,22 @@ export class FilterPageComponent implements OnInit, OnDestroy {
       config
     };
     this.layoutComponentRef = this._layoutBuilder.generateLayout(this.layoutHost, layoutConfig);
+    if (this.layoutComponentRef) {
+      const instance = this.layoutComponentRef.instance;
+      const sub = instance.optionSelected$.subscribe({
+        next: (selectedDefinition: IFilterDefinitionSelected<any, any>) => {
+          const index = this._selectedDefinitions.findIndex(x => x.identifier === instance.filterDefinition.identifier);
+          const def: IFilterDefinitionSelected = {
+            identifier: selectedDefinition.identifier,
+            option: selectedDefinition.option
+          };
+
+          if (index === -1) this._selectedDefinitions.push(def);
+          else this._selectedDefinitions[index] = def;
+        }
+      });
+
+      this.layoutComponentRef.onDestroy(() => sub.unsubscribe());
+    }
   }
 }
