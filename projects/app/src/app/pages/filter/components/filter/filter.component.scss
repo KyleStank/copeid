@@ -1,5 +1,20 @@
 .filter-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 
+  .filter-toolbar-backward {
+
+  }
+
+  .filter-toolbar-title {
+
+  }
+
+  .filter-toolbar-forward {
+
+  }
 }
 
 .filter-section-container {
