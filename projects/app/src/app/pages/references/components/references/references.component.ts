@@ -45,8 +45,8 @@ export class ReferencesPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._contributorService.getAllEntities().subscribe(this._contributorsSubject.next.bind(this._contributorsSubject));
-    this._referenceService.getAllEntities().subscribe(this._referencesSubject.next.bind(this._referencesSubject));
+    this._contributorService.getAll().subscribe(this._contributorsSubject.next.bind(this._contributorsSubject));
+    this._referenceService.getAll().subscribe(this._referencesSubject.next.bind(this._referencesSubject));
   }
 
   ngOnDestroy(): void {

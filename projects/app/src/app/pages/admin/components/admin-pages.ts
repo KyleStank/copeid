@@ -2,16 +2,22 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import {
   Contributor,
+  ContributorQuery,
   ContributorService,
   Definition,
+  DefinitionQuery,
   DefinitionService,
   Genus,
+  GenusQuery,
   GenusService,
   Photograph,
+  PhotographQuery,
   PhotographService,
   Reference,
+  ReferenceQuery,
   ReferenceService,
   Specimen,
+  SpecimenQuery,
   SpecimenService
 } from '@app/features';
 import {
@@ -34,13 +40,14 @@ import { AbstractAdminPage, DataColumn, ENTITY_SERVICE } from './admin-page.abst
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorsPageComponent extends AbstractAdminPage<Contributor> {
+export class AdminContributorsPageComponent extends AbstractAdminPage<Contributor, ContributorQuery> {
   public readonly singularName = 'Contributor';
   public readonly pluralName = 'Contributors';
   public readonly editModal = AdminContributorEditModal;
   public readonly dataColumns: DataColumn[] = [
     { title: 'Name', property: 'name' }
   ];
+  public readonly query?: ContributorQuery;
 }
 
 @Component({
@@ -53,7 +60,7 @@ export class AdminContributorsPageComponent extends AbstractAdminPage<Contributo
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition> {
+export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition, DefinitionQuery> {
   public readonly singularName = 'Definition';
   public readonly pluralName = 'Definitions';
   public readonly editModal = AdminDefinitionEditModal;
@@ -61,6 +68,7 @@ export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition>
     { title: 'Name', property: 'name' },
     { title: 'Meaning', property: 'meaning' }
   ];
+  public readonly query?: DefinitionQuery;
 }
 
 @Component({
@@ -73,13 +81,14 @@ export class AdminDefinitionsPageComponent extends AbstractAdminPage<Definition>
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminGenusesPageComponent extends AbstractAdminPage<Genus> {
+export class AdminGenusesPageComponent extends AbstractAdminPage<Genus, GenusQuery> {
   public readonly singularName = 'Genus';
   public readonly pluralName = 'Genuses';
   public readonly editModal = AdminGenusEditModal;
   public readonly dataColumns: DataColumn[] = [
     { title: 'Name', property: 'name' }
   ];
+  public readonly query?: GenusQuery;
 }
 
 @Component({
@@ -92,7 +101,7 @@ export class AdminGenusesPageComponent extends AbstractAdminPage<Genus> {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph> {
+export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph, PhotographQuery> {
   public readonly singularName = 'Photograph';
   public readonly pluralName = 'Photographs';
   public readonly editModal = AdminPhotographEditModal;
@@ -102,6 +111,7 @@ export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph>
     { title: 'Description', property: 'description' },
     { title: 'Url', property: 'url' }
   ];
+  public readonly query?: PhotographQuery;
 }
 
 @Component({
@@ -114,14 +124,29 @@ export class AdminPhotographsPageComponent extends AbstractAdminPage<Photograph>
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {
+export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen, SpecimenQuery> {
   public readonly singularName = 'Specimen';
   public readonly pluralName = 'Specimens';
   public readonly editModal = AdminSpecimenEditModal;
   public readonly dataColumns: DataColumn[] = [
+    { title: 'Genus', property: 'genus.name' },
     { title: 'Gender', property: 'gender' },
-    { title: 'Length', property: 'length' }
+    { title: 'Length', property: 'length' },
+    { title: 'Special Characteristics', property: 'specialCharacteristics' },
+    { title: 'Antenule', property: 'antenule' },
+    { title: 'Rostrum', property: 'rostrum' },
+    { title: 'Body Shape', property: 'bodyShape' },
+    { title: 'Eyes', property: 'eyes' },
+    { title: 'Cephalosome', property: 'cephalosome' },
+    { title: 'Thorax', property: 'thorax' },
+    { title: 'Urosome', property: 'urosome' },
+    { title: 'Furca', property: 'furca' },
+    { title: 'Setea', property: 'setea' }
   ];
+  public maxEditorModalWidth = '1500px';
+  public query: SpecimenQuery = {
+    include: ['genus']
+  };
 }
 
 @Component({
@@ -134,7 +159,7 @@ export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen> {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminReferencesPageComponent extends AbstractAdminPage<Reference> {
+export class AdminReferencesPageComponent extends AbstractAdminPage<Reference, ReferenceQuery> {
   public readonly singularName = 'Reference';
   public readonly pluralName = 'References';
   public readonly editModal = AdminReferenceEditModal;
@@ -142,4 +167,5 @@ export class AdminReferencesPageComponent extends AbstractAdminPage<Reference> {
     { title: 'Content', property: 'content' }
   ];
   public minEditorModalWidth = '500px';
+  public query?: ReferenceQuery;
 }

@@ -26,6 +26,7 @@ import {
   AdminGenusesPageComponent,
   AdminPageComponent,
   AdminPhotographsPageComponent,
+  AdminPropertyValuePipe,
   AdminReferencesPageComponent,
   AdminSpecimensPageComponent
 } from './components';
@@ -88,7 +89,10 @@ import {
     AdminGenusEditModal,
     AdminPhotographEditModal,
     AdminReferenceEditModal,
-    AdminSpecimenEditModal
+    AdminSpecimenEditModal,
+
+    // Pipes
+    AdminPropertyValuePipe
   ]
 })
 export class AdminPageModule {}

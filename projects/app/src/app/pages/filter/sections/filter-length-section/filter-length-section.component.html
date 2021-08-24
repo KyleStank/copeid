@@ -1,0 +1,13 @@
+<div class="row" *ngIf="filterDefinition">
+  <ng-container *ngFor="let option of filterDefinition.options">
+    <div class="col-md my-1">
+      <app-filter-section-card
+        color="accent"
+        [ngClass]="{ 'selected': (optionSelected$ | async)?.option?.value === option.value }"
+        (click)="selectOption(option)"
+      >
+        {{ option.value }}
+      </app-filter-section-card>
+    </div>
+  </ng-container>
+</div>

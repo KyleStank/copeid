@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { IEntity } from '../models';
+import { IEntity, IEntityQuery } from '../models';
 
 @Injectable()
-export abstract class AbstractEntityService<TEntity = IEntity, TId = string> {
+export abstract class AbstractEntityService<TEntity = IEntity, TQuery = IEntityQuery> {
   protected readonly _endpoint: string;
 
   constructor(protected readonly _http: HttpClient) {
@@ -15,44 +15,56 @@ export abstract class AbstractEntityService<TEntity = IEntity, TId = string> {
 
   public abstract getEndpoint(): string;
 
-  public getAllEntities(include?: string[]): Observable<TEntity[]> {
+  public getAll(query?: TQuery): Observable<TEntity[]> {
     const endpoint = this._endpoint;
-    return this._http.get<TEntity[]>(include ?
-      this._createParamsEndpoint(
-        endpoint,
-        include.map(x => ({ key: 'include', value: x }))
-      ) : endpoint
+    return this._http.get<TEntity[]>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint
     );
   }
 
-  public getEntity(id: TId, include?: string[]): Observable<TEntity> {
+  public getSingle(id: string, query?: TQuery): Observable<TEntity> {
     const endpoint = `${this._endpoint}/${id}`;
-    return this._http.get<TEntity>(include ?
-      this._createParamsEndpoint(
-        endpoint,
-        include.map(x => ({ key: 'include', value: x }))
-      ) : endpoint
+    return this._http.get<TEntity>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint
     );
   }
 
-  public createEntity(model: TEntity): Observable<TEntity> {
+  public create(model: TEntity, query?: TQuery): Observable<TEntity> {
     const endpoint = this._endpoint;
-    return this._http.post<TEntity>(endpoint, model);
+    return this._http.post<TEntity>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint,
+      model
+    );
   }
 
-  public updateEntity(model: TEntity): Observable<TEntity> {
+  public update(model: TEntity, query?: TQuery): Observable<TEntity> {
     const endpoint = this._endpoint;
-    return this._http.put<TEntity>(endpoint, model);
+    return this._http.put<TEntity>(
+      query ? this._createQueryEndpoint(endpoint, query) : endpoint,
+      model
+    );
   }
 
-  public deleteEntity(id: TId): Observable<string> {
+  public delete(id: string): Observable<string> {
     const endpoint = `${this._endpoint}/${id}`;
     return this._http.delete<string>(endpoint);
   }
 
+  protected _createQueryEndpoint(endpoint: string, query: TQuery): string {
+    const params: KeyValue<string, string>[] = [];
+    Object.keys(query).forEach(key => {
+      const value = (query as any)[key];
+      if (value == null) return;
+
+      if (Array.isArray(value)) value.forEach(v => params.push({ key, value: v }));
+      else params.push({ key, value: value });
+    });
+    return this._createParamsEndpoint(endpoint, params);
+  }
+
   protected _createParamsEndpoint(endpoint: string, params: KeyValue<string, string>[]): string {
     let url = endpoint + '?';
-    params.forEach(p => url += `${p.key}=${p.value}&`);
+    params.forEach(p => url += `${p.key}=${encodeURIComponent(p.value)}&`);
     return url.substring(0, url.lastIndexOf('&'));
   }
 }

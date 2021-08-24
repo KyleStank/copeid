@@ -4,8 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { SharedPageHeaderModule } from '@shared/components/page-header';
-import { DashboardEditPageComponent, DashboardPageComponent } from './components';
+import { DashboardPageComponent } from './components';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
 @NgModule({
@@ -14,11 +13,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    DashboardRoutingModule,
-    SharedPageHeaderModule
+    DashboardRoutingModule
   ],
   declarations: [
-    DashboardEditPageComponent,
     DashboardPageComponent
   ]
 })

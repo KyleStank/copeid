@@ -5,12 +5,9 @@ import { ILayoutConfig, TemplateAdminComponent, TemplateDefaultComponent } from 
 
 const defaultMenu = [
   { label: 'Home', url: [''], logo: 'home' },
-  // { label: 'Contributors', url: ['contributors'], logo: 'group' },
+  { label: 'Filter', url: ['filter'], logo: 'search' },
   { label: 'Anatomy & Definitions', url: ['definitions'], logo: 'library_books' },
-  // { label: 'Genuses', url: ['genuses'], logo: 'pest_control' },
-  // { label: 'Photographs', url: ['photographs'], logo: 'photo_library' },
-  { label: 'Contributors & References', url: ['references'], logo: 'menu_book' },
-  // { label: 'Specimens', url: ['specimens'], logo: 'science' }
+  { label: 'Contributors & References', url: ['references'], logo: 'menu_book' }
 ];
 
 const adminMenu = [
@@ -79,6 +76,20 @@ const routes: Routes = [
         config: {
           appName: 'CopeID',
           pageName: 'Anatomy & Definitions',
+          menu: defaultMenu
+        }
+      } as ILayoutConfig
+    }
+  },
+  {
+    path: 'filter',
+    loadChildren: () => import('./pages/filter/filter.module').then(m => m.FilterPageModule),
+    data: {
+      layout: {
+        component: TemplateDefaultComponent,
+        config: {
+          appName: 'CopeID',
+          pageName: 'Filter',
           menu: defaultMenu
         }
       } as ILayoutConfig

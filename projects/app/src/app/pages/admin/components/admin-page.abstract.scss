@@ -14,6 +14,20 @@
   }
 }
 
+.table-overflow {
+  overflow-x: auto;
+}
+
+.mat-header-cell,
+.mat-cell {
+  padding: 10px;
+  min-width: 50px;
+}
+
+.mat-column-specialCharacteristics {
+  min-width: 100px;
+}
+
 .mat-column-select {
   padding-right: 16px;
   max-width: 16px; // Max-width of checkbox.

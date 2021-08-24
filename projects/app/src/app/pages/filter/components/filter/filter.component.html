@@ -1,0 +1,19 @@
+<div class="filter-toolbar">
+  <div class="filter-toolbar-backward">
+    <button mat-icon-button (click)="previousSection()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <div class="filter-toolbar-title">
+
+  </div>
+  <div class="filter-toolbar-forward">
+    <button mat-icon-button (click)="nextSection()">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="filter-section-container">
+  <ng-template layoutHost></ng-template>
+</div>

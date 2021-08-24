@@ -38,7 +38,7 @@ export class DefinitionsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._definitionService.getAllEntities().subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
+    this._definitionService.getAll().subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
   }
 
   ngOnDestroy(): void {

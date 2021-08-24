@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { SnackBarModule } from '@core';
 import { SharedInfoCardModule } from '@shared/components/info-card';
-import { SharedPageHeaderModule } from '@shared/components/page-header';
 import { DefinitionsPageComponent } from './components';
 import { DefinitionsRoutingModule } from './definitions-routing.module';
 
@@ -20,7 +19,6 @@ import { DefinitionsRoutingModule } from './definitions-routing.module';
     MatIconModule,
     DefinitionsRoutingModule,
     SharedInfoCardModule,
-    SharedPageHeaderModule,
     SnackBarModule
   ],
   declarations: [
