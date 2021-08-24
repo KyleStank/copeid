@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '~/src/styles/variables' as variables;
+@use './variables' as variables;
 
 :host {
   display: block;
