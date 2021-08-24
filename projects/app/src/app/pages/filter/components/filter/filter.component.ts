@@ -5,6 +5,11 @@ import { ILayoutConfig, LayoutBuilder, LayoutHostDirective, Specimen, SpecimenSe
 import { IFilterDefinition, IFilterDefinitionSelected, IFilterOption, IFilterSection } from '../../models';
 import { FilterLengthSectionComponent } from '../../sections';
 
+export interface IFilterSectionConfig {
+  componentType: Type<IFilterSection>;
+  filterDefinition: IFilterDefinition<any, any>;
+}
+
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -20,12 +25,11 @@ export class FilterPageComponent implements OnInit, OnDestroy {
 
   private readonly _selectedDefinitions: IFilterDefinitionSelected[] = [];
 
-  readonly filterSectionComponentRefs: ComponentRef<IFilterSection>[] = [];
-  readonly filterSectionConfigs: { component: Type<IFilterSection>; filterDefinition: IFilterDefinition<any, any>; }[] = [
+  readonly filterSectionConfigs: IFilterSectionConfig[] = [
     {
-      component: FilterLengthSectionComponent,
+      componentType: FilterLengthSectionComponent,
       filterDefinition: {
-        identifier: 'L',
+        identifier: 'Length of Specimen (mm)',
         options: [
           { key: 'Z', value: 0.5 },
           { key: 'Y', value: 1.0 },
@@ -33,8 +37,35 @@ export class FilterPageComponent implements OnInit, OnDestroy {
           { key: 'W', value: 2.0 }
         ] as IFilterOption<string, number>[]
       }
+    },
+
+    {
+      componentType: FilterLengthSectionComponent,
+      filterDefinition: {
+        identifier: 'LL',
+        options: [
+          { key: 'Z', value: 0.2 },
+          { key: 'Y', value: 1.0 },
+          { key: 'X', value: 1.5 },
+          { key: 'W', value: 2.0 }
+        ] as IFilterOption<string, number>[]
+      }
+    },
+
+    {
+      componentType: FilterLengthSectionComponent,
+      filterDefinition: {
+        identifier: 'LLL',
+        options: [
+          { key: 'Z', value: 0.3 },
+          { key: 'Y', value: 1.0 },
+          { key: 'X', value: 1.5 },
+          { key: 'W', value: 2.0 }
+        ] as IFilterOption<string, number>[]
+      }
     }
   ];
+  currentFilterSectionConfig?: IFilterSectionConfig;
 
   @ViewChild(LayoutHostDirective, { static: true })
   layoutHost?: LayoutHostDirective;
@@ -47,28 +78,28 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this._specimenService.getAll({
-    //   include: ['genus']
-    // }).subscribe(this._specimensSubject.next.bind(this._specimensSubject));
-
-    this.filterSectionConfigs.forEach(filterSectionConfig => this._setupFilterSection(filterSectionConfig));
+    if (this.filterSectionConfigs.length > 0) {
+      this._setupFilterSection(this.filterSectionConfigs[0]);
+    }
   }
 
-  private _setupFilterSection(config?: { component?: Type<IFilterSection>; filterDefinition?: IFilterDefinition<any, any>; }): void {
-    if (!config?.component) return;
+  private _setupFilterSection(config?: IFilterSectionConfig): void {
+    if (!config?.componentType) return;
 
-    const componentRef = this._createFilterSection(config.component, config.filterDefinition ? { filterDefinition: config.filterDefinition } : null);
+    const componentRef = this._createFilterSection(
+      config.componentType,
+      config.filterDefinition ? {
+        filterDefinition: config.filterDefinition,
+        selectedOption: this._selectedDefinitions.find(x => x.identifier === config?.filterDefinition?.identifier)?.option
+      } : null
+    );
     if (componentRef) {
-      // Respond to when an option is selected.
       componentRef.instance.optionSelected$
         .pipe(takeUntil(this._destroyed))
         .subscribe(this._selectDefinition.bind(this));
-
-      // Track newly created component ref.
-      const index = this.filterSectionComponentRefs.findIndex(x => x === componentRef);
-      if (index === -1) this.filterSectionComponentRefs.push(componentRef);
-      else this.filterSectionComponentRefs[index] = componentRef;
     }
+
+    this.currentFilterSectionConfig = config;
   }
 
   private _createFilterSection(sectionComponent: Type<IFilterSection>, config?: any): ComponentRef<IFilterSection> | undefined {
@@ -81,6 +112,8 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   }
 
   private _selectDefinition(definition: IFilterDefinitionSelected<any, any>): void {
+    if (definition == null) return;
+
     const index = this._selectedDefinitions.findIndex(x => x.identifier === definition.identifier);
     const def: IFilterDefinitionSelected = {
       identifier: definition.identifier,
@@ -92,11 +125,16 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   }
 
   previousSection(): void {
-    console.log('Previous Section!');
+    const currentIndex = this.filterSectionConfigs.findIndex(c => this.currentFilterSectionConfig === c);
+    const prevIndex = currentIndex !== 0 && currentIndex - 1 >= 0 ? currentIndex - 1 : currentIndex;
+    if (prevIndex !== currentIndex) this._setupFilterSection(this.filterSectionConfigs[prevIndex]);
   }
 
   nextSection(): void {
-    console.log('Next Section!');
+    const currentIndex = this.filterSectionConfigs.findIndex(c => this.currentFilterSectionConfig === c);
+    const nextIndex = currentIndex !== this.filterSectionConfigs.length - 1 && currentIndex + 1 < this.filterSectionConfigs.length ?
+      currentIndex + 1 : currentIndex;
+    if (nextIndex !== currentIndex) this._setupFilterSection(this.filterSectionConfigs[nextIndex]);
   }
 
   ngOnDestroy(): void {

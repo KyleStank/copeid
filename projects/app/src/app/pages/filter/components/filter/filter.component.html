@@ -1,14 +1,14 @@
 <div class="filter-toolbar">
   <div class="filter-toolbar-backward">
-    <button mat-icon-button (click)="previousSection()">
+    <button mat-icon-button [disabled]="currentFilterSectionConfig === filterSectionConfigs[0]" (click)="previousSection()">
       <mat-icon>arrow_back</mat-icon>
     </button>
   </div>
   <div class="filter-toolbar-title">
-
+    {{ currentFilterSectionConfig?.filterDefinition?.identifier }}
   </div>
   <div class="filter-toolbar-forward">
-    <button mat-icon-button (click)="nextSection()">
+    <button mat-icon-button [disabled]="currentFilterSectionConfig === filterSectionConfigs[filterSectionConfigs.length - 1]" (click)="nextSection()">
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
