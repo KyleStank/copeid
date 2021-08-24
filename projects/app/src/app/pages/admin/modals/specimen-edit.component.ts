@@ -80,14 +80,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Special Characteristics</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Special Characteristics input."
                 name="specialCharacteristics"
                 [(ngModel)]="model.specialCharacteristics"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -101,14 +103,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Antenule</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Antenule input."
                 name="antenule"
                 [(ngModel)]="model.antenule"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -120,14 +124,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Rostrum</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Rostrum input."
                 name="rostrum"
                 [(ngModel)]="model.rostrum"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -139,14 +145,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Body Shape</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Body Shape input."
                 name="bodyShape"
                 [(ngModel)]="model.bodyShape"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -160,14 +168,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Eyes</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Eyes input."
                 name="eyes"
                 [(ngModel)]="model.eyes"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -179,14 +189,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Cephalosome</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Cephalosome input."
                 name="cephalosome"
                 [(ngModel)]="model.cephalosome"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -198,14 +210,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Thorax</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Thorax input."
                 name="thorax"
                 [(ngModel)]="model.thorax"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -219,14 +233,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Urosome</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Urosome input."
                 name="urosome"
                 [(ngModel)]="model.urosome"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -238,14 +254,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Furca</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Furca input."
                 name="furca"
                 [(ngModel)]="model.furca"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
@@ -257,14 +275,16 @@ export interface SpecimenEditDialogData {
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Setea</mat-label>
 
-              <input
+              <textarea
                 matInput
                 required
-                type="text"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
                 aria-label="Specimen Setea input."
                 name="setea"
                 [(ngModel)]="model.setea"
-              />
+              ></textarea>
 
               <mat-error>
                 Field is required.
