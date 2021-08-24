@@ -23,7 +23,7 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
   readonly specimens$ = this._specimensSubject.asObservable();
 
-  private readonly _selectedDefinitions: IFilterDefinitionSelected[] = [];
+  private readonly _selectedDefinitions: IFilterDefinitionSelected<any, any>[] = [];
 
   readonly filterSectionConfigs: IFilterSectionConfig[] = [
     {
@@ -38,30 +38,85 @@ export class FilterPageComponent implements OnInit, OnDestroy {
         ] as IFilterOption<string, number>[]
       }
     },
-
     {
       componentType: FilterLengthSectionComponent,
       filterDefinition: {
-        identifier: 'LL',
+        identifier: 'Eyes of Specimen',
         options: [
-          { key: 'Z', value: 0.2 },
-          { key: 'Y', value: 1.0 },
-          { key: 'X', value: 1.5 },
-          { key: 'W', value: 2.0 }
-        ] as IFilterOption<string, number>[]
+          { key: '0', value: 'None' },
+          { key: '1', value: 'Dorsal Single' },
+          { key: '2', value: 'Ventral Single' },
+          { key: '3', value: 'Transformed' }
+        ] as IFilterOption<string, string>[]
       }
     },
-
     {
       componentType: FilterLengthSectionComponent,
       filterDefinition: {
-        identifier: 'LLL',
+        identifier: 'Cephalosome of Specimen',
         options: [
-          { key: 'Z', value: 0.3 },
-          { key: 'Y', value: 1.0 },
-          { key: 'X', value: 1.5 },
-          { key: 'W', value: 2.0 }
-        ] as IFilterOption<string, number>[]
+          { key: '4', value: '40%' },
+          { key: '5', value: '50%' },
+          { key: '6', value: '60%' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      filterDefinition: {
+        identifier: 'Thorax of Specimen (Segments)',
+        options: [
+          { key: '2', value: '2 Segments' },
+          { key: '3', value: '3 Segments' },
+          { key: '4', value: '4 Segments' },
+          { key: '5', value: 'Fused 4 & 5' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      filterDefinition: {
+        identifier: 'Thorax of Specimen (Shape)',
+        options: [
+          { key: 'B', value: 'Blunt Shape' },
+          { key: 'S', value: 'Saddle Shape' },
+          { key: 'P2', value: '2 Pointed' },
+          { key: 'P4', value: '4 Points' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      filterDefinition: {
+        identifier: 'Urosome of Specimen',
+        options: [
+          { key: '1', value: '1' },
+          { key: '2', value: '2' },
+          { key: '3', value: '3' },
+          { key: '4', value: '4' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      filterDefinition: {
+        identifier: 'Furca of Specimen',
+        options: [
+          { key: 'S', value: 'Short' },
+          { key: 'L', value: 'Long' },
+          { key: 'C', value: 'Curved' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      filterDefinition: {
+        identifier: 'Setea of Specimen',
+        options: [
+          { key: 'S', value: 'Shorter than Furca' },
+          { key: 'M', value: 'Same Length as Furca' },
+          { key: 'L', value: 'Longer than Furca' }
+        ] as IFilterOption<string, string>[]
       }
     }
   ];
@@ -135,6 +190,10 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     const nextIndex = currentIndex !== this.filterSectionConfigs.length - 1 && currentIndex + 1 < this.filterSectionConfigs.length ?
       currentIndex + 1 : currentIndex;
     if (nextIndex !== currentIndex) this._setupFilterSection(this.filterSectionConfigs[nextIndex]);
+  }
+
+  search(): void {
+
   }
 
   ngOnDestroy(): void {
