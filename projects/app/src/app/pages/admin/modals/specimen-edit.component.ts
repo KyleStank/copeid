@@ -20,6 +20,22 @@ export interface SpecimenEditDialogData {
         <div class="row my-1">
           <div class="col-md">
             <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Genus</mat-label>
+
+              <mat-select required name="genusId" [(ngModel)]="model.genusId">
+                <mat-option *ngFor="let genus of genuses" [value]="genus.id">
+                  {{ genus.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error>
+                Field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
               <mat-label>Gender</mat-label>
 
               <mat-select
@@ -41,24 +57,6 @@ export interface SpecimenEditDialogData {
 
           <div class="col-md">
             <mat-form-field class="w-100" appearance="fill">
-              <mat-label>Genus</mat-label>
-
-              <mat-select required name="genusId" [(ngModel)]="model.genusId">
-                <mat-option *ngFor="let genus of genuses" [value]="genus.id">
-                  {{ genus.name }}
-                </mat-option>
-              </mat-select>
-
-              <mat-error>
-                Field is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="row my-1">
-          <div class="col-md">
-            <mat-form-field class="w-100" appearance="fill">
               <mat-label>Length</mat-label>
 
               <input
@@ -75,7 +73,30 @@ export interface SpecimenEditDialogData {
               </mat-error>
             </mat-form-field>
           </div>
+        </div>
 
+        <div class="row my-1">
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Special Characteristics</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Special Characteristics input."
+                name="specialCharacteristics"
+                [(ngModel)]="model.specialCharacteristics"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row my-1">
           <div class="col-md">
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Antenule</mat-label>
@@ -87,6 +108,162 @@ export interface SpecimenEditDialogData {
                 aria-label="Specimen Antenule input."
                 name="antenule"
                 [(ngModel)]="model.antenule"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Rostrum</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Rostrum input."
+                name="rostrum"
+                [(ngModel)]="model.rostrum"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Body Shape</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Body Shape input."
+                name="bodyShape"
+                [(ngModel)]="model.bodyShape"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row my-1">
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Eyes</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Eyes input."
+                name="eyes"
+                [(ngModel)]="model.eyes"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Cephalosome</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Cephalosome input."
+                name="cephalosome"
+                [(ngModel)]="model.cephalosome"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Thorax</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Thorax input."
+                name="thorax"
+                [(ngModel)]="model.thorax"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row my-1">
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Urosome</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Urosome input."
+                name="urosome"
+                [(ngModel)]="model.urosome"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Furca</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Furca input."
+                name="furca"
+                [(ngModel)]="model.furca"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Setea</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Setea input."
+                name="setea"
+                [(ngModel)]="model.setea"
               />
 
               <mat-error>

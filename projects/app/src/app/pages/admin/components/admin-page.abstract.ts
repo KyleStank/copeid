@@ -16,7 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AbstractEntityService, IEntity } from '@core';
+import { AbstractEntityService, IEntity, IEntityQuery } from '@core';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { recursivePropertySearch } from '@shared/utils';
 
@@ -34,7 +34,7 @@ export interface DataColumn {
 export const ENTITY_SERVICE = new InjectionToken<AbstractEntityService<any, any>>('ENTITY_SERVICE');
 
 @Directive()
-export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnInit, AfterViewInit, OnDestroy {
+export abstract class AbstractAdminPage<TEntity extends IEntity, TEntityQuery extends Partial<IEntityQuery>> implements OnInit, AfterViewInit, OnDestroy {
   protected readonly _destroyed = new Subject<void>();
 
   protected readonly _entities = new BehaviorSubject<TEntity[]>([]);
@@ -47,6 +47,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
   public abstract pluralName: string;
   public abstract editModal: any;
   public abstract dataColumns: DataColumn[];
+  public abstract query?: TEntityQuery;
   public minEditorModalWidth?: string;
   public maxEditorModalWidth?: string;
 
@@ -71,13 +72,6 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
     this.entities$ = this._entities.asObservable()
       .pipe(takeUntil(this._destroyed));
 
-    this._entityService.getAll().subscribe(this._entities.next.bind(this._entities) as any);
-    this.entities$.subscribe((entities: TEntity[]) => {
-      this.selectedEntities = [];
-      this.dataSource.data = this._createIndexedData(entities);
-      this._detectorRef.markForCheck();
-    });
-
     this.dataSource.sortingDataAccessor = (item, property) => recursivePropertySearch(item.value, property);
   }
 
@@ -90,7 +84,14 @@ export abstract class AbstractAdminPage<TEntity extends IEntity> implements OnIn
   }
 
   public ngOnInit(): void {
-    this.columns = ['select'].concat(this.dataColumns?.map(c => c.property) ?? []).concat(['options']);
+    this.columns = ['options', 'select'].concat(this.dataColumns?.map(c => c.property) ?? []);
+
+    this._entityService.getAll(this.query as IEntityQuery ?? undefined).subscribe(this._entities.next.bind(this._entities) as any);
+    this.entities$.subscribe((entities: TEntity[]) => {
+      this.selectedEntities = [];
+      this.dataSource.data = this._createIndexedData(entities);
+      this._detectorRef.markForCheck();
+    });
   }
 
   public ngAfterViewInit(): void {
