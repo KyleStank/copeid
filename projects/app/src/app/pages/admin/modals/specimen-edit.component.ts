@@ -62,13 +62,31 @@ export interface SpecimenEditDialogData {
               <mat-label>Length</mat-label>
 
               <input
-                #lengthInput
                 matInput
                 required
                 type="number"
-                aria-label="Specimen length number input."
+                aria-label="Specimen Length input."
                 name="length"
                 [(ngModel)]="model.length"
+              />
+
+              <mat-error>
+                Field is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Antenule</mat-label>
+
+              <input
+                matInput
+                required
+                type="text"
+                aria-label="Specimen Antenule input."
+                name="antenule"
+                [(ngModel)]="model.antenule"
               />
 
               <mat-error>
@@ -108,12 +126,22 @@ export class AdminSpecimenEditModal {
     this.model = {
       ...(data?.model || {}),
       id: data?.model?.id || null,
-      gender: data?.model?.gender || SpecimenGender.Male,
-      length: data?.model?.length || 0,
       genusId: data?.model?.genusId || null,
       genus: data?.model?.genus || null,
       photographId: data?.model?.photographId || null,
-      photograph: data?.model?.photograph || null
+      photograph: data?.model?.photograph || null,
+      gender: data?.model?.gender || SpecimenGender.Male,
+      length: data?.model?.length || 0,
+      specialCharacteristics: data?.model?.specialCharacteristics || null,
+      antenule: data?.model?.antenule || null,
+      rostrum: data?.model?.rostrum || null,
+      bodyShape: data?.model?.bodyShape || null,
+      eyes: data?.model?.eyes || null,
+      cephalosome: data?.model?.cephalosome || null,
+      thorax: data?.model?.thorax || null,
+      urosome: data?.model?.urosome || null,
+      furca: data?.model?.furca || null,
+      setea: data?.model?.setea || null
     };
 
     this._genusService.getAll().subscribe({
