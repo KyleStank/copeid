@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, ComponentRef, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
-import { ILayoutConfig, LayoutBuilder, LayoutHostDirective, Specimen, SpecimenService } from '@app/features';
+import { FilterData, FilterService, ILayoutConfig, LayoutBuilder, LayoutHostDirective, Specimen, SpecimenService } from '@app/features';
 import { IFilterDefinition, IFilterDefinitionSelected, IFilterOption, IFilterSection } from '../../models';
 import { FilterLengthSectionComponent } from '../../sections';
 
 export interface IFilterSectionConfig {
   componentType: Type<IFilterSection>;
+  title: string;
   filterDefinition: IFilterDefinition<any, any>;
 }
 
@@ -14,7 +15,7 @@ export interface IFilterSectionConfig {
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'],
-  providers: [SpecimenService],
+  providers: [FilterService, SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterPageComponent implements OnInit, OnDestroy {
@@ -28,8 +29,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   readonly filterSectionConfigs: IFilterSectionConfig[] = [
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Length of Specimen (mm)',
       filterDefinition: {
-        identifier: 'Length of Specimen (mm)',
+        identifier: 'L',
         options: [
           { key: 'Z', value: 0.5 },
           { key: 'Y', value: 1.0 },
@@ -40,8 +42,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     },
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Eyes of Specimen',
       filterDefinition: {
-        identifier: 'Eyes of Specimen',
+        identifier: 'E',
         options: [
           { key: '0', value: 'None' },
           { key: '1', value: 'Dorsal Single' },
@@ -52,8 +55,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     },
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Cephalosome of Specimen',
       filterDefinition: {
-        identifier: 'Cephalosome of Specimen',
+        identifier: 'C',
         options: [
           { key: '4', value: '40%' },
           { key: '5', value: '50%' },
@@ -63,8 +67,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     },
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Thorax of Specimen (Segments)',
       filterDefinition: {
-        identifier: 'Thorax of Specimen (Segments)',
+        identifier: 'T1',
         options: [
           { key: '2', value: '2 Segments' },
           { key: '3', value: '3 Segments' },
@@ -75,8 +80,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     },
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Thorax of Specimen (Shape)',
       filterDefinition: {
-        identifier: 'Thorax of Specimen (Shape)',
+        identifier: 'T2',
         options: [
           { key: 'B', value: 'Blunt Shape' },
           { key: 'S', value: 'Saddle Shape' },
@@ -87,8 +93,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     },
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Urosome of Specimen',
       filterDefinition: {
-        identifier: 'Urosome of Specimen',
+        identifier: 'U',
         options: [
           { key: '1', value: '1' },
           { key: '2', value: '2' },
@@ -99,8 +106,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     },
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Furca of Specimen',
       filterDefinition: {
-        identifier: 'Furca of Specimen',
+        identifier: 'F',
         options: [
           { key: 'S', value: 'Short' },
           { key: 'L', value: 'Long' },
@@ -110,8 +118,9 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     },
     {
       componentType: FilterLengthSectionComponent,
+      title: 'Setea of Specimen',
       filterDefinition: {
-        identifier: 'Setea of Specimen',
+        identifier: 'S',
         options: [
           { key: 'S', value: 'Shorter than Furca' },
           { key: 'M', value: 'Same Length as Furca' },
@@ -127,6 +136,7 @@ export class FilterPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _layoutBuilder: LayoutBuilder,
+    private readonly _filterService: FilterService,
     private readonly _specimenService: SpecimenService
   ) {
     this.specimens$ = this.specimens$.pipe(takeUntil(this._destroyed));
@@ -193,7 +203,27 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   }
 
   search(): void {
+    const length = this._selectedDefinitions.find(x => x.identifier === 'L')?.option.value;
+    const eyes = this._selectedDefinitions.find(x => x.identifier === 'E')?.option.value;
+    const cephalosome = this._selectedDefinitions.find(x => x.identifier === 'C')?.option.value;
+    const thoraxSegments = this._selectedDefinitions.find(x => x.identifier === 'T1')?.option.value;
+    const thoraxShape = this._selectedDefinitions.find(x => x.identifier === 'T2')?.option.value;
+    const urosome = this._selectedDefinitions.find(x => x.identifier === 'U')?.option.value;
+    const furca = this._selectedDefinitions.find(x => x.identifier === 'F')?.option.value;
+    const setea = this._selectedDefinitions.find(x => x.identifier === 'S')?.option.value;
 
+    this._filterService.filter(new FilterData({
+      length,
+      eyes,
+      cephalosome,
+      thoraxSegments,
+      thoraxShape,
+      urosome,
+      furca,
+      setea
+    })).subscribe({
+      next: specimen => console.log('Result:', specimen)
+    });
   }
 
   ngOnDestroy(): void {
