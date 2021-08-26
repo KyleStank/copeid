@@ -8,9 +8,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 
+import { LayoutDirectivesModule } from '@core/layouts/directives';
 import { SharedPageHeaderModule } from '@shared/components/page-header';
-import { LayoutDirectivesModule } from '../directives';
-import { TemplateAdminComponent, TemplateDefaultComponent } from './components';
+import { TemplateAdminComponent } from './template-admin/template-admin.component';
+import { TemplateDefaultComponent } from './template-default/template-default.component';
 
 const exportedDeclarations: any[] = [
   TemplateAdminComponent,

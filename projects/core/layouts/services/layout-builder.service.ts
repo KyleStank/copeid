@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable } from '@angular/core';
 
-import { AbstractComponentHostDirective } from '../directives';
-import { ILayoutConfig, ILayoutTemplate } from '../models';
+import { AbstractComponentHostDirective } from '@core/layouts/directives';
+import { ILayoutConfig, ILayoutTemplate } from '@core/layouts/models';
 
 @Injectable({ providedIn: 'root' })
 export class LayoutBuilder {

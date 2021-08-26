@@ -5,7 +5,7 @@ import { KeyboardService, KeyCode } from '@stankng/services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ILayoutTemplate } from '../../../models';
+import { ILayoutTemplate } from '@core/layouts/models';
 
 @Component({
   selector: 'app-template-admin',

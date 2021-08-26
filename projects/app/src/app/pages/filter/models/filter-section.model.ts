@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { ILayoutTemplate } from '@app/features';
+import { ILayoutTemplate } from '@core/layouts/models';
 import { IFilterDefinitionSelected } from './filter-definition-selected.model';
 import { IFilterDefinition } from './filter-definition.model';
 import { IFilterOption } from './filter-option.model';

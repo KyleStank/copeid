@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, ComponentRef, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
-import { FilterData, FilterService, ILayoutConfig, LayoutBuilder, LayoutHostDirective, Specimen, SpecimenService } from '@app/features';
+import { FilterData, FilterService, Specimen, SpecimenService } from '@app/features';
+import { LayoutHostDirective } from '@core/layouts/directives';
+import { ILayoutConfig } from '@core/layouts/models';
+import { LayoutBuilder } from '@core/layouts/services';
 import { IFilterDefinition, IFilterDefinitionSelected, IFilterOption, IFilterSection } from '../../models';
 import { FilterLengthSectionComponent } from '../../sections';
 

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "build": "npm-run-all build:prod",
-    "build:dev": "npm-run-all clean build:core:dev build:shared:dev build:app:dev",
-    "build:prod": "npm-run-all clean build:core:prod build:shared:prod build:app:prod",
+    "build:dev": "npm-run-all clean build:shared:dev build:core:dev build:app:dev",
+    "build:prod": "npm-run-all clean build:shared:prod build:core:prod build:app:prod",
     "build:core:dev": "ng build core --configuration development",
     "build:core:prod": "ng build core --configuration production",
     "build:shared:dev": "ng build shared --configuration development",
@@ -13,7 +13,7 @@
     "build:app:prod": "ng build app --configuration production",
     "clean": "rm -rf dist/",
     "serve:app": "ng serve app --configuration development",
-    "start": "npm-run-all clean build:core:dev build:shared:dev serve:app --parallel watch:**",
+    "start": "npm-run-all clean build:shared:dev build:core:dev serve:app --parallel watch:**",
     "watch:core": "ng build core --configuration development --watch",
     "watch:shared": "ng build shared --configuration development --watch"
   },

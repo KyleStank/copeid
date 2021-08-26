@@ -4,7 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ILayoutTemplate } from '../../../models';
+import { ILayoutTemplate } from '@core/layouts/models';
 
 @Component({
   selector: 'app-template-default',

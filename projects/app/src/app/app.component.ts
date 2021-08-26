@@ -3,8 +3,11 @@ import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { LayoutHostDirective } from '@core/layouts/directives';
+import { ILayoutConfig, ILayoutTemplate } from '@core/layouts/models';
+import { LayoutBuilder } from '@core/layouts/services';
+import { TemplateDefaultComponent } from '@core/layouts/templates';
 import { getSnapshotDataRecursive } from '@shared/utils';
-import { ILayoutConfig, LayoutHostDirective, LayoutBuilder, TemplateDefaultComponent, ILayoutTemplate } from './features';
 
 @Component({
   selector: 'app-root',

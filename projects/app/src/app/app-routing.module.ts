@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ILayoutConfig, TemplateAdminComponent, TemplateDefaultComponent } from './features';
+import { ILayoutConfig } from '@core/layouts/models';
+import { TemplateAdminComponent, TemplateDefaultComponent } from '@core/layouts/templates';
 
 const defaultMenu = [
   { label: 'Home', url: [''], logo: 'home' },

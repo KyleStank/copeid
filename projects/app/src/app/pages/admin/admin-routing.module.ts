@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ILayoutConfig } from '@app/features';
+import { ILayoutConfig } from '@core/layouts/models';
 import {
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,

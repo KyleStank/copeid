@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { LayoutTemplatesModule } from '@app/features';
+import { LayoutTemplatesModule } from '@core/layouts/templates';
 import { SharedInfoCardModule } from '@shared/components/info-card';
 import { FilterSectionCardComponent } from './common';
 import { FilterPageComponent } from './components';
