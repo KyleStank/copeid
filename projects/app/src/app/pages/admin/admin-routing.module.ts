@@ -5,6 +5,7 @@ import { ILayoutConfig } from '@app/features';
 import {
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
+  AdminFilterPageComponent,
   AdminGenusesPageComponent,
   AdminPageComponent,
   AdminPhotographsPageComponent,
@@ -54,7 +55,7 @@ const routes: Routes = [
         config: {
           pageName: 'Genuses'
         }
-      }
+      } as ILayoutConfig
     }
   },
   {
@@ -65,7 +66,7 @@ const routes: Routes = [
         config: {
           pageName: 'Photographs'
         }
-      }
+      } as ILayoutConfig
     }
   },
   {
@@ -76,7 +77,7 @@ const routes: Routes = [
         config: {
           pageName: 'Specimens'
         }
-      }
+      } as ILayoutConfig
     }
   },
   {
@@ -87,7 +88,18 @@ const routes: Routes = [
         config: {
           pageName: 'References'
         }
-      }
+      } as ILayoutConfig
+    }
+  },
+  {
+    path: 'filter',
+    component: AdminFilterPageComponent,
+    data: {
+      layout: {
+        config: {
+          pageName: 'Filter'
+        }
+      } as ILayoutConfig
     }
   }
 ];
