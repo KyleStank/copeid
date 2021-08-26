@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '@app/environments';
-import { AbstractEntityService } from '@core';
+import { AbstractEntityService } from '@core/services/entity';
 import { Specimen, SpecimenQuery } from '../models';
 
 @Injectable()

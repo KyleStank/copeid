@@ -1,43 +1,43 @@
-import { IEntityQuery } from '@core';
+import { IEntityQuery } from '@core/models/entity';
 
 import { SpecimenGender } from './specimen.model';
 
 export interface ISpecimenQuery extends IEntityQuery {
-  genusId: string[];
-  photographId: string[];
-  gender: SpecimenGender[];
-  length: number[];
-  specialCharacteristics: string[];
-  antenule: string[];
-  rostrum: string[];
-  bodyShape: string[];
-  eyes: string[];
-  cephalosome: string[];
-  thorax: string[];
-  urosome: string[];
-  furca: string[];
-  setea: string[];
+  genusId: string[] | undefined;
+  photographId: string[] | undefined;
+  gender: SpecimenGender[] | undefined;
+  length: number[] | undefined;
+  specialCharacteristics: string[] | undefined;
+  antenule: string[] | undefined;
+  rostrum: string[] | undefined;
+  bodyShape: string[] | undefined;
+  eyes: string[] | undefined;
+  cephalosome: string[] | undefined;
+  thorax: string[] | undefined;
+  urosome: string[] | undefined;
+  furca: string[] | undefined;
+  setea: string[] | undefined;
 }
 
-export class SpecimenQuery implements Partial<ISpecimenQuery> {
-  public id?: string[];
-  public include?: string[];
-  public orderBy?: string[];
-  public orderByDescending?: string[];
-  public genusId?: string[];
-  public photographId?: string[];
-  public gender?: SpecimenGender[];
-  public length?: number[];
-  public specialCharacteristics?: string[];
-  public antenule?: string[];
-  public rostrum?: string[];
-  public bodyShape?: string[];
-  public eyes?: string[];
-  public cephalosome?: string[];
-  public thorax?: string[];
-  public urosome?: string[];
-  public furca?: string[];
-  public setea?: string[];
+export class SpecimenQuery implements ISpecimenQuery {
+  public id: string[] | undefined;
+  public include: string[] | undefined;
+  public orderBy: string[] | undefined;
+  public orderByDescending: string[] | undefined;
+  public genusId: string[] | undefined;
+  public photographId: string[] | undefined;
+  public gender: SpecimenGender[] | undefined;
+  public length: number[] | undefined;
+  public specialCharacteristics: string[] | undefined;
+  public antenule: string[] | undefined;
+  public rostrum: string[] | undefined;
+  public bodyShape: string[] | undefined;
+  public eyes: string[] | undefined;
+  public cephalosome: string[] | undefined;
+  public thorax: string[] | undefined;
+  public urosome: string[] | undefined;
+  public furca: string[] | undefined;
+  public setea: string[] | undefined;
 
   constructor(model?: Partial<ISpecimenQuery>) {
     this.id = model?.id;

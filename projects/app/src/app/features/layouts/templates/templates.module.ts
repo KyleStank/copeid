@@ -10,8 +10,6 @@ import { RouterModule } from '@angular/router';
 
 import { SharedPageHeaderModule } from '@shared/components/page-header';
 import { LayoutDirectivesModule } from '../directives';
-import { LayoutFootersModule } from '../footers';
-import { LayoutHeadersModule } from '../headers';
 import { TemplateAdminComponent, TemplateDefaultComponent } from './components';
 
 const exportedDeclarations: any[] = [
@@ -24,8 +22,6 @@ const exportedDeclarations: any[] = [
     CommonModule,
     LayoutModule,
     LayoutDirectivesModule,
-    LayoutHeadersModule,
-    LayoutFootersModule,
     MatButtonModule,
     MatIconModule,
     MatListModule,

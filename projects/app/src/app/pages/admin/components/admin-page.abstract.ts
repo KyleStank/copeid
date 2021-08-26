@@ -16,7 +16,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AbstractEntityService, IEntity, IEntityQuery } from '@core';
+import { IEntity, IEntityQuery } from '@core/models/entity';
+import { AbstractEntityService } from '@core/services/entity';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { recursivePropertySearch } from '@shared/utils';
 

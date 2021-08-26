@@ -117,11 +117,11 @@ export class AdminPhotographEditModal {
   ) {
     this.model = {
       ...(data?.model || {}),
-      id: data?.model?.id || null,
-      title: data?.model?.title || '',
-      description: data?.model?.description || '',
-      alt: data?.model?.alt || '',
-      url: data?.model?.url || ''
+      id: data?.model?.id || undefined,
+      title: data?.model?.title || undefined,
+      description: data?.model?.description || undefined,
+      alt: data?.model?.alt || undefined,
+      url: data?.model?.url || undefined
     };
   }
 }

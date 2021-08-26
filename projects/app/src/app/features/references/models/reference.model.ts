@@ -1,14 +1,14 @@
-import { IEntity, Nullable } from '@core';
+import { IEntity } from '@core/models/entity';
 
 export interface IReference extends IEntity {
-  content: Nullable<string>;
+  content: string | undefined;
 }
 
 export class Reference implements IReference {
-  public id: Nullable<string>;
-  public content: Nullable<string>;
+  public id: string | undefined;
+  public content: string | undefined;
 
-  constructor(model?: IReference) {
+  constructor(model?: Partial<IReference>) {
     this.id = model?.id;
     this.content = model?.content;
   }

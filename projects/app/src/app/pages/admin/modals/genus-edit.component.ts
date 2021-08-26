@@ -52,11 +52,11 @@ export class AdminGenusEditModal {
   ) {
     this.model = {
       ...(data?.model || {}),
-      id: data?.model?.id || null,
-      name: data?.model?.name || '',
-      photograph: data?.model?.photograph || null,
-      photographId: data?.model?.photographId || null,
-      specimens: data?.model?.specimens || null
+      id: data?.model?.id || undefined,
+      name: data?.model?.name || undefined,
+      photograph: data?.model?.photograph || undefined,
+      photographId: data?.model?.photographId || undefined,
+      specimens: data?.model?.specimens || undefined
     };
   }
 }

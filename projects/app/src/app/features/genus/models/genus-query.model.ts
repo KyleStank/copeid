@@ -1,17 +1,17 @@
-import { IEntityQuery } from '@core';
+import { IEntityQuery } from '@core/models/entity';
 
 export interface IGenusQuery extends IEntityQuery {
-  photographId: string[];
-  name: string[];
+  photographId: string[] | undefined;
+  name: string[] | undefined;
 }
 
-export class GenusQuery implements Partial<IGenusQuery> {
-  public id?: string[];
-  public include?: string[];
-  public orderBy?: string[];
-  public orderByDescending?: string[];
-  public photographId?: string[];
-  public name?: string[];
+export class GenusQuery implements IGenusQuery {
+  public id: string[] | undefined;
+  public include: string[] | undefined;
+  public orderBy: string[] | undefined;
+  public orderByDescending: string[] | undefined;
+  public photographId: string[] | undefined;
+  public name: string[] | undefined;
 
   constructor(model?: Partial<IGenusQuery>) {
     this.id = model?.id;

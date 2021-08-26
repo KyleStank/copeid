@@ -78,7 +78,7 @@ export class AdminDefinitionEditModal {
   ) {
     this.model = {
       ...(data?.model || {}),
-      id: data?.model?.id || null,
+      id: data?.model?.id || undefined,
       name: data?.model?.name || '',
       meaning: data?.model?.meaning || ''
     };

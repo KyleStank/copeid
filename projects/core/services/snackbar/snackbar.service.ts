@@ -1,10 +1,7 @@
-import { Injectable, NgModule } from '@angular/core';
-import { MatSnackBar, MatSnackBarModule, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
+import { Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 
-@NgModule({
-  imports: [MatSnackBarModule]
-})
-export class SnackBarModule {}
+import { SnackBarModule } from './snackbar.module';
 
 @Injectable({ providedIn: SnackBarModule })
 export class SnackBarService {

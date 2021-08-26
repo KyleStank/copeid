@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { IEntity, IEntityQuery } from '../models';
+import { IEntity, IEntityQuery } from '@core/models/entity';
 
 @Injectable()
 export abstract class AbstractEntityService<TEntity = IEntity, TQuery = IEntityQuery> {

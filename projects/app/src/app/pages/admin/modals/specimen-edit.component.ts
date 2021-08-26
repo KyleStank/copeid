@@ -322,23 +322,23 @@ export class AdminSpecimenEditModal {
   ) {
     this.model = {
       ...(data?.model || {}),
-      id: data?.model?.id || null,
-      genusId: data?.model?.genusId || null,
-      genus: data?.model?.genus || null,
-      photographId: data?.model?.photographId || null,
-      photograph: data?.model?.photograph || null,
+      id: data?.model?.id || undefined,
+      genusId: data?.model?.genusId || undefined,
+      genus: data?.model?.genus || undefined,
+      photographId: data?.model?.photographId || undefined,
+      photograph: data?.model?.photograph || undefined,
       gender: data?.model?.gender || SpecimenGender.Male,
       length: data?.model?.length || 0,
-      specialCharacteristics: data?.model?.specialCharacteristics || null,
-      antenule: data?.model?.antenule || null,
-      rostrum: data?.model?.rostrum || null,
-      bodyShape: data?.model?.bodyShape || null,
-      eyes: data?.model?.eyes || null,
-      cephalosome: data?.model?.cephalosome || null,
-      thorax: data?.model?.thorax || null,
-      urosome: data?.model?.urosome || null,
-      furca: data?.model?.furca || null,
-      setea: data?.model?.setea || null
+      specialCharacteristics: data?.model?.specialCharacteristics || undefined,
+      antenule: data?.model?.antenule || undefined,
+      rostrum: data?.model?.rostrum || undefined,
+      bodyShape: data?.model?.bodyShape || undefined,
+      eyes: data?.model?.eyes || undefined,
+      cephalosome: data?.model?.cephalosome || undefined,
+      thorax: data?.model?.thorax || undefined,
+      urosome: data?.model?.urosome || undefined,
+      furca: data?.model?.furca || undefined,
+      setea: data?.model?.setea || undefined
     };
 
     this._genusService.getAll().subscribe({

@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
-import { SnackBarModule } from '@core';
+import { SnackBarModule } from '@core/services/snackbar';
 import { SharedInfoCardModule } from '@shared/components/info-card';
 import { DefinitionsPageComponent } from './components';
 import { DefinitionsRoutingModule } from './definitions-routing.module';

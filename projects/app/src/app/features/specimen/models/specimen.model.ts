@@ -1,5 +1,5 @@
 import { IGenus, IPhotograph } from '@app/features';
-import { IEntity, Nullable } from '@core';
+import { IEntity } from '@core/models/entity';
 
 export enum SpecimenGender {
   Male = 0,
@@ -7,47 +7,47 @@ export enum SpecimenGender {
 }
 
 export interface ISpecimen extends IEntity {
-  genusId: Nullable<string>;
-  genus: Nullable<IGenus>;
+  genusId: string | undefined;
+  genus: IGenus | undefined;
 
-  photographId: Nullable<string>;
-  photograph: Nullable<IPhotograph>;
+  photographId: string | undefined;
+  photograph: IPhotograph | undefined;
 
-  gender: Nullable<SpecimenGender>;
+  gender: SpecimenGender | undefined;
 
-  length: Nullable<number>;
-  specialCharacteristics: Nullable<string>;
-  antenule: Nullable<string>;
-  rostrum: Nullable<string>;
-  bodyShape: Nullable<string>;
-  eyes: Nullable<string>;
-  cephalosome: Nullable<string>;
-  thorax: Nullable<string>;
-  urosome: Nullable<string>;
-  furca: Nullable<string>;
-  setea: Nullable<string>;
+  length: number | undefined;
+  specialCharacteristics: string | undefined;
+  antenule: string | undefined;
+  rostrum: string | undefined;
+  bodyShape: string | undefined;
+  eyes: string | undefined;
+  cephalosome: string | undefined;
+  thorax: string | undefined;
+  urosome: string | undefined;
+  furca: string | undefined;
+  setea: string | undefined;
 }
 
 export class Specimen implements ISpecimen {
-  public id: Nullable<string>;
-  public genusId: Nullable<string>;
-  public genus: Nullable<IGenus>;
-  public photographId: Nullable<string>;
-  public photograph: Nullable<IPhotograph>;
-  public gender: Nullable<SpecimenGender>;
-  public length: Nullable<number>;
-  public specialCharacteristics: Nullable<string>;
-  public antenule: Nullable<string>;
-  public rostrum: Nullable<string>;
-  public bodyShape: Nullable<string>;
-  public eyes: Nullable<string>;
-  public cephalosome: Nullable<string>;
-  public thorax: Nullable<string>;
-  public urosome: Nullable<string>;
-  public furca: Nullable<string>;
-  public setea: Nullable<string>;
+  public id: string | undefined;
+  public genusId: string | undefined;
+  public genus: IGenus | undefined;
+  public photographId: string | undefined;
+  public photograph: IPhotograph | undefined;
+  public gender: SpecimenGender | undefined;
+  public length: number | undefined;
+  public specialCharacteristics: string | undefined;
+  public antenule: string | undefined;
+  public rostrum: string | undefined;
+  public bodyShape: string | undefined;
+  public eyes: string | undefined;
+  public cephalosome: string | undefined;
+  public thorax: string | undefined;
+  public urosome: string | undefined;
+  public furca: string | undefined;
+  public setea: string | undefined;
 
-  constructor(model?: ISpecimen) {
+  constructor(model?: Partial<ISpecimen>) {
     this.id = model?.id;
     this.genusId = model?.genusId;
     this.genus = model?.genus;

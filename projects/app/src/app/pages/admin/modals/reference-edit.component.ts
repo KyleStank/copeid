@@ -67,7 +67,7 @@ export class AdminReferenceEditModal implements OnDestroy {
   ) {
     this.model = {
       ...(data?.model || {}),
-      id: data?.model?.id || null,
+      id: data?.model?.id || undefined,
       content: data?.model?.content || ''
     };
 

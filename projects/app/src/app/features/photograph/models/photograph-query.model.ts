@@ -1,21 +1,21 @@
-import { IEntityQuery } from '@core';
+import { IEntityQuery } from '@core/models/entity';
 
 export interface IPhotographQuery extends IEntityQuery {
-  title: string[];
-  description: string[];
-  alt: string[];
-  url: string[];
+  title: string[] | undefined;
+  description: string[] | undefined;
+  alt: string[] | undefined;
+  url: string[] | undefined;
 }
 
-export class PhotographQuery implements Partial<IPhotographQuery> {
-  public id?: string[];
-  public include?: string[];
-  public orderBy?: string[];
-  public orderByDescending?: string[];
-  public title?: string[];
-  public description?: string[];
-  public alt?: string[];
-  public url?: string[];
+export class PhotographQuery implements IPhotographQuery {
+  public id: string[] | undefined;
+  public include: string[] | undefined;
+  public orderBy: string[] | undefined;
+  public orderByDescending: string[] | undefined;
+  public title: string[] | undefined;
+  public description: string[] | undefined;
+  public alt: string[] | undefined;
+  public url: string[] | undefined;
 
   constructor(model?: Partial<IPhotographQuery>) {
     this.id = model?.id;

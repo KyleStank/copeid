@@ -52,7 +52,7 @@ export class AdminContributorEditModal {
   ) {
     this.model = {
       ...(data?.model || {}),
-      id: data?.model?.id || null,
+      id: data?.model?.id || undefined,
       name: data?.model?.name || ''
     };
   }

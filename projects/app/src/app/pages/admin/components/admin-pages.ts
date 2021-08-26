@@ -144,9 +144,9 @@ export class AdminSpecimensPageComponent extends AbstractAdminPage<Specimen, Spe
     { title: 'Setea', property: 'setea' }
   ];
   public maxEditorModalWidth = '1500px';
-  public query: SpecimenQuery = {
+  public query: SpecimenQuery = new SpecimenQuery({
     include: ['genus']
-  };
+  });
 }
 
 @Component({

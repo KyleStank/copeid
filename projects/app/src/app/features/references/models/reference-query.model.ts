@@ -1,15 +1,15 @@
-import { IEntityQuery } from '@core';
+import { IEntityQuery } from '@core/models/entity';
 
 export interface IReferenceQuery extends IEntityQuery {
-  content: string[];
+  content: string[] | undefined;
 }
 
-export class ReferenceQuery implements Partial<IReferenceQuery> {
-  public id?: string[];
-  public include?: string[];
-  public orderBy?: string[];
-  public orderByDescending?: string[];
-  public content?: string[];
+export class ReferenceQuery implements IReferenceQuery {
+  public id: string[] | undefined;
+  public include: string[] | undefined;
+  public orderBy: string[] | undefined;
+  public orderByDescending: string[] | undefined;
+  public content: string[] | undefined;
 
   constructor(model?: Partial<IReferenceQuery>) {
     this.id = model?.id;
