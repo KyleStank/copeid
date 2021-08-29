@@ -17,7 +17,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { IEntity, IEntityQuery } from '@core/models/entity';
-import { AbstractEntityService } from '@core/services/entity';
+import { AbstractQueryableEntityService } from '@core/services/entity';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { recursivePropertySearch } from '@shared/utils';
 
@@ -32,7 +32,7 @@ export interface DataColumn {
   property: string;
 }
 
-export const ENTITY_SERVICE = new InjectionToken<AbstractEntityService<any, any>>('ENTITY_SERVICE');
+export const ENTITY_SERVICE = new InjectionToken<AbstractQueryableEntityService<any, any>>('ENTITY_SERVICE');
 
 @Directive()
 export abstract class AbstractAdminPage<TEntity extends IEntity, TEntityQuery extends Partial<IEntityQuery>> implements OnInit, AfterViewInit, OnDestroy {
@@ -65,7 +65,7 @@ export abstract class AbstractAdminPage<TEntity extends IEntity, TEntityQuery ex
 
   constructor(
     protected readonly _injector: Injector,
-    @Inject(ENTITY_SERVICE) protected readonly _entityService: AbstractEntityService<TEntity>
+    @Inject(ENTITY_SERVICE) protected readonly _entityService: AbstractQueryableEntityService<TEntity>
   ) {
     this._detectorRef = this._injector.get(ChangeDetectorRef);
     this._dialog = this._injector.get(MatDialog);

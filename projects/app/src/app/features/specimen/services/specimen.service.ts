@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '@app/environments';
-import { AbstractEntityService } from '@core/services/entity';
+import { AbstractQueryableEntityService } from '@core/services/entity';
 import { Specimen, SpecimenQuery } from '../models';
 
 @Injectable()
-export class SpecimenService extends AbstractEntityService<Specimen, SpecimenQuery> {
+export class SpecimenService extends AbstractQueryableEntityService<Specimen, SpecimenQuery> {
   public getEndpoint(): string {
     return `${environment.apiUrl}/Specimen`;
   }
