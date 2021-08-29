@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, ComponentRef, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
-import { FilterData, FilterService, Specimen, SpecimenService } from '@app/features';
 import { LayoutHostDirective } from '@core/layouts/directives';
 import { ILayoutConfig } from '@core/layouts/models';
 import { LayoutBuilder } from '@core/layouts/services';
@@ -18,14 +17,10 @@ export interface IFilterSectionConfig {
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'],
-  providers: [FilterService, SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterPageComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
-
-  private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
-  readonly specimens$ = this._specimensSubject.asObservable();
 
   private readonly _selectedDefinitions: IFilterDefinitionSelected<any, any>[] = [];
 
@@ -138,12 +133,8 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   layoutHost?: LayoutHostDirective;
 
   constructor(
-    private readonly _layoutBuilder: LayoutBuilder,
-    private readonly _filterService: FilterService,
-    private readonly _specimenService: SpecimenService
-  ) {
-    this.specimens$ = this.specimens$.pipe(takeUntil(this._destroyed));
-  }
+    private readonly _layoutBuilder: LayoutBuilder
+  ) {}
 
   ngOnInit(): void {
     if (this.filterSectionConfigs.length > 0) {
@@ -206,27 +197,31 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   }
 
   search(): void {
-    const length = this._selectedDefinitions.find(x => x.identifier === 'L')?.option.value;
-    const eyes = this._selectedDefinitions.find(x => x.identifier === 'E')?.option.value;
-    const cephalosome = this._selectedDefinitions.find(x => x.identifier === 'C')?.option.value;
-    const thoraxSegments = this._selectedDefinitions.find(x => x.identifier === 'T1')?.option.value;
-    const thoraxShape = this._selectedDefinitions.find(x => x.identifier === 'T2')?.option.value;
-    const urosome = this._selectedDefinitions.find(x => x.identifier === 'U')?.option.value;
-    const furca = this._selectedDefinitions.find(x => x.identifier === 'F')?.option.value;
-    const setea = this._selectedDefinitions.find(x => x.identifier === 'S')?.option.value;
+    console.log('Search!');
 
-    this._filterService.filter(new FilterData({
-      length,
-      eyes,
-      cephalosome,
-      thoraxSegments,
-      thoraxShape,
-      urosome,
-      furca,
-      setea
-    })).subscribe({
-      next: specimen => console.log('Result:', specimen)
-    });
+    // TODO: Update all parts of filter to reflect updated API data.
+    // const length = this._selectedDefinitions.find(x => x.identifier === 'L')?.option.value;
+    // const eyes = this._selectedDefinitions.find(x => x.identifier === 'E')?.option.value;
+    // const cephalosome = this._selectedDefinitions.find(x => x.identifier === 'C')?.option.value;
+    // const thoraxSegments = this._selectedDefinitions.find(x => x.identifier === 'T1')?.option.value;
+    // const thoraxShape = this._selectedDefinitions.find(x => x.identifier === 'T2')?.option.value;
+    // const urosome = this._selectedDefinitions.find(x => x.identifier === 'U')?.option.value;
+    // const furca = this._selectedDefinitions.find(x => x.identifier === 'F')?.option.value;
+    // const setea = this._selectedDefinitions.find(x => x.identifier === 'S')?.option.value;
+
+    // TODO: Remove.
+    // this._filterService.filter(new FilterData({
+    //   length,
+    //   eyes,
+    //   cephalosome,
+    //   thoraxSegments,
+    //   thoraxShape,
+    //   urosome,
+    //   furca,
+    //   setea
+    // })).subscribe({
+    //   next: specimen => console.log('Result:', specimen)
+    // });
   }
 
   ngOnDestroy(): void {
