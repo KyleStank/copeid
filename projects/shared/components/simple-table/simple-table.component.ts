@@ -1,9 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 
 import { recursivePropertySearch } from '@shared/utils';
 import { SimpleDataColumn } from './simple-data-column.model';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-simple-table',
@@ -21,29 +22,34 @@ export class SimpleTableComponent implements OnChanges, OnInit, AfterViewInit, O
 
   readonly dataSource = new MatTableDataSource<any>();
 
+  @ViewChild(MatSort, { static: true })
+  sort: MatSort | undefined;
+
   @Input()
   data: any[] = [];
 
   @Input()
   columns: SimpleDataColumn[] = [];
 
+  columnNames: string[] = [];
+
   constructor(readonly changeDetectorRef: ChangeDetectorRef) {
     this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string) => recursivePropertySearch(data, sortHeaderId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.data);
     this.data = this.data ?? [];
     this.columns = this.columns ?? [];
+    this.columnNames = this.columns.map(c => c.property);
 
-    // TODO: Only reset data after application is initialized. This is due to performance issues where data is set before sort/paginator.
     if (this._initialized) {
-      // this.setData(this.data);
+      this.setData(this.data);
     }
   }
 
   ngOnInit(): void {
-    this.setData(this.data);
-    this._initialized = true;
+
   }
 
   setData(data: any[]): void {
@@ -54,9 +60,12 @@ export class SimpleTableComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   ngAfterViewInit(): void {
-    // TODO: Set sort and paginator.
-    // this.dataSource.sort = this.sort;
+    // TODO: Set paginator.
+    this.dataSource.sort = this.sort ?? this.dataSource.sort;
     // this.dataSource.paginator = this.paginator;
+
+    this.setData(this.data);
+    this._initialized = true;
   }
 
   ngOnDestroy(): void {

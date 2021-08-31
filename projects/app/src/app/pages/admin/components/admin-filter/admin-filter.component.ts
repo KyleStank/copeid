@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { Filter, FilterModel, FilterModelService, FilterService } from '@app/features';
+import { SimpleDataColumn } from '@shared/components/simple-table';
 
 @Component({
   selector: 'app-admin-filter',
@@ -18,6 +19,9 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
 
   private readonly _filterModelsSubject = new BehaviorSubject<FilterModel[]>([]);
   readonly filterModels$ = this._filterModelsSubject.asObservable();
+  readonly filterModelColumns: SimpleDataColumn[] = [
+    { title: 'Type', property: 'typeName' }
+  ];
 
   private readonly _filtersSubject = new BehaviorSubject<Filter[]>([]);
   readonly filters$ = this._filtersSubject.asObservable();
