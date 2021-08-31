@@ -1,10 +1,20 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 
 import { recursivePropertySearch } from '@shared/utils';
 import { SimpleDataColumn } from './simple-data-column.model';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-simple-table',
@@ -15,7 +25,7 @@ import { MatSort } from '@angular/material/sort';
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SimpleTableComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
+export class SimpleTableComponent implements OnChanges, AfterViewInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   private _initialized = false;
@@ -38,7 +48,6 @@ export class SimpleTableComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.data);
     this.data = this.data ?? [];
     this.columns = this.columns ?? [];
     this.columnNames = this.columns.map(c => c.property);
@@ -46,10 +55,6 @@ export class SimpleTableComponent implements OnChanges, OnInit, AfterViewInit, O
     if (this._initialized) {
       this.setData(this.data);
     }
-  }
-
-  ngOnInit(): void {
-
   }
 
   setData(data: any[]): void {
