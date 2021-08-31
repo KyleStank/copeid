@@ -1,3 +1,4 @@
 <div class="mb-3 pb-3">
   <h1 class="my-0">Manage Filter Models</h1>
+  <app-simple-table [data]="(filterModels$ | async) || []"></app-simple-table>
 </div>
