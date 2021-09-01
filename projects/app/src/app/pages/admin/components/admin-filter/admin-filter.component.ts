@@ -40,7 +40,15 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._filterModelService.getAll().subscribe(this._filterModelsSubject.next.bind(this._filterModelsSubject));
+    this._filterModelService.getAll().subscribe({
+      next: filterModels => {
+        this._filterModelsSubject.next(
+          filterModels.sort((a, b) =>
+            a.typeName! > b.typeName! ? 1 : -1
+          )
+        );
+      }
+    });
     this._filterModelService.getTypes().subscribe({
       next: types => this.types = types
     });
@@ -61,6 +69,8 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroyed))
       .subscribe({
         next: (filterModel: FilterModel) => {
+          if (!filterModel?.typeName) return;
+
           if (!filterModel?.id) {
             this._filterModelService.create(filterModel).subscribe({
               next: result => {
