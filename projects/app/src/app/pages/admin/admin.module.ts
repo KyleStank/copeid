@@ -42,7 +42,8 @@ import {
   AdminGenusEditModal,
   AdminPhotographEditModal,
   AdminReferenceEditModal,
-  AdminSpecimenEditModal
+  AdminSpecimenEditModal,
+  AdminFilterModelEditModalComponent
 } from './modals';
 
 @NgModule({
@@ -84,6 +85,7 @@ import {
     AdminSpecimensPageComponent,
 
     // Modals
+    AdminFilterModelEditModalComponent,
     AdminEditModalComponent,
     AdminTestComponent,
     AdminEditModalTitleComponent,

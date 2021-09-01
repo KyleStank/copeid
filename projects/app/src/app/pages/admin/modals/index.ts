@@ -1,3 +1,5 @@
+export * from './admin-filter';
+
 export * from './admin-edit.component';
 export * from './contributor-edit.component';
 export * from './definition-edit.component';

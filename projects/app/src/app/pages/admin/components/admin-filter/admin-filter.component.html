@@ -1,4 +1,10 @@
 <div class="mb-3 pb-3">
-  <h1 class="my-0">Manage Filter Models</h1>
+  <div class="d-flex align-items-center justify-content-between flex-wrap">
+    <h1 class="my-0">Manage Filter Models</h1>
+
+    <button mat-raised-button color="primary" (click)="openFilterModelEditModal()">
+      New Filter Model
+    </button>
+  </div>
   <app-simple-table [data]="(filterModels$ | async) || []" [columns]="filterModelColumns"></app-simple-table>
 </div>
