@@ -1,9 +1,0 @@
-{
-  "name": "@shared/components/simple-table",
-  "ngPackage": {
-    "lib": {
-      "entryFile": "index.ts",
-      "styleIncludePaths": ["../../../app/src/styles"]
-    }
-  }
-}
