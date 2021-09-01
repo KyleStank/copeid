@@ -17,8 +17,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { NgxEditorModule } from 'ngx-editor';
 
+import { SharedAutoTableModule } from '@shared/components/auto-table';
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
-import { SharedSimpleTableModule } from '@shared/components/simple-table';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminDataTableComponent } from './common';
 import {
@@ -67,8 +67,8 @@ import {
     NgxEditorModule,
     PortalModule,
     ReactiveFormsModule,
-    SharedConfirmationAlertModalModule,
-    SharedSimpleTableModule
+    SharedAutoTableModule,
+    SharedConfirmationAlertModalModule
   ],
   declarations: [
     // Common

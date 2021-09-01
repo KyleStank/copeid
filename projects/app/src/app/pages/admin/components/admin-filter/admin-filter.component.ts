@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { Filter, FilterModel, FilterModelService, FilterService } from '@app/features';
-import { SimpleDataColumn } from '@shared/components/simple-table';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminFilterModelEditModalComponent } from '../../modals';
 
@@ -21,9 +20,6 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
 
   private readonly _filterModelsSubject = new BehaviorSubject<FilterModel[]>([]);
   readonly filterModels$ = this._filterModelsSubject.asObservable();
-  readonly filterModelColumns: SimpleDataColumn[] = [
-    { title: 'Type', property: 'typeName' }
-  ];
 
   private readonly _filtersSubject = new BehaviorSubject<Filter[]>([]);
   readonly filters$ = this._filtersSubject.asObservable();
@@ -54,6 +50,18 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
     });
 
     this._filterService.getAll().subscribe(this._filtersSubject.next.bind(this._filtersSubject));
+  }
+
+  toggleEntity(e: any): void {
+    console.log('Toggle:', e);
+  }
+
+  editEntity(e: any): void {
+    console.log('Edit:', e);
+  }
+
+  deleteEntity(e: any): void {
+    console.log('Delete:', e);
   }
 
   openFilterModelEditModal(model?: FilterModel): void {
