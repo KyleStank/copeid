@@ -7,41 +7,11 @@
     </button>
   </div>
 
-  <app-admin-data-table [data]="(filterModels$ | async) ?? []"></app-admin-data-table>
-
-  <!-- <auto-table [data]="(filterModels$ | async) ?? []">
-    <ng-container autoColumnDef="options" header="" [sortable]="false">
-      <ng-container *autoDataCellOverride="let cell">
-        <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="editEntity(cell)">
-            <mat-icon color="primary">edit</mat-icon>
-            <span>Edit</span>
-          </button>
-          <button mat-menu-item (click)="deleteEntity(cell)">
-            <mat-icon color="warn">delete</mat-icon>
-            <span>Delete</span>
-          </button>
-        </mat-menu>
-      </ng-container>
-    </ng-container>
-
-    <ng-container autoColumnDef="select" header="" [sortable]="false">
-      <ng-container *autoDataCellOverride="let cell">
-        <mat-checkbox
-          [checked]="cell.selected"
-          [disableRipple]="true"
-          (click)="$event.stopPropagation(); $event.preventDefault(); toggleEntity(cell)"
-        ></mat-checkbox>
-      </ng-container>
-    </ng-container>
-
-    <ng-container autoColumnDef="typeName"></ng-container>
-
-    <ng-container autoPaginator>
-      <mat-paginator [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
-    </ng-container>
-  </auto-table> -->
+  <app-admin-data-table
+    [data]="(filterModels$ | async) ?? []"
+    [columns]="filterModelColumns"
+    (selected)="toggleEntity($event)"
+    (edit)="editEntity($event)"
+    (remove)="deleteEntity($event)"
+  ></app-admin-data-table>
 </div>

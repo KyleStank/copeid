@@ -56,12 +56,6 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
 
   constructor(readonly changeDetectorRef: ChangeDetectorRef) {
     this.dataSource.sortingDataAccessor = (item: DataItem, property: string) => recursivePropertySearch(item.value, property);
-
-    setInterval(() => {
-      console.log(this.dataSource.data.length === 0);
-      this.changeDetectorRef.markForCheck();
-      this.changeDetectorRef.detectChanges();
-    }, 5000);
   }
 
   ngOnChanges(): void {

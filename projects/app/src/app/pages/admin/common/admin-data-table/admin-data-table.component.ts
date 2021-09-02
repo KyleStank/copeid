@@ -1,4 +1,24 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
+
+import { AutoTableComponent } from '@shared/components/auto-table';
+
+export interface AdminSelectionItem {
+  selected: boolean;
+}
+
+export interface AdminColumn {
+  title: string;
+  property: string;
+}
 
 @Component({
   selector: 'app-admin-data-table',
@@ -10,28 +30,42 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEn
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class AdminDataTableComponent {
+export class AdminDataTableComponent implements OnChanges {
+  @ViewChild(AutoTableComponent, { static: true })
+  autoTable?: AutoTableComponent;
+
   @Input()
   data: any[] | undefined | null = [];
+  selectionData: AdminSelectionItem[] = [];
+
+  @Input()
+  columns: AdminColumn[] = [];
 
   @Output()
-  toggle = new EventEmitter<any>();
+  selected = new EventEmitter<AdminSelectionItem[]>();
 
   @Output()
-  edit = new EventEmitter<any>();
+  edit = new EventEmitter<AdminSelectionItem>();
 
   @Output()
-  delete = new EventEmitter<any>();
+  remove = new EventEmitter<AdminSelectionItem>();
 
-  toggleEntity(e: any): void {
-    console.log('T:', e);
+  ngOnChanges(): void {
+    this.data = this.data ?? [];
+    this.selectionData = this._createSelectionItems(this.data);
+
+    this.columns = this.columns ?? [];
   }
 
-  editEntity(e: any): void {
-    console.log('E:', e);
+  private _createSelectionItems(items: any[]): AdminSelectionItem[] {
+    return items?.map(x => ({
+      ...x,
+      selected: false
+    })) as AdminSelectionItem[] ?? [] as AdminSelectionItem[];
   }
 
-  deleteEntity(e: any): void {
-    console.log('D:', e);
+  toggleItem(item: AdminSelectionItem): void {
+    item.selected = !item.selected;
+    this.selected.emit(this.selectionData.filter(x => x.selected));
   }
 }

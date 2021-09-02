@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { Filter, FilterModel, FilterModelService, FilterService } from '@app/features';
-import { MatDialog } from '@angular/material/dialog';
+import { AdminColumn } from '../../common';
 import { AdminFilterModelEditModalComponent } from '../../modals';
 
 @Component({
@@ -20,6 +21,9 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
 
   private readonly _filterModelsSubject = new BehaviorSubject<FilterModel[]>([]);
   readonly filterModels$ = this._filterModelsSubject.asObservable();
+  readonly filterModelColumns: AdminColumn[] = [
+    { title: 'Type', property: 'typeName' }
+  ];
 
   private readonly _filtersSubject = new BehaviorSubject<Filter[]>([]);
   readonly filters$ = this._filtersSubject.asObservable();
