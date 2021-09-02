@@ -1,0 +1,22 @@
+<div class="d-flex align-items-center justify-content-between flex-wrap">
+  <h1 class="my-0">Manage Filter Models</h1>
+
+  <div class="f-flex align-items-center justify-content-between flex-wrap">
+    <button mat-raised-button class="my-1 me-2" color="primary" (click)="openFilterModelEditModal()">
+      New Filter Model
+    </button>
+    <button mat-raised-button class="my-1" color="warn" (click)="openDeleteModal()">
+      Delete Filter Model
+    </button>
+  </div>
+</div>
+
+<mat-divider class="my-2"></mat-divider>
+
+<app-admin-data-table
+  [data]="data ?? []"
+  [columns]="columns"
+  (selected)="toggleEntity($any($event))"
+  (edit)="openFilterModelEditModal($any($event))"
+  (remove)="openDeleteModal([$any($event)])"
+></app-admin-data-table>

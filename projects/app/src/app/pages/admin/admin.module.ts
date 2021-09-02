@@ -24,6 +24,7 @@ import { AdminDataTableComponent } from './common';
 import {
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
+  AdminFilterModelSectionComponent,
   AdminFilterPageComponent,
   AdminGenusesPageComponent,
   AdminPageComponent,
@@ -77,7 +78,10 @@ import {
     // Components
     AdminContributorsPageComponent,
     AdminDefinitionsPageComponent,
+
     AdminFilterPageComponent,
+    AdminFilterModelSectionComponent,
+
     AdminGenusesPageComponent,
     AdminPageComponent,
     AdminPhotographsPageComponent,

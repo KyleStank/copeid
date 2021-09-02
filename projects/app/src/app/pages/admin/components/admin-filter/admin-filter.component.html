@@ -1,17 +1,7 @@
-<div class="mb-3 pb-3">
-  <div class="d-flex align-items-center justify-content-between flex-wrap">
-    <h1 class="my-0">Manage Filter Models</h1>
-
-    <button mat-raised-button color="primary" (click)="openFilterModelEditModal()">
-      New Filter Model
-    </button>
-  </div>
-
-  <app-admin-data-table
-    [data]="(filterModels$ | async) ?? []"
-    [columns]="filterModelColumns"
-    (selected)="toggleEntity($event)"
-    (edit)="editEntity($event)"
-    (remove)="deleteEntity($event)"
-  ></app-admin-data-table>
-</div>
+<app-admin-filter-model-section
+  class="my-3"
+  [data]="(filterModels$ | async) ?? []"
+  [types]="types"
+  (editModalClose)="saveFilterModel($event)"
+  (deleteModalClose)="deleteFilterModels($event)"
+></app-admin-filter-model-section>
