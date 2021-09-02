@@ -1,18 +1,12 @@
 <auto-table [data]="selectionData ?? []">
-  <ng-container autoColumnDef="options" header="" [sortable]="false">
+  <ng-container autoColumnDef="options" header="" [sortable]="false" *ngIf="!!adminMenuDirective">
     <ng-container *autoDataCellOverride="let cell">
       <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="edit.emit(cell)">
-          <mat-icon color="primary">edit</mat-icon>
-          <span>Edit</span>
-        </button>
-        <button mat-menu-item (click)="remove.emit(cell)">
-          <mat-icon color="warn">delete</mat-icon>
-          <span>Delete</span>
-        </button>
+        <ng-content></ng-content>
+        <ng-container *adminDataTableMenuOutlet="adminMenuDirective; cell: cell"></ng-container>
       </mat-menu>
     </ng-container>
   </ng-container>

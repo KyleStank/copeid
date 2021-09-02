@@ -21,7 +21,7 @@ import { NgxEditorModule } from 'ngx-editor';
 import { SharedAutoTableModule } from '@shared/components/auto-table';
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminDataTableComponent } from './common';
+import { AdminDataTableComponent, AdminDataTableMenuDirective, AdminDataTableMenuOutletDirective } from './common';
 import {
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
@@ -76,6 +76,8 @@ import {
   declarations: [
     // Common
     AdminDataTableComponent,
+    AdminDataTableMenuDirective,
+    AdminDataTableMenuOutletDirective,
 
     // Components
     AdminContributorsPageComponent,

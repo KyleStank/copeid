@@ -1,6 +1,8 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
+  ContentChild,
   EventEmitter,
   Input,
   OnChanges,
@@ -10,6 +12,7 @@ import {
 } from '@angular/core';
 
 import { AutoTableComponent } from '@shared/components/auto-table';
+import { AdminDataTableMenuDirective } from './admin-data-table-menu.directive';
 
 export interface AdminSelectionItem {
   selected: boolean;
@@ -30,9 +33,12 @@ export interface AdminColumn {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class AdminDataTableComponent implements OnChanges {
+export class AdminDataTableComponent implements OnChanges, AfterContentInit {
   @ViewChild(AutoTableComponent, { static: true })
   autoTable?: AutoTableComponent;
+
+  @ContentChild(AdminDataTableMenuDirective, { static: true })
+  adminMenuDirective?: AdminDataTableMenuDirective;
 
   @Input()
   data: any[] | undefined | null = [];
@@ -55,6 +61,12 @@ export class AdminDataTableComponent implements OnChanges {
     this.selectionData = this._createSelectionItems(this.data);
 
     this.columns = this.columns ?? [];
+  }
+
+  ngAfterContentInit(): void {
+    if (!!this.adminMenuDirective) {
+      this.adminMenuDirective.render
+    }
   }
 
   private _createSelectionItems(items: any[]): AdminSelectionItem[] {

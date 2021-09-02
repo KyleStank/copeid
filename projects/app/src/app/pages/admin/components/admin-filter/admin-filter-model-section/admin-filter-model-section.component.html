@@ -19,4 +19,15 @@
   (selected)="toggleEntity($any($event))"
   (edit)="openFilterModelEditModal($any($event))"
   (remove)="openDeleteModal([$any($event)])"
-></app-admin-data-table>
+>
+  <ng-container *adminDataTableMenu="let cell">
+    <button mat-menu-item (click)="openFilterModelEditModal(cell)">
+      <mat-icon color="primary">edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="openDeleteModal(cell)">
+      <mat-icon color="warn">delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </ng-container>
+</app-admin-data-table>

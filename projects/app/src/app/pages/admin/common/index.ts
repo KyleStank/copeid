@@ -1,1 +1,1 @@
-export * from './admin-data-table/admin-data-table.component';
+export * from './admin-data-table';
