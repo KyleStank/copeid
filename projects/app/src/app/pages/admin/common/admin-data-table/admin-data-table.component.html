@@ -1,3 +1,5 @@
+<ng-content></ng-content>
+
 <auto-table [data]="selectionData ?? []">
   <ng-container autoColumnDef="options" header="" [sortable]="false" *ngIf="!!adminMenuDirective">
     <ng-container *autoDataCellOverride="let cell">
@@ -5,7 +7,6 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <ng-content></ng-content>
         <ng-container *adminDataTableMenuOutlet="adminMenuDirective; cell: cell"></ng-container>
       </mat-menu>
     </ng-container>

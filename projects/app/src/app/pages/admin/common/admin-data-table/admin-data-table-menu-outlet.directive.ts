@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit } from '@angular/core';
+import { Directive, Input, OnInit, ViewContainerRef } from '@angular/core';
 
 import { AdminDataTableMenuDirective } from './admin-data-table-menu.directive';
 
@@ -18,9 +18,13 @@ export class AdminDataTableMenuOutletDirective implements OnInit {
   @Input('adminDataTableMenuOutletCell')
   outletCell?: any;
 
+  constructor(readonly viewContainerRef: ViewContainerRef) {}
+
   ngOnInit(): void {
+    this.viewContainerRef.clear();
+
     if (!!this.adminMenuDirective && !!this.outletCell) {
-      this.adminMenuDirective.render(this.outletCell);
+      this.adminMenuDirective.render(this.viewContainerRef, this.outletCell);
     }
   }
 }

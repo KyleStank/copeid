@@ -2,7 +2,7 @@
   <h2 class="my-0">Manage Filter Models</h2>
 
   <div class="f-flex align-items-center justify-content-between flex-wrap">
-    <button mat-raised-button class="my-1 me-2" color="primary" (click)="openFilterModelEditModal()">
+    <button mat-raised-button class="my-1 me-2" color="primary" (click)="openEditModal()">
       New Filter Model
     </button>
     <button mat-raised-button class="my-1" color="warn" (click)="openDeleteModal()">
@@ -17,15 +17,17 @@
   [data]="data ?? []"
   [columns]="columns"
   (selected)="toggleEntity($any($event))"
-  (edit)="openFilterModelEditModal($any($event))"
-  (remove)="openDeleteModal([$any($event)])"
 >
   <ng-container *adminDataTableMenu="let cell">
-    <button mat-menu-item (click)="openFilterModelEditModal(cell)">
+    <button mat-menu-item (click)="openEditModal(cell)">
       <mat-icon color="primary">edit</mat-icon>
       <span>Edit</span>
     </button>
-    <button mat-menu-item (click)="openDeleteModal(cell)">
+    <button mat-menu-item (click)="null">
+      <mat-icon color="accent">settings</mat-icon>
+      <span>Properties</span>
+    </button>
+    <button mat-menu-item (click)="openDeleteModal([cell])">
       <mat-icon color="warn">delete</mat-icon>
       <span>Delete</span>
     </button>

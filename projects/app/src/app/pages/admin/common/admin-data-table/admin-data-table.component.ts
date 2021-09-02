@@ -1,5 +1,4 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
@@ -33,7 +32,7 @@ export interface AdminColumn {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class AdminDataTableComponent implements OnChanges, AfterContentInit {
+export class AdminDataTableComponent implements OnChanges {
   @ViewChild(AutoTableComponent, { static: true })
   autoTable?: AutoTableComponent;
 
@@ -50,23 +49,11 @@ export class AdminDataTableComponent implements OnChanges, AfterContentInit {
   @Output()
   selected = new EventEmitter<AdminSelectionItem[]>();
 
-  @Output()
-  edit = new EventEmitter<AdminSelectionItem>();
-
-  @Output()
-  remove = new EventEmitter<AdminSelectionItem>();
-
   ngOnChanges(): void {
     this.data = this.data ?? [];
     this.selectionData = this._createSelectionItems(this.data);
 
     this.columns = this.columns ?? [];
-  }
-
-  ngAfterContentInit(): void {
-    if (!!this.adminMenuDirective) {
-      this.adminMenuDirective.render
-    }
   }
 
   private _createSelectionItems(items: any[]): AdminSelectionItem[] {

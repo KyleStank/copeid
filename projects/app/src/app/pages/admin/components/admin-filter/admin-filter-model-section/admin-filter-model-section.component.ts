@@ -39,7 +39,7 @@ export class AdminFilterModelSectionComponent {
     this.selectedItems = selected;
   }
 
-  openFilterModelEditModal(model?: FilterModel): void {
+  openEditModal(model?: FilterModel): void {
     const dialogRef = this.dialog.open(AdminFilterModelEditModalComponent, {
       data: {
         types: this.types,
@@ -56,6 +56,8 @@ export class AdminFilterModelSectionComponent {
       }
     });
   }
+
+
 
   openDeleteModal(models?: FilterModel[]): void {
     models = models ?? this.selectedItems;
