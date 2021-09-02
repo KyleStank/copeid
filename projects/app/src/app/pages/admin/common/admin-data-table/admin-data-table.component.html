@@ -1,40 +1,35 @@
-<mat-table matSort [dataSource]="dataSource">
-  <ng-container matColumnDef="options">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      <button mat-icon-button [matMenuTriggerFor]="menu">
+<auto-table [data]="data ?? []">
+  <ng-container autoColumnDef="options" header="" [sortable]="false">
+    <ng-container *autoDataCellOverride="let cell">
+      <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="editEntity(cell)">
           <mat-icon color="primary">edit</mat-icon>
           <span>Edit</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="deleteEntity(cell)">
           <mat-icon color="warn">delete</mat-icon>
           <span>Delete</span>
         </button>
       </mat-menu>
-    </mat-cell>
+    </ng-container>
   </ng-container>
 
-  <ng-container matColumnDef="name">
-    <mat-header-cell mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      {{ row.name }}
-    </mat-cell>
+  <ng-container autoColumnDef="select" header="" [sortable]="false">
+    <ng-container *autoDataCellOverride="let cell">
+      <mat-checkbox
+        [checked]="cell.selected"
+        [disableRipple]="true"
+        (click)="$event.stopPropagation(); $event.preventDefault(); toggleEntity(cell)"
+      ></mat-checkbox>
+    </ng-container>
   </ng-container>
 
-  <ng-container matColumnDef="noResults">
-    <mat-footer-cell [attr.colSpan]="columns.length" *matFooterCellDef>
-      <em>
-        No results found.
-      </em>
-    </mat-footer-cell>
+  <ng-container autoColumnDef="typeName"></ng-container>
+
+  <ng-container autoPaginator>
+    <mat-paginator [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
   </ng-container>
-
-  <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: columns"></mat-row>
-</mat-table>
-
-<mat-paginator [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
+</auto-table>

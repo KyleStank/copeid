@@ -7,7 +7,9 @@
     </button>
   </div>
 
-  <auto-table [data]="(filterModels$ | async) ?? []">
+  <app-admin-data-table [data]="(filterModels$ | async) ?? []"></app-admin-data-table>
+
+  <!-- <auto-table [data]="(filterModels$ | async) ?? []">
     <ng-container autoColumnDef="options" header="" [sortable]="false">
       <ng-container *autoDataCellOverride="let cell">
         <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
@@ -41,5 +43,5 @@
     <ng-container autoPaginator>
       <mat-paginator [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
     </ng-container>
-  </auto-table>
+  </auto-table> -->
 </div>

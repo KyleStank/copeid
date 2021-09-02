@@ -1,66 +1,54 @@
-<div class="auto-table-container">
-  <table
-    auto-table
-    mat-table
-    matSort
-    [dataSource]="dataSource"
-  >
-    <ng-container [matColumnDef]="column.property" *ngFor="let column of columnDefs">
-      <ng-container *ngIf="column.sortable then sortableHeader else defaultHeader"></ng-container>
+<mat-table
+  class="overflow-auto"
+  auto-table
+  matSort
+  [dataSource]="dataSource"
+>
+  <ng-container [matColumnDef]="column.property" *ngFor="let column of columnDefs">
+    <ng-container *ngIf="column.sortable then sortableHeader else defaultHeader"></ng-container>
 
-      <!-- Content displayed inside header column -->
-      <ng-template #headerContent>
-        <auto-header-cell
-          [columnDef]="column"
-        ></auto-header-cell>
-      </ng-template>
+    <!-- Content displayed inside header column -->
+    <ng-template #headerContent>
+      <auto-header-cell
+        [columnDef]="column"
+      ></auto-header-cell>
+    </ng-template>
 
-      <!-- Sortable header column -->
-      <ng-template #sortableHeader>
-        <th mat-header-cell mat-sort-header *matHeaderCellDef>
-          <ng-container *ngTemplateOutlet="headerContent"></ng-container>
-        </th>
-      </ng-template>
+    <!-- Sortable header column -->
+    <ng-template #sortableHeader>
+      <mat-header-cell mat-sort-header *matHeaderCellDef>
+        <ng-container *ngTemplateOutlet="headerContent"></ng-container>
+      </mat-header-cell>
+    </ng-template>
 
-      <!-- Default/un-sortable header column -->
-      <ng-template #defaultHeader>
-        <th mat-header-cell *matHeaderCellDef>
-          <ng-container *ngTemplateOutlet="headerContent"></ng-container>
-        </th>
-      </ng-template>
+    <!-- Default/un-sortable header column -->
+    <ng-template #defaultHeader>
+      <mat-header-cell *matHeaderCellDef>
+        <ng-container *ngTemplateOutlet="headerContent"></ng-container>
+      </mat-header-cell>
+    </ng-template>
 
-      <!-- Data column -->
-      <td mat-cell *matCellDef="let element; let index = index;">
-        <auto-data-cell
-          [columnDef]="column"
-          [item]="element.value"
-          [index]="element.index"
-          [rowIndex]="index"
-          [default]="column.default"
-        ></auto-data-cell>
-      </td>
-    </ng-container>
+    <!-- Data column -->
+    <mat-cell *matCellDef="let cell; let index = index;">
+      <auto-data-cell
+        [columnDef]="column"
+        [item]="cell.value"
+        [index]="cell.index"
+        [rowIndex]="index"
+        [default]="column.default"
+      ></auto-data-cell>
+    </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="noResults">
-      <td mat-footer-cell [colSpan]="columnDefs.length > 0 ? columnDefs.length : 1" *matFooterCellDef>
-        <i>No results</i>
-      </td>
-    </ng-container>
+  <ng-container matColumnDef="noResults">
+    <mat-footer-cell *matFooterCellDef>
+      <em>No results</em>
+    </mat-footer-cell>
+  </ng-container>
 
-    <tr
-      mat-header-row
-      *matHeaderRowDef="columnProps"
-    ></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: columnProps"
-    ></tr>
-    <tr
-      mat-footer-row
-      [hidden]="dataSource.data.length > 0"
-      *matFooterRowDef="dataSource.data.length === 0 ? ['noResults'] : []"
-    ></tr>
-  </table>
-</div>
+  <mat-header-row *matHeaderRowDef="columnProps"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columnProps"></mat-row>
+  <mat-footer-row [class.d-none]="dataSource.data.length > 0" *matFooterRowDef="['noResults']"></mat-footer-row>
+</mat-table>
 
 <ng-content select="[autoPaginator]"></ng-content>

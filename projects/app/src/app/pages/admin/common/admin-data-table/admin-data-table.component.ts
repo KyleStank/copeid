@@ -1,42 +1,37 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-admin-data-table',
   templateUrl: './admin-data-table.component.html',
-  styleUrls: ['./admin-data-table.component.html'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./admin-data-table.component.scss'],
+  host: {
+    'class': 'd-block w-100'
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
-export class AdminDataTableComponent implements OnChanges, AfterViewInit {
-  readonly dataSource = new MatTableDataSource<any>();
-
-  @ViewChild(MatSort, { static: true })
-  sort: MatSort | undefined;
-
-  @ViewChild(MatPaginator, { static: true })
-  paginator: MatPaginator | undefined;
-
+export class AdminDataTableComponent {
   @Input()
   data: any[] | undefined | null = [];
 
-  @Input()
-  columns: string[] = [];
+  @Output()
+  toggle = new EventEmitter<any>();
 
-  ngOnChanges(): void {
-    if (this.data) {
-      this.dataSource.data = this.data;
-    }
+  @Output()
+  edit = new EventEmitter<any>();
+
+  @Output()
+  delete = new EventEmitter<any>();
+
+  toggleEntity(e: any): void {
+    console.log('T:', e);
   }
 
-  ngAfterViewInit(): void {
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
+  editEntity(e: any): void {
+    console.log('E:', e);
+  }
 
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
+  deleteEntity(e: any): void {
+    console.log('D:', e);
   }
 }

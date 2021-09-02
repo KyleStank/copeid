@@ -24,6 +24,9 @@ type DataItem = { index: number; value: any };
   selector: 'auto-table',
   templateUrl: 'auto-table.component.html',
   styleUrls: ['auto-table.component.scss'],
+  host: {
+    'class': 'd-block w-100'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -49,8 +52,16 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
   columnDefs: AutoColumnDefDirective[] = [];
   columnProps: string[] = [];
 
-  constructor(private readonly _detectorRef: ChangeDetectorRef) {
+  isEmpty = false;
+
+  constructor(readonly changeDetectorRef: ChangeDetectorRef) {
     this.dataSource.sortingDataAccessor = (item: DataItem, property: string) => recursivePropertySearch(item.value, property);
+
+    setInterval(() => {
+      console.log(this.dataSource.data.length === 0);
+      this.changeDetectorRef.markForCheck();
+      this.changeDetectorRef.detectChanges();
+    }, 5000);
   }
 
   ngOnChanges(): void {
@@ -106,8 +117,9 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
     }
 
     this.dataSource.data = dataItems;
+    this.isEmpty = this.dataSource.data.length === 0;
 
-    this._detectorRef.detectChanges();
-    this._detectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 }

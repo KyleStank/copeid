@@ -1,7 +1,5 @@
-.auto-table-container {
-  overflow-x: auto;
-
-  table {
-    width: 100%;
-  }
+.mat-header-cell,
+.mat-cell,
+.mat-footer-cell {
+  overflow-wrap: anywhere;
 }
