@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { FilterModel } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { AdminColumn } from '../../../common';
-import { AdminFilterModelEditModalComponent } from '../../../modals';
+import { AdminColumn } from '../../../../common';
+import { AdminFilterModelEditModalComponent } from '../../../../modals';
 
 @Component({
   selector: 'app-admin-filter-model-section',
@@ -27,6 +27,9 @@ export class AdminFilterModelSectionComponent {
 
   @Output()
   editModalClose = new EventEmitter<FilterModel>();
+
+  @Output()
+  propertiesClick = new EventEmitter<FilterModel>();
 
   @Output()
   deleteModalClose = new EventEmitter<FilterModel[]>();
@@ -56,8 +59,6 @@ export class AdminFilterModelSectionComponent {
       }
     });
   }
-
-
 
   openDeleteModal(models?: FilterModel[]): void {
     models = models ?? this.selectedItems;

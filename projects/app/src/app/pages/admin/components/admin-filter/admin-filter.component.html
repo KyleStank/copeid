@@ -17,6 +17,7 @@
       [data]="(filterModels$ | async) ?? []"
       [types]="types"
       (editModalClose)="saveFilterModel($event)"
+      (propertiesClick)="navigateToFilterModelProperties($event)"
       (deleteModalClose)="deleteFilterModels($event)"
     ></app-admin-filter-model-section>
   </mat-expansion-panel>

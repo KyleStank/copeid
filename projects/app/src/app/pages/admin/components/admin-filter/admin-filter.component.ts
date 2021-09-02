@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { FilterModel, FilterModelService, FilterService } from '@app/features';
@@ -22,8 +23,10 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
   types: string[] = [];
 
   constructor(
+    private readonly _activatedRoute: ActivatedRoute,
     private readonly _filterModelService: FilterModelService,
-    private readonly _filterService: FilterService
+    private readonly _filterService: FilterService,
+    private readonly _router: Router
   ) {
     this.filterModels$ = this.filterModels$.pipe(takeUntil(this._destroyed));
   }
@@ -58,6 +61,10 @@ export class AdminFilterPageComponent implements OnInit, OnDestroy {
         next: () => this.getFilterModels()
       });
     }
+  }
+
+  navigateToFilterModelProperties(model: FilterModel): void {
+    this._router.navigate(['models', model.id, 'properties'], { relativeTo: this._activatedRoute });
   }
 
   deleteFilterModels(models: FilterModel[]): void {

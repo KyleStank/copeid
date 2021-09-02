@@ -25,6 +25,7 @@ import { AdminDataTableComponent, AdminDataTableMenuDirective, AdminDataTableMen
 import {
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
+  AdminFilterModelPropertiesPageComponent,
   AdminFilterModelSectionComponent,
   AdminFilterPageComponent,
   AdminGenusesPageComponent,
@@ -84,6 +85,7 @@ import {
     AdminDefinitionsPageComponent,
 
     AdminFilterPageComponent,
+    AdminFilterModelPropertiesPageComponent,
     AdminFilterModelSectionComponent,
 
     AdminGenusesPageComponent,

@@ -11,7 +11,6 @@ interface AdminFilterModelEditModalData {
 @Component({
   selector: 'app-filter-model-edit',
   templateUrl: './filter-model-edit.component.html',
-  styleUrls: ['./filter-model-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFilterModelEditModalComponent {

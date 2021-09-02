@@ -5,6 +5,7 @@ import { ILayoutConfig } from '@core/layouts/models';
 import {
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
+  AdminFilterModelPropertiesPageComponent,
   AdminFilterPageComponent,
   AdminGenusesPageComponent,
   AdminPageComponent,
@@ -93,14 +94,30 @@ const routes: Routes = [
   },
   {
     path: 'filter',
-    component: AdminFilterPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Filter'
+    children: [
+      {
+        path: '',
+        component: AdminFilterPageComponent,
+        data: {
+          layout: {
+            config: {
+              pageName: 'Filter'
+            }
+          } as ILayoutConfig
+        },
+      },
+      {
+        path: 'models/:id/properties',
+        component: AdminFilterModelPropertiesPageComponent,
+        data: {
+          layout: {
+            config: {
+              pageName: 'Filter Model Properties'
+            }
+          } as ILayoutConfig
         }
-      } as ILayoutConfig
-    }
+      }
+    ]
   }
 ];
 
