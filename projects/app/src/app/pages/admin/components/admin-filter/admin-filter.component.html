@@ -1,7 +1,23 @@
-<app-admin-filter-model-section
-  class="my-3"
-  [data]="(filterModels$ | async) ?? []"
-  [types]="types"
-  (editModalClose)="saveFilterModel($event)"
-  (deleteModalClose)="deleteFilterModels($event)"
-></app-admin-filter-model-section>
+<h1 class="my-1">Manage Filter Information</h1>
+
+<mat-divider class="my-2"></mat-divider>
+
+<mat-accordion class="my-3">
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Filter Models
+      </mat-panel-title>
+      <mat-panel-description>
+        Manage all Filter Models
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <app-admin-filter-model-section
+      [data]="(filterModels$ | async) ?? []"
+      [types]="types"
+      (editModalClose)="saveFilterModel($event)"
+      (deleteModalClose)="deleteFilterModels($event)"
+    ></app-admin-filter-model-section>
+  </mat-expansion-panel>
+</mat-accordion>
