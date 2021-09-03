@@ -58,16 +58,16 @@ export class AdminFilterModelPropertiesPageComponent implements OnInit, OnDestro
     });
   }
 
-  ngOnDestroy(): void {
-    this._destroyed.next();
-    this._destroyed.complete();
-  }
-
   openEditModal(model?: FilterModelProperty): void {
     console.log('Edit:', model);
   }
 
   openDeleteModal(model?: FilterModelProperty): void {
     console.log('Delete:', model);
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 }
