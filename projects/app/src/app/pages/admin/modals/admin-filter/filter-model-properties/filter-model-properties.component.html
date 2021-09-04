@@ -1,0 +1,27 @@
+<div mat-dialog-title>
+  <h2>{{ model.id ? 'Edit Filter Model Property' : 'Create Filter Model Property' }}</h2>
+</div>
+<div class="py-2" mat-dialog-content>
+  <div class="row">
+    <div class="col-md">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Property Name</mat-label>
+
+        <mat-select #selectInput required aria-label="Property Name select input." [(ngModel)]="model.propertyName">
+          <mat-option [value]="null">--</mat-option>
+          <mat-option [value]="property" *ngFor="let property of properties">
+            {{ property }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" [mat-dialog-close]="null">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="!selectInput.value" [mat-dialog-close]="model">Save</button>
+</div>

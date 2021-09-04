@@ -4,7 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
+import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../../common';
+import { AdminFilterModelPropertiesEditModalComponent } from '../../../../modals';
 
 @Component({
   selector: 'app-admin-filter-model-properties',
@@ -28,7 +30,9 @@ export class AdminFilterModelPropertiesPageComponent implements OnInit, OnDestro
     { title: 'Property', property: 'propertyName' }
   ];
 
+  id: string | undefined;
   propertyTypes: string[] = [];
+  selectedItems: FilterModelProperty[] = [];
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -40,10 +44,14 @@ export class AdminFilterModelPropertiesPageComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
-    const id = this._activatedRoute.snapshot.paramMap.get('id');
-    if (!!id) {
-      this.getFilterModelProperties(id);
+    this.id = this._activatedRoute.snapshot.paramMap.get('id') ?? undefined;
+    if (!!this.id) {
+      this.getFilterModelProperties(this.id);
     }
+  }
+
+  toggleEntity(selected: FilterModelProperty[]): void {
+    this.selectedItems = selected;
   }
 
   getFilterModelProperties(id: string): void {
@@ -59,11 +67,59 @@ export class AdminFilterModelPropertiesPageComponent implements OnInit, OnDestro
   }
 
   openEditModal(model?: FilterModelProperty): void {
-    console.log('Edit:', model);
+    model = {
+      ...(model ?? {}),
+      filterModelId: this.id,
+    } as FilterModelProperty;
+
+    const dialogRef = this._dialog.open(AdminFilterModelPropertiesEditModalComponent, {
+      data: {
+        properties: this.propertyTypes,
+        model
+      },
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (filterModelProperty: FilterModelProperty) => {
+        if (!filterModelProperty?.propertyName) return;
+
+        if (!!filterModelProperty.id) {
+          this._filterModelPropertyService.update(filterModelProperty).subscribe({
+            next: () => this.getFilterModelProperties(this.id!)
+          });
+        } else {
+          this._filterModelPropertyService.create(filterModelProperty).subscribe({
+            next: () => this.getFilterModelProperties(this.id!)
+          });
+        }
+      }
+    });
   }
 
-  openDeleteModal(model?: FilterModelProperty): void {
-    console.log('Delete:', model);
+  openDeleteModal(models?: FilterModelProperty[]): void {
+    models = models ?? this.selectedItems;
+
+    const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
+      data: {
+        title: `Delete Filter ${models.length === 1 ? 'Model' : 'Models'}`,
+        message: `Are you sure you want to delete ${models.length === 1 ? 'this Filter Model' : 'these Filter Models'}?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (result: boolean) => {
+        if (result) {
+          models!.forEach(model => {
+            if (!!model?.id) {
+              this._filterModelPropertyService.delete(model.id).subscribe({
+                next: () => this.getFilterModelProperties(this.id!)
+              });
+            }
+          });
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {
