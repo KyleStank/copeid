@@ -29,7 +29,6 @@ import {
   AdminFilterModelSectionComponent,
   AdminFilterPageComponent,
   AdminGenusesPageComponent,
-  AdminPageComponent,
   AdminPhotographsPageComponent,
   AdminPropertyValuePipe,
   AdminReferencesPageComponent,
@@ -90,7 +89,6 @@ import {
     AdminFilterModelSectionComponent,
 
     AdminGenusesPageComponent,
-    AdminPageComponent,
     AdminPhotographsPageComponent,
     AdminReferencesPageComponent,
     AdminSpecimensPageComponent,

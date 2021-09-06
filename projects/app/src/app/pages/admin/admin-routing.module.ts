@@ -3,32 +3,36 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import {
-  AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
   AdminFilterModelPropertiesPageComponent,
   AdminFilterPageComponent,
   AdminGenusesPageComponent,
-  AdminPageComponent,
   AdminPhotographsPageComponent,
   AdminReferencesPageComponent,
   AdminSpecimensPageComponent
 } from './components';
+import {
+  AdminContributorsComponent,
+  AdminContributorsModule,
+  AdminHomeComponent,
+  AdminHomeModule
+} from './pages';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminPageComponent,
+    component: AdminHomeComponent,
     data: {
       layout: {
         config: {
-          pageName: 'Dashboard'
+          pageName: 'Home'
         }
       } as ILayoutConfig
     }
   },
   {
     path: 'contributors',
-    component: AdminContributorsPageComponent,
+    component: AdminContributorsComponent,
     data: {
       layout: {
         config: {
@@ -121,8 +125,16 @@ const routes: Routes = [
   }
 ];
 
+const importedModules = [
+  AdminHomeModule,
+  AdminContributorsModule
+];
+
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    ...importedModules,
+    RouterModule.forChild(routes)
+  ],
   exports: [RouterModule]
 })
 export class AdminRoutingModule {}

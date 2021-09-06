@@ -1,4 +1,3 @@
-export * from './admin';
 export * from './admin-filter';
 
 export * from './admin-pages.pipe';
