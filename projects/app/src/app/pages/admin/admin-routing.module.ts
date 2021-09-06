@@ -3,19 +3,22 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import {
-  AdminDefinitionsPageComponent,
-  AdminFilterModelPropertiesPageComponent,
-  AdminFilterPageComponent,
-  AdminGenusesPageComponent,
-  AdminPhotographsPageComponent,
-  AdminReferencesPageComponent,
-  AdminSpecimensPageComponent
-} from './components';
-import {
   AdminContributorsComponent,
   AdminContributorsModule,
+  AdminDefinitionsComponent,
+  AdminDefinitionsModule,
+  AdminFiltersComponent,
+  AdminFiltersModule,
+  AdminGenusesComponent,
+  AdminGenusesModule,
   AdminHomeComponent,
-  AdminHomeModule
+  AdminHomeModule,
+  AdminPhotographsComponent,
+  AdminPhotographsModule,
+  AdminReferencesComponent,
+  AdminReferencesModule,
+  AdminSpecimensComponent,
+  AdminSpecimensModule
 } from './pages';
 
 const routes: Routes = [
@@ -43,7 +46,7 @@ const routes: Routes = [
   },
   {
     path: 'definitions',
-    component: AdminDefinitionsPageComponent,
+    component: AdminDefinitionsComponent,
     data: {
       layout: {
         config: {
@@ -53,8 +56,47 @@ const routes: Routes = [
     }
   },
   {
+    path: 'filters',
+    component: AdminFiltersComponent,
+    data: {
+      layout: {
+        config: {
+          pageName: 'Filters'
+        }
+      } as ILayoutConfig
+    }
+  },
+  // TODO: Implement all old Filter routes
+  // {
+  //   path: 'filter',
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: AdminFilterPageComponent,
+  //       data: {
+  //         layout: {
+  //           config: {
+  //             pageName: 'Filter'
+  //           }
+  //         } as ILayoutConfig
+  //       },
+  //     },
+  //     {
+  //       path: 'models/:id/properties',
+  //       component: AdminFilterModelPropertiesPageComponent,
+  //       data: {
+  //         layout: {
+  //           config: {
+  //             pageName: 'Filter Model Properties'
+  //           }
+  //         } as ILayoutConfig
+  //       }
+  //     }
+  //   ]
+  // },
+  {
     path: 'genuses',
-    component: AdminGenusesPageComponent,
+    component: AdminGenusesComponent,
     data: {
       layout: {
         config: {
@@ -65,7 +107,7 @@ const routes: Routes = [
   },
   {
     path: 'photographs',
-    component: AdminPhotographsPageComponent,
+    component: AdminPhotographsComponent,
     data: {
       layout: {
         config: {
@@ -75,19 +117,8 @@ const routes: Routes = [
     }
   },
   {
-    path: 'specimens',
-    component: AdminSpecimensPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Specimens'
-        }
-      } as ILayoutConfig
-    }
-  },
-  {
     path: 'references',
-    component: AdminReferencesPageComponent,
+    component: AdminReferencesComponent,
     data: {
       layout: {
         config: {
@@ -97,37 +128,27 @@ const routes: Routes = [
     }
   },
   {
-    path: 'filter',
-    children: [
-      {
-        path: '',
-        component: AdminFilterPageComponent,
-        data: {
-          layout: {
-            config: {
-              pageName: 'Filter'
-            }
-          } as ILayoutConfig
-        },
-      },
-      {
-        path: 'models/:id/properties',
-        component: AdminFilterModelPropertiesPageComponent,
-        data: {
-          layout: {
-            config: {
-              pageName: 'Filter Model Properties'
-            }
-          } as ILayoutConfig
+    path: 'specimens',
+    component: AdminSpecimensComponent,
+    data: {
+      layout: {
+        config: {
+          pageName: 'Specimens'
         }
-      }
-    ]
+      } as ILayoutConfig
+    }
   }
 ];
 
 const importedModules = [
+  AdminContributorsModule,
+  AdminDefinitionsModule,
+  AdminFiltersModule,
+  AdminGenusesModule,
   AdminHomeModule,
-  AdminContributorsModule
+  AdminPhotographsModule,
+  AdminReferencesModule,
+  AdminSpecimensModule
 ];
 
 @NgModule({

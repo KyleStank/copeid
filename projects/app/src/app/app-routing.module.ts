@@ -15,7 +15,7 @@ const adminMenu = [
   { label: 'Home', url: ['admin'], logo: 'home' },
   { label: 'Contributors', url: ['admin', 'contributors'], logo: 'group' },
   { label: 'Definitions', url: ['admin', 'definitions'], logo: 'library_books' },
-  { label: 'Filter', url: ['admin', 'filter'], logo: 'search' },
+  { label: 'Filter', url: ['admin', 'filters'], logo: 'search' },
   { label: 'Genuses', url: ['admin', 'genuses'], logo: 'pest_control' },
   { label: 'Photographs', url: ['admin', 'photographs'], logo: 'photo_library' },
   { label: 'References', url: ['admin', 'references'], logo: 'menu_book' },
