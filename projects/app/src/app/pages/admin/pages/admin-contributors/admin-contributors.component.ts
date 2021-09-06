@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { Contributor, ContributorService } from '@app/features';
+import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../common';
 
 @Component({
@@ -28,6 +30,7 @@ export class AdminContributorsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _contributorService: ContributorService,
+    private readonly _dialog: MatDialog,
     private readonly _router: Router
   ) {
     this.contributors$ = this.contributors$.pipe(takeUntil(this._destroyed));
@@ -53,7 +56,32 @@ export class AdminContributorsComponent implements OnInit, OnDestroy {
   }
 
   deleteEntities(models: Contributor[]): void {
-    console.log('Delete:', models);
+    const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
+      data: {
+        title: `Delete ${this.singularName}`,
+        message: `Are you sure you want to delete this ${this.singularName}?`
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(
+        (result: boolean) => {
+          if (result) {
+            // TODO: Optimize! Running an API in a loop is NEVER, EVER GOOD. This was only done since this isn't a professional product.
+            models.forEach(m => this._deleteEntity(m));
+          }
+        }
+      );
+  }
+
+  protected _deleteEntity(model: Contributor): void {
+    if (!!model?.id) {
+      this._contributorService.delete(model.id).subscribe({
+        next: () => this.getEntities(),
+        error: (error: any) => console.error('Error:', error)
+      });
+    }
   }
 
   toggleEntity(models?: Contributor[]): void {
