@@ -20,6 +20,7 @@ import {
   AdminSpecimensComponent,
   AdminSpecimensModule
 } from './pages';
+import { AdminContributorsRoutingModule } from './pages';
 
 const routes: Routes = [
   {
@@ -35,14 +36,7 @@ const routes: Routes = [
   },
   {
     path: 'contributors',
-    component: AdminContributorsComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Contributors'
-        }
-      } as ILayoutConfig
-    }
+    loadChildren: () => import('./pages/admin-contributors/admin-contributors.module').then(m => m.AdminContributorsModule)
   },
   {
     path: 'definitions',
@@ -141,7 +135,8 @@ const routes: Routes = [
 ];
 
 const importedModules = [
-  AdminContributorsModule,
+  // AdminContributorsModule,
+  // AdminContributorsModule,
   AdminDefinitionsModule,
   AdminFiltersModule,
   AdminGenusesModule,

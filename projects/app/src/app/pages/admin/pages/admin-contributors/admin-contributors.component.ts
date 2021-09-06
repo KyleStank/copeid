@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { Contributor, ContributorService } from '@app/features';
@@ -24,7 +25,11 @@ export class AdminContributorsComponent implements OnInit, OnDestroy {
 
   selectedEntities: Contributor[] = [];
 
-  constructor(private readonly _contributorService: ContributorService) {
+  constructor(
+    private readonly _activatedRoute: ActivatedRoute,
+    private readonly _contributorService: ContributorService,
+    private readonly _router: Router
+  ) {
     this.contributors$ = this.contributors$.pipe(takeUntil(this._destroyed));
   }
 
@@ -42,7 +47,9 @@ export class AdminContributorsComponent implements OnInit, OnDestroy {
   }
 
   editAddEntity(model?: Contributor): void {
-    console.log('Edit/Add:', model);
+    if (!!model?.id) {
+      this._router.navigate([model.id, 'edit'], { relativeTo: this._activatedRoute });
+    }
   }
 
   deleteEntities(models: Contributor[]): void {
