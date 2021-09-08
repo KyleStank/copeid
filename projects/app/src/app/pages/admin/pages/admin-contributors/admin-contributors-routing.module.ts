@@ -2,14 +2,20 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
-import { AdminManageContainerComponent } from '../../components';
+import { AdminEditContainerComponent, AdminManageContainerComponent } from '../../components';
 import { AdminContributorEditComponent } from './admin-contributor-edit/admin-contributor-edit.component';
 import { AdminContributorsComponent } from './admin-contributors.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminContributorsComponent,
+    component: AdminManageContainerComponent,
+    children: [
+      {
+        path: '',
+        component: AdminContributorsComponent
+      }
+    ],
     data: {
       layout: {
         config: {
@@ -20,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'edit',
-    component: AdminManageContainerComponent,
+    component: AdminEditContainerComponent,
     children: [
       {
         path: ':id',
@@ -31,6 +37,23 @@ const routes: Routes = [
       layout: {
         config: {
           pageName: 'Edit Contributor'
+        }
+      } as ILayoutConfig
+    }
+  },
+  {
+    path: 'create',
+    component: AdminEditContainerComponent,
+    children: [
+      {
+        path: '',
+        component: AdminContributorEditComponent
+      }
+    ],
+    data: {
+      layout: {
+        config: {
+          pageName: 'Create Contributor'
         }
       } as ILayoutConfig
     }

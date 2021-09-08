@@ -1,3 +1,4 @@
+export * from './admin-edit';
 export * from './admin-manage';
 export * from './admin-filter';
 

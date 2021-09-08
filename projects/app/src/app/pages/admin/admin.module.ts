@@ -22,6 +22,7 @@ import { SharedAutoTableModule } from '@shared/components/auto-table';
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
 import { AdminRoutingModule } from './admin-routing.module';
 import {
+  AdminEditContainerComponent,
   AdminManageContainerComponent,
   AdminContributorsPageComponent,
   AdminDefinitionsPageComponent,
@@ -78,6 +79,7 @@ import { AdminDataTableModule } from './common';
   ],
   declarations: [
     // Components
+    AdminEditContainerComponent,
     AdminManageContainerComponent,
 
     AdminContributorsPageComponent,

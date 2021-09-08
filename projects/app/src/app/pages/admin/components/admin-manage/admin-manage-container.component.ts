@@ -1,8 +1,9 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { RouterOutlet } from '@angular/router';
+import { Subject } from 'rxjs';
 
-import { IAdminManageViewComponent } from './admin-manage-view.abstract.component';
+import { IAdminManageContainer, IAdminManageView } from './admin-manage.model';
 
 @Component({
   selector: 'app-admin-manage-container',
@@ -12,59 +13,38 @@ import { IAdminManageViewComponent } from './admin-manage-view.abstract.componen
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminManageContainerComponent implements OnDestroy {
-  private readonly _destroyed = new Subject<void>();
-  private readonly _routeDeactivated = new Subject<void>();
+export class AdminManageContainerComponent implements IAdminManageContainer, OnDestroy {
+  readonly destroyed = new Subject<void>();
 
   @ViewChild(RouterOutlet, { static: true })
   routerOutlet?: RouterOutlet;
 
-  private _activeViewComponent?: IAdminManageViewComponent;
+  activeView: IAdminManageView | undefined;
 
-  pageTitle?: string;
+  constructor(readonly dialog: MatDialog) {}
 
-  constructor(
-    readonly activatedRoute: ActivatedRoute,
-    readonly changeDetectorRef: ChangeDetectorRef,
-    readonly router: Router
-  ) {}
+  activateView(viewComponent?: IAdminManageView): void {
+    this.activeView = viewComponent ?? this.activeView ?? undefined;
+  }
 
-  routeActivated(viewComponent: IAdminManageViewComponent): void {
-    this._activeViewComponent = viewComponent ?? this._activeViewComponent;
-    if (!!this._activeViewComponent) {
-      this._activeViewComponent!.model$
-        .pipe(takeUntil(this._routeDeactivated))
-        .subscribe({
-          next: () => this.pageTitle = this._activeViewComponent!.updateModelTitle()
-        });
+  deactivateView(viewComponent?: IAdminManageView): void {
+    this.activeView = undefined;
+  }
+
+  editAddItem(model?: any): void {
+    if (!!this.activeView) {
+      this.activeView.editAddItem(model);
     }
   }
 
-  routeDeactivated(viewComponent: IAdminManageViewComponent): void {
-    this._routeDeactivated.next();
-    this._activeViewComponent = undefined;
-  }
-
-  save(): void {
-    if (!!this._activeViewComponent) {
-      this._activeViewComponent.save()
-        .pipe(takeUntil(this._destroyed))
-        .subscribe({
-          next: () => this.back(),
-          error: err => console.error('Error:', err)
-        });
+  deleteSelectedItems(): void {
+    if (!!this.activeView) {
+      this.activeView.deleteItems(this.activeView.selectedItems);
     }
-  }
-
-  back(): void {
-    this.router.navigate(['..'], { relativeTo: this.activatedRoute });
   }
 
   ngOnDestroy(): void {
-    this._routeDeactivated.next();
-    this._routeDeactivated.complete();
-
-    this._destroyed.next();
-    this._destroyed.complete();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 }

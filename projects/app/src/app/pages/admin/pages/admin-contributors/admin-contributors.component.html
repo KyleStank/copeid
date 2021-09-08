@@ -1,42 +1,16 @@
-<div class="mb-3 pb-3">
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap">
-    <h2 class="my-0">Manage {{ pluralName }}</h2>
-    <div class="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap;">
-      <button
-        class="my-1 me-2"
-        mat-raised-button
-        color="primary"
-        (click)="editAddEntity()"
-      >
-        New {{ singularName }}
-      </button>
-      <button
-        class="my-1"
-        mat-raised-button
-        color="warn"
-        (click)="deleteEntities(selectedEntities)"
-      >
-        Delete {{ singularName }}
-      </button>
-    </div>
-  </div>
-  <mat-divider class="my-2"></mat-divider>
-  <div class="table-overflow">
-    <app-admin-data-table
-      [data]="(contributors$ | async) ?? []"
-      [columns]="columns"
-      (selected)="toggleEntity($any($event))"
-    >
-      <ng-container *adminDataTableMenu="let cell">
-        <button mat-menu-item (click)="editAddEntity(cell)">
-          <mat-icon color="primary">edit</mat-icon>
-          <span>Edit</span>
-        </button>
-        <button mat-menu-item (click)="deleteEntities([cell])">
-          <mat-icon color="warn">delete</mat-icon>
-          <span>Delete</span>
-        </button>
-      </ng-container>
-    </app-admin-data-table>
-  </div>
-</div>
+<app-admin-data-table
+  [data]="(contributors$ | async) ?? []"
+  [columns]="columns"
+  (selected)="selectedItems = $event"
+>
+  <ng-container *adminDataTableMenu="let cell">
+    <button mat-menu-item (click)="editAddItem(cell)">
+      <mat-icon color="primary">edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="deleteItems([cell])">
+      <mat-icon color="warn">delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </ng-container>
+</app-admin-data-table>

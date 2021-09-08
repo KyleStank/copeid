@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Contributor, ContributorService } from '@app/features';
-import { IAdminManageViewComponent } from '../../../components';
+import { IAdminEditView } from '../../../components';
 
 @Component({
   selector: 'app-admin-contributor-edit',
@@ -12,7 +12,7 @@ import { IAdminManageViewComponent } from '../../../components';
   providers: [ContributorService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorEditComponent implements IAdminManageViewComponent<Contributor>, OnInit, OnDestroy {
+export class AdminContributorEditComponent implements IAdminEditView<Contributor>, OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   private readonly _modelSubject = new BehaviorSubject<Contributor | undefined>(undefined);
@@ -21,9 +21,6 @@ export class AdminContributorEditComponent implements IAdminManageViewComponent<
   readonly formGroup = this._fb.group({
     name: ['', Validators.required]
   });
-  get nameControl(): AbstractControl {
-    return this.formGroup.get('name')!;
-  }
 
   id: string | undefined;
 
@@ -36,9 +33,11 @@ export class AdminContributorEditComponent implements IAdminManageViewComponent<
     this.model$ = this.model$.pipe(takeUntil(this._destroyed));
     this.model$.subscribe({
       next: result => {
-        if (!!result?.name) {
-          this.nameControl.setValue(result.name);
-          this.nameControl.markAsTouched();
+        if (!!result) {
+          this.formGroup.patchValue({
+            name: result.name
+          });
+          this.formGroup.markAllAsTouched();
           this._changeDetectorRef.markForCheck();
         }
       }
@@ -58,8 +57,8 @@ export class AdminContributorEditComponent implements IAdminManageViewComponent<
 
   save(): Observable<Contributor> {
     const model: Contributor = {
-      id: this.id,
-      name: this.nameControl.value
+      ...this.formGroup.value,
+      id: this.id
     };
 
     return this._contributorService.update(model);
