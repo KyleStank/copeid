@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Contributor, ContributorService } from '@app/features';
+import { IAdminManageViewComponent } from '../../../components';
 
 @Component({
   selector: 'app-admin-contributor-edit',
@@ -11,10 +12,10 @@ import { Contributor, ContributorService } from '@app/features';
   providers: [ContributorService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorEditComponent implements OnInit, OnDestroy {
+export class AdminContributorEditComponent implements IAdminManageViewComponent<Contributor>, OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
-  private readonly _modelSubject = new BehaviorSubject<Partial<Contributor> | undefined>(undefined);
+  private readonly _modelSubject = new BehaviorSubject<Contributor | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
   readonly formGroup = this._fb.group({
@@ -28,17 +29,17 @@ export class AdminContributorEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
+    private readonly _changeDetectorRef: ChangeDetectorRef,
     private readonly _contributorService: ContributorService,
-    private readonly _fb: FormBuilder,
-    private readonly _router: Router
+    private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this._destroyed));
-
     this.model$.subscribe({
       next: result => {
         if (!!result?.name) {
-          this.nameControl.setValue(result.name, { emitEvent: false });
+          this.nameControl.setValue(result.name);
           this.nameControl.markAsTouched();
+          this._changeDetectorRef.markForCheck();
         }
       }
     });
@@ -51,28 +52,25 @@ export class AdminContributorEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this._destroyed.next();
-    this._destroyed.complete();
-  }
-
   getEntity(id: string): void {
     this._contributorService.getSingle(id).subscribe(this._modelSubject.next.bind(this._modelSubject));
   }
 
-  save(): void {
+  save(): Observable<Contributor> {
     const model: Contributor = {
       id: this.id,
       name: this.nameControl.value
     };
 
-    this._contributorService.update(model).subscribe({
-      next: () => this.cancel(),
-      error: error => console.error('Error:', error)
-    });
+    return this._contributorService.update(model);
   }
 
-  cancel(): void {
-    this._router.navigate(['../..'], { relativeTo: this._activatedRoute });
+  updateModelTitle(): string | undefined {
+    return this._modelSubject.value?.name ?? undefined;
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 }

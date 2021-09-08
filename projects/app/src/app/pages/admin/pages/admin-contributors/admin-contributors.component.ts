@@ -51,7 +51,7 @@ export class AdminContributorsComponent implements OnInit, OnDestroy {
 
   editAddEntity(model?: Contributor): void {
     if (!!model?.id) {
-      this._router.navigate([model.id, 'edit'], { relativeTo: this._activatedRoute });
+      this._router.navigate(['edit', model.id], { relativeTo: this._activatedRoute });
     }
   }
 

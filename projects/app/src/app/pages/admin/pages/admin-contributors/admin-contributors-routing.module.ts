@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
+import { AdminManageContainerComponent } from '../../components';
 import { AdminContributorEditComponent } from './admin-contributor-edit/admin-contributor-edit.component';
 import { AdminContributorsComponent } from './admin-contributors.component';
 
@@ -18,8 +19,14 @@ const routes: Routes = [
     },
   },
   {
-    path: ':id/edit',
-    component: AdminContributorEditComponent,
+    path: 'edit',
+    component: AdminManageContainerComponent,
+    children: [
+      {
+        path: ':id',
+        component: AdminContributorEditComponent
+      }
+    ],
     data: {
       layout: {
         config: {

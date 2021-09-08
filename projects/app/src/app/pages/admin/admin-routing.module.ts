@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import {
-  AdminContributorsComponent,
-  AdminContributorsModule,
   AdminDefinitionsComponent,
   AdminDefinitionsModule,
   AdminFiltersComponent,
@@ -20,7 +18,6 @@ import {
   AdminSpecimensComponent,
   AdminSpecimensModule
 } from './pages';
-import { AdminContributorsRoutingModule } from './pages';
 
 const routes: Routes = [
   {
