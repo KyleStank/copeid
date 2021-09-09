@@ -5,8 +5,6 @@ import { ILayoutConfig } from '@core/layouts/models';
 import {
   AdminFiltersComponent,
   AdminFiltersModule,
-  AdminReferencesComponent,
-  AdminReferencesModule,
   AdminSpecimensComponent,
   AdminSpecimensModule
 } from './pages';
@@ -73,14 +71,7 @@ const routes: Routes = [
   },
   {
     path: 'references',
-    component: AdminReferencesComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'References'
-        }
-      } as ILayoutConfig
-    }
+    loadChildren: () => import('./pages/admin-references/admin-references.module').then(m => m.AdminReferencesModule)
   },
   {
     path: 'specimens',
@@ -97,7 +88,6 @@ const routes: Routes = [
 
 const importedModules = [
   AdminFiltersModule,
-  AdminReferencesModule,
   AdminSpecimensModule
 ];
 
