@@ -19,7 +19,7 @@ const routes: Routes = [
     data: {
       layout: {
         config: {
-          pageName: 'Contributors'
+          pageName: 'Manage Contributors'
         }
       } as ILayoutConfig
     },

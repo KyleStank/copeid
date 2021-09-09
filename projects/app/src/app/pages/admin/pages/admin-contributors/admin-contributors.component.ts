@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
 import { Contributor, ContributorService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
@@ -11,6 +11,9 @@ import { IAdminManageView } from '../../components';
 @Component({
   selector: 'app-admin-contributors',
   templateUrl: './admin-contributors.component.html',
+  host: {
+    'class': 'd-block'
+  },
   providers: [ContributorService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -77,11 +80,6 @@ export class AdminContributorsComponent implements IAdminManageView, OnInit, OnD
           });
         }
       });
-  }
-
-  getSelectedItems(): any[] {
-    console.log('test');
-    return this.selectedItems;
   }
 
   ngOnDestroy(): void {

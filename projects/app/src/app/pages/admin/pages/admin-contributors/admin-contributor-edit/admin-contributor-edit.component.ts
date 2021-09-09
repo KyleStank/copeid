@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
@@ -9,11 +9,14 @@ import { IAdminEditView } from '../../../components';
 @Component({
   selector: 'app-admin-contributor-edit',
   templateUrl: './admin-contributor-edit.component.html',
+  host: {
+    'class': 'd-block'
+  },
   providers: [ContributorService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorEditComponent implements IAdminEditView<Contributor>, OnInit, OnDestroy {
-  private readonly _destroyed = new Subject<void>();
+export class AdminContributorEditComponent implements IAdminEditView, OnInit, OnDestroy {
+  readonly destroyed = new Subject<void>();
 
   private readonly _modelSubject = new BehaviorSubject<Contributor | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
@@ -30,7 +33,7 @@ export class AdminContributorEditComponent implements IAdminEditView<Contributor
     private readonly _contributorService: ContributorService,
     private readonly _fb: FormBuilder
   ) {
-    this.model$ = this.model$.pipe(takeUntil(this._destroyed));
+    this.model$ = this.model$.pipe(takeUntil(this.destroyed));
     this.model$.subscribe({
       next: result => {
         if (!!result) {
@@ -47,12 +50,8 @@ export class AdminContributorEditComponent implements IAdminEditView<Contributor
   ngOnInit(): void {
     this.id = this._activatedRoute.snapshot.paramMap.get('id') ?? undefined;
     if (!!this.id) {
-      this.getEntity(this.id);
+      this._contributorService.getSingle(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
-  }
-
-  getEntity(id: string): void {
-    this._contributorService.getSingle(id).subscribe(this._modelSubject.next.bind(this._modelSubject));
   }
 
   save(): Observable<Contributor> {
@@ -61,15 +60,11 @@ export class AdminContributorEditComponent implements IAdminEditView<Contributor
       id: this.id
     };
 
-    return this._contributorService.update(model);
-  }
-
-  updateModelTitle(): string | undefined {
-    return this._modelSubject.value?.name ?? undefined;
+    return !!model.id ? this._contributorService.update(model) : this._contributorService.create(model);
   }
 
   ngOnDestroy(): void {
-    this._destroyed.next();
-    this._destroyed.complete();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 }
