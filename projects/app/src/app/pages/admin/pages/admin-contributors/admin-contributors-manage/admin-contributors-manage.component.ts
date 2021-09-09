@@ -9,7 +9,7 @@ import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
 @Component({
-  selector: 'app-admin-contributors',
+  selector: 'app-admin-contributors-manage',
   templateUrl: './admin-contributors-manage.component.html',
   host: {
     'class': 'd-block'

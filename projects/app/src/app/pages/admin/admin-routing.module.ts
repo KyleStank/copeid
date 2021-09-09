@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import {
-  AdminDefinitionsComponent,
   AdminDefinitionsModule,
   AdminFiltersComponent,
   AdminFiltersModule,
@@ -28,14 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'definitions',
-    component: AdminDefinitionsComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Definitions'
-        }
-      } as ILayoutConfig
-    }
+    loadChildren: () => import('./pages/admin-definitions/admin-definitions.module').then(m => m.AdminDefinitionsModule)
   },
   {
     path: 'filters',
@@ -123,7 +115,6 @@ const routes: Routes = [
 ];
 
 const importedModules = [
-  AdminDefinitionsModule,
   AdminFiltersModule,
   AdminGenusesModule,
   AdminPhotographsModule,
