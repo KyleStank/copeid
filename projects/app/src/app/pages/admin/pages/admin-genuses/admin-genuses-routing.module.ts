@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import { AdminEditContainerComponent, AdminManageContainerComponent } from '../../components';
-import { AdminContributorsEditComponent } from './admin-contributors-edit';
-import { AdminContributorsManageComponent } from './admin-contributors-manage';
+import { AdminGenusesEditComponent } from './admin-genuses-edit';
+import { AdminGenusesManageComponent } from './admin-genuses-manage';
 
 const routes: Routes = [
   {
@@ -13,13 +13,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminContributorsManageComponent
+        component: AdminGenusesManageComponent
       }
     ],
     data: {
       layout: {
         config: {
-          pageName: 'Manage Contributors'
+          pageName: 'Manage Genuses'
         }
       } as ILayoutConfig
     },
@@ -30,13 +30,13 @@ const routes: Routes = [
     children: [
       {
         path: ':id',
-        component: AdminContributorsEditComponent
+        component: AdminGenusesEditComponent
       }
     ],
     data: {
       layout: {
         config: {
-          pageName: 'Edit Contributor'
+          pageName: 'Edit Genuse'
         }
       } as ILayoutConfig
     }
@@ -47,13 +47,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminContributorsEditComponent
+        component: AdminGenusesEditComponent
       }
     ],
     data: {
       layout: {
         config: {
-          pageName: 'Create Contributor'
+          pageName: 'Create Genuse'
         }
       } as ILayoutConfig
     }
@@ -64,4 +64,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminContributorsRoutingModule {}
+export class AdminGenusesRoutingModule {}

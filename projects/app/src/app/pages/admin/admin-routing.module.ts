@@ -3,11 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import {
-  AdminDefinitionsModule,
   AdminFiltersComponent,
   AdminFiltersModule,
-  AdminGenusesComponent,
-  AdminGenusesModule,
   AdminPhotographsComponent,
   AdminPhotographsModule,
   AdminReferencesComponent,
@@ -70,14 +67,7 @@ const routes: Routes = [
   // },
   {
     path: 'genuses',
-    component: AdminGenusesComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Genuses'
-        }
-      } as ILayoutConfig
-    }
+    loadChildren: () => import('./pages/admin-genuses/admin-genuses.module').then(m => m.AdminGenusesModule)
   },
   {
     path: 'photographs',
@@ -116,7 +106,6 @@ const routes: Routes = [
 
 const importedModules = [
   AdminFiltersModule,
-  AdminGenusesModule,
   AdminPhotographsModule,
   AdminReferencesModule,
   AdminSpecimensModule
