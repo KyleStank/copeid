@@ -57,6 +57,7 @@ export class AdminContributorsEditComponent implements IAdminEditView, OnInit, O
 
   save(): Observable<Contributor> {
     const model: Contributor = {
+      ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
       id: this.id
     };

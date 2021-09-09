@@ -59,6 +59,7 @@ export class AdminDefinitionsEditComponent implements IAdminEditView, OnInit, On
 
   save(): Observable<Definition> {
     const model: Definition = {
+      ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
       id: this.id
     };

@@ -62,6 +62,7 @@ export class AdminPhotographsEditComponent {
 
   save(): Observable<Photograph> {
     const model: Photograph = {
+      ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
       id: this.id
     };

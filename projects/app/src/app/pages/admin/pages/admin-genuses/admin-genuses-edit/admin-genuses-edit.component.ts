@@ -57,6 +57,7 @@ export class AdminGenusesEditComponent implements IAdminEditView, OnInit, OnDest
 
   save(): Observable<Genus> {
     const model: Genus = {
+      ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
       id: this.id
     };

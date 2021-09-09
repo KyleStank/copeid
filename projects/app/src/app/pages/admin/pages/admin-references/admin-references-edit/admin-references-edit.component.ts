@@ -57,6 +57,7 @@ export class AdminReferencesEditComponent implements IAdminEditView, OnInit, OnD
 
   save(): Observable<Reference> {
     const model: Reference = {
+      ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
       id: this.id
     };
