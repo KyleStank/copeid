@@ -1,0 +1,76 @@
+<form class="w-100" autocomplete="off" [formGroup]="formGroup">
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Title</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Title text field."
+          formControlName="title"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Alternate Title</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Alternate Title text field."
+          formControlName="alt"
+        />
+
+        <mat-hint>
+          Used in the <strong>alt</strong> tag on <strong>img</strong> elements.
+        </mat-hint>
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>URL</mat-label>
+
+        <input
+          matInput
+          type="url"
+          aria-label="URL text field."
+          formControlName="url"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Description</mat-label>
+
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="5"
+          aria-label="Description textarea input."
+          formControlName="description"
+        ></textarea>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</form>
