@@ -12,7 +12,6 @@ const defaultMenu = [
 ];
 
 const adminMenu = [
-  { label: 'Home', url: ['admin'], logo: 'home' },
   { label: 'Contributors', url: ['admin', 'contributors'], logo: 'group' },
   { label: 'Definitions', url: ['admin', 'definitions'], logo: 'library_books' },
   { label: 'Filter', url: ['admin', 'filters'], logo: 'search' },

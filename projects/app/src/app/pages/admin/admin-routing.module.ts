@@ -9,8 +9,6 @@ import {
   AdminFiltersModule,
   AdminGenusesComponent,
   AdminGenusesModule,
-  AdminHomeComponent,
-  AdminHomeModule,
   AdminPhotographsComponent,
   AdminPhotographsModule,
   AdminReferencesComponent,
@@ -22,14 +20,7 @@ import {
 const routes: Routes = [
   {
     path: '',
-    component: AdminHomeComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Home'
-        }
-      } as ILayoutConfig
-    }
+    redirectTo: 'contributors'
   },
   {
     path: 'contributors',
@@ -132,12 +123,9 @@ const routes: Routes = [
 ];
 
 const importedModules = [
-  // AdminContributorsModule,
-  // AdminContributorsModule,
   AdminDefinitionsModule,
   AdminFiltersModule,
   AdminGenusesModule,
-  AdminHomeModule,
   AdminPhotographsModule,
   AdminReferencesModule,
   AdminSpecimensModule
