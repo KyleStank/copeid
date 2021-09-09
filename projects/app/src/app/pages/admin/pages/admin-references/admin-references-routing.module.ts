@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminReferencesEditComponent
+        component: AdminReferencesManageComponent
       }
     ],
     data: {
@@ -30,7 +30,7 @@ const routes: Routes = [
     children: [
       {
         path: ':id',
-        component: AdminReferencesManageComponent
+        component: AdminReferencesEditComponent
       }
     ],
     data: {
@@ -47,7 +47,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminReferencesManageComponent
+        component: AdminReferencesEditComponent
       }
     ],
     data: {
