@@ -1,0 +1,37 @@
+<form class="w-100" autocomplete="off" [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-md">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Name</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Name text field."
+          formControlName="name"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Meaning</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Meaning text field."
+          formControlName="meaning"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

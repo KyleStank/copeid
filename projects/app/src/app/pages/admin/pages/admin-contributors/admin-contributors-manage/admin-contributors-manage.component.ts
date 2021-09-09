@@ -56,10 +56,12 @@ export class AdminContributorsManageComponent implements IAdminManageView, OnIni
     models = models ?? [];
     if (models.length === 0) return;
 
+    const isSingle = models.length === 1;
+    const modelName = isSingle ? 'Contributor' : 'Contributors';
     const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
       data: {
-        title: `Delete Contributor`,
-        message: `Are you sure you want to delete this Contributor?`
+        title: `Delete ${modelName}?`,
+        message: `Are you sure you want to delete ${isSingle ? 'this' : 'these'} ${modelName}?`
       }
     });
 
@@ -69,8 +71,7 @@ export class AdminContributorsManageComponent implements IAdminManageView, OnIni
         skipWhile((result: boolean) => !result)
       ).subscribe({
         next: () => {
-          models = models ?? [];
-          models.forEach(m => {
+          models!.forEach(m => {
             if (!!m?.id) {
               this._contributorService.delete(m.id).subscribe({
                 next: () => this.getEntities(),
