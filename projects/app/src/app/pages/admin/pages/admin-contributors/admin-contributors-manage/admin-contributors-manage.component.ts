@@ -41,7 +41,9 @@ export class AdminContributorsManageComponent implements IAdminManageView, OnIni
   }
 
   getEntities(): void {
-    this._contributorService.getAll().subscribe(this._contributorsSubject.next.bind(this._contributorsSubject));
+    this._contributorService.getAll({
+      orderBy: ['name']
+    }).subscribe(this._contributorsSubject.next.bind(this._contributorsSubject));
   }
 
   editAddItem(model?: Contributor): void {

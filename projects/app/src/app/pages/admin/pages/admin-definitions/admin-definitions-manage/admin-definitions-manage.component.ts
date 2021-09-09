@@ -42,7 +42,9 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
   }
 
   getEntities(): void {
-    this._definitionService.getAll().subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
+    this._definitionService.getAll({
+      orderBy: ['name']
+    }).subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
   }
 
   editAddItem(model?: Definition): void {
