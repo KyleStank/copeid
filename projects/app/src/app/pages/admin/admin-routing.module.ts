@@ -4,9 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ILayoutConfig } from '@core/layouts/models';
 import {
   AdminFiltersComponent,
-  AdminFiltersModule,
-  AdminSpecimensComponent,
-  AdminSpecimensModule
+  AdminFiltersModule
 } from './pages';
 
 const routes: Routes = [
@@ -75,20 +73,12 @@ const routes: Routes = [
   },
   {
     path: 'specimens',
-    component: AdminSpecimensComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Specimens'
-        }
-      } as ILayoutConfig
-    }
-  }
+    loadChildren: () => import('./pages/admin-specimens/admin-specimens.module').then(m => m.AdminSpecimensModule)
+  },
 ];
 
 const importedModules = [
-  AdminFiltersModule,
-  AdminSpecimensModule
+  AdminFiltersModule
 ];
 
 @NgModule({
