@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import { AdminEditContainerComponent, AdminManageContainerComponent } from '../../components';
-import { AdminContributorEditComponent } from './admin-contributor-edit/admin-contributor-edit.component';
-import { AdminContributorsComponent } from './admin-contributors.component';
+import { AdminContributorsEditComponent } from './admin-contributors-edit/admin-contributors-edit.component';
+import { AdminContributorsManageComponent } from './admin-contributors-manage/admin-contributors-manage.component';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminContributorsComponent
+        component: AdminContributorsManageComponent
       }
     ],
     data: {
@@ -30,7 +30,7 @@ const routes: Routes = [
     children: [
       {
         path: ':id',
-        component: AdminContributorEditComponent
+        component: AdminContributorsEditComponent
       }
     ],
     data: {
@@ -47,7 +47,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminContributorEditComponent
+        component: AdminContributorsEditComponent
       }
     ],
     data: {

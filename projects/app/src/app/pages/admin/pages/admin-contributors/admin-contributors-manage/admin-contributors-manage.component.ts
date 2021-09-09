@@ -5,19 +5,19 @@ import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
 import { Contributor, ContributorService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { AdminColumn } from '../../common';
-import { IAdminManageView } from '../../components';
+import { AdminColumn } from '../../../common';
+import { IAdminManageView } from '../../../components';
 
 @Component({
   selector: 'app-admin-contributors',
-  templateUrl: './admin-contributors.component.html',
+  templateUrl: './admin-contributors-manage.component.html',
   host: {
     'class': 'd-block'
   },
   providers: [ContributorService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorsComponent implements IAdminManageView, OnInit, OnDestroy {
+export class AdminContributorsManageComponent implements IAdminManageView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
   private readonly _contributorsSubject = new BehaviorSubject<Contributor[]>([]);

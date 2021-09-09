@@ -12,14 +12,13 @@ import { RouterModule } from '@angular/router';
 
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
 import { AdminDataTableModule } from '../../common';
-import { AdminContributorEditComponent } from './admin-contributor-edit/admin-contributor-edit.component';
+import { AdminContributorsEditComponent } from './admin-contributors-edit';
+import { AdminContributorsManageComponent } from './admin-contributors-manage';
 import { AdminContributorsRoutingModule } from './admin-contributors-routing.module';
-import { AdminContributorsComponent } from './admin-contributors.component';
 
 const exportedDeclarations = [
-  // Pages
-  AdminContributorEditComponent,
-  AdminContributorsComponent
+  AdminContributorsEditComponent,
+  AdminContributorsManageComponent
 ];
 
 @NgModule({

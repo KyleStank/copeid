@@ -7,15 +7,15 @@ import { Contributor, ContributorService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
-  selector: 'app-admin-contributor-edit',
-  templateUrl: './admin-contributor-edit.component.html',
+  selector: 'app-admin-contributors-edit',
+  templateUrl: './admin-contributors-edit.component.html',
   host: {
     'class': 'd-block'
   },
   providers: [ContributorService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminContributorEditComponent implements IAdminEditView, OnInit, OnDestroy {
+export class AdminContributorsEditComponent implements IAdminEditView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
   private readonly _modelSubject = new BehaviorSubject<Contributor | undefined>(undefined);
@@ -40,9 +40,10 @@ export class AdminContributorEditComponent implements IAdminEditView, OnInit, On
           this.formGroup.patchValue({
             name: result.name
           });
-          this.formGroup.markAllAsTouched();
-          this._changeDetectorRef.markForCheck();
         }
+
+        this.formGroup.markAllAsTouched();
+        this._changeDetectorRef.markForCheck();
       }
     });
   }
