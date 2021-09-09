@@ -1,0 +1,216 @@
+<form class="w-100" autocomplete="off" [formGroup]="formGroup">
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Gender</mat-label>
+
+        <mat-select
+          aria-label="Gender selection field."
+          formControlName="gender"
+        >
+          <mat-option [value]="null">--</mat-option>
+          <mat-option [value]="enumSpecimenGender.Male">Male</mat-option>
+          <mat-option [value]="enumSpecimenGender.Female">Female</mat-option>
+        </mat-select>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Length</mat-label>
+
+        <input
+          matInput
+          type="number"
+          aria-label="Length number field."
+          formControlName="length"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-divider class="my-2"></mat-divider>
+
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Antenule</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Antenule text field."
+          formControlName="antenule"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Rostrum</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Rostrum text field."
+          formControlName="rostrum"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Body Shape</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Body Shape text field."
+          formControlName="bodyShape"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Eyes</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Eyes text field."
+          formControlName="eyes"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Cephalosome</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Cephalosome text field."
+          formControlName="cephalosome"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Thorax</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Thorax text field."
+          formControlName="thorax"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Urosome</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Urosome text field."
+          formControlName="urosome"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Furca</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Furca text field."
+          formControlName="furca"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Setea</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Setea text field."
+          formControlName="setea"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-divider class="my-2"></mat-divider>
+
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Special Characteristics</mat-label>
+
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="5"
+          aria-label="Special Characteristics textarea input."
+          formControlName="specialCharacteristics"
+        ></textarea>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

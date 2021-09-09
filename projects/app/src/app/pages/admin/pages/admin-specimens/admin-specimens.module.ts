@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
@@ -33,6 +34,7 @@ const exportedDeclarations = [
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatSelectModule,
     ReactiveFormsModule,
     RouterModule,
     SharedConfirmationAlertModalModule
