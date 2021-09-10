@@ -1,12 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ILayoutConfig } from '@core/layouts/models';
-import {
-  AdminFiltersComponent,
-  AdminFiltersModule
-} from './pages';
-
 const routes: Routes = [
   {
     path: '',
@@ -22,43 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'filters',
-    component: AdminFiltersComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Filters'
-        }
-      } as ILayoutConfig
-    }
+    loadChildren: () => import('./pages/admin-filters/admin-filters.module').then(m => m.AdminFiltersModule)
   },
-  // TODO: Implement all old Filter routes
-  // {
-  //   path: 'filter',
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: AdminFilterPageComponent,
-  //       data: {
-  //         layout: {
-  //           config: {
-  //             pageName: 'Filter'
-  //           }
-  //         } as ILayoutConfig
-  //       },
-  //     },
-  //     {
-  //       path: 'models/:id/properties',
-  //       component: AdminFilterModelPropertiesPageComponent,
-  //       data: {
-  //         layout: {
-  //           config: {
-  //             pageName: 'Filter Model Properties'
-  //           }
-  //         } as ILayoutConfig
-  //       }
-  //     }
-  //   ]
-  // },
   {
     path: 'genuses',
     loadChildren: () => import('./pages/admin-genuses/admin-genuses.module').then(m => m.AdminGenusesModule)
@@ -77,15 +36,8 @@ const routes: Routes = [
   },
 ];
 
-const importedModules = [
-  AdminFiltersModule
-];
-
 @NgModule({
-  imports: [
-    ...importedModules,
-    RouterModule.forChild(routes)
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class AdminRoutingModule {}
