@@ -36,7 +36,7 @@ const routes: Routes = [
     data: {
       layout: {
         config: {
-          pageName: 'Edit Genuse'
+          pageName: 'Edit Genus'
         }
       } as ILayoutConfig
     }
@@ -53,7 +53,7 @@ const routes: Routes = [
     data: {
       layout: {
         config: {
-          pageName: 'Create Genuse'
+          pageName: 'Create Genus'
         }
       } as ILayoutConfig
     }
