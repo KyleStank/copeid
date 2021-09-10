@@ -76,7 +76,7 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
       }
     });
 
-    this.genuses$ = this.genuses$.pipe(takeUntil(this.genuses$));
+    this.genuses$ = this.genuses$.pipe(takeUntil(this.destroyed));
   }
 
   ngOnInit(): void {
