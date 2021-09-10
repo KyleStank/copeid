@@ -1,0 +1,15 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FilterService } from '@app/features';
+
+@Component({
+  selector: 'app-admin-filter-models-edit',
+  templateUrl: './admin-filter-models-edit.component.html',
+  host: {
+    'class': 'd-block'
+  },
+  providers: [FilterService],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class AdminFilterModelsEditComponent {
+
+}

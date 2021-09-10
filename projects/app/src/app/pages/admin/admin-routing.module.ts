@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin-filters/admin-filters.module').then(m => m.AdminFiltersModule)
   },
   {
+    path: 'filter-models',
+    loadChildren: () => import('./pages/admin-filter-models/admin-filter-models.module').then(m => m.AdminFilterModelsModule)
+  },
+  {
     path: 'genuses',
     loadChildren: () => import('./pages/admin-genuses/admin-genuses.module').then(m => m.AdminGenusesModule)
   },
