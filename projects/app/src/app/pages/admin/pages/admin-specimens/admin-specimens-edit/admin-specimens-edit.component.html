@@ -2,6 +2,25 @@
   <div class="row my-1">
     <div class="col-md my-1">
       <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Genus</mat-label>
+
+        <mat-select
+          aria-label="Genus selection field."
+          formControlName="genusId"
+        >
+          <mat-option [value]="null">--</mat-option>
+          <mat-option [value]="genus.id" *ngFor="let genus of (genuses$ | async)">
+            {{ genus.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
         <mat-label>Gender</mat-label>
 
         <mat-select

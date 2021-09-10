@@ -30,8 +30,8 @@ export class AdminReferencesEditComponent implements IAdminEditView, OnInit, OnD
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _referenceService: ReferenceService,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    private readonly _referenceService: ReferenceService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
     this.model$.subscribe({

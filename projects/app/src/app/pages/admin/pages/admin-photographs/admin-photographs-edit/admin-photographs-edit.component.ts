@@ -32,8 +32,8 @@ export class AdminPhotographsEditComponent {
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _photographService: PhotographService,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    private readonly _photographService: PhotographService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
     this.model$.subscribe({

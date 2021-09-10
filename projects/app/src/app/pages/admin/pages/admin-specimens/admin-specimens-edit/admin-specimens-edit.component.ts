@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Specimen, SpecimenGender, SpecimenService } from '@app/features';
+import { Genus, GenusService, Specimen, SpecimenGender, SpecimenService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -12,7 +12,7 @@ import { IAdminEditView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [SpecimenService],
+  providers: [GenusService, SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDestroy {
@@ -21,7 +21,11 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
   private readonly _modelSubject = new BehaviorSubject<Specimen | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  private readonly _genusesSubject = new BehaviorSubject<Genus[]>([]);
+  readonly genuses$ = this._genusesSubject.asObservable();
+
   readonly formGroup = this._fb.group({
+    genusId: [null, Validators.required],
     gender: [null, Validators.required],
     length: [0, Validators.compose([Validators.required, Validators.min(0)])],
     specialCharacteristics: ['', Validators.required],
@@ -42,14 +46,16 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _specimenService: SpecimenService,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    private readonly _genusService: GenusService,
+    private readonly _specimenService: SpecimenService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
     this.model$.subscribe({
       next: result => {
         if (!!result) {
           this.formGroup.patchValue({
+            genusId: result.genusId,
             gender: result.gender,
             length: result.length,
             specialCharacteristics: result.specialCharacteristics,
@@ -69,6 +75,8 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
         this._changeDetectorRef.markForCheck();
       }
     });
+
+    this.genuses$ = this.genuses$.pipe(takeUntil(this.genuses$));
   }
 
   ngOnInit(): void {
@@ -76,6 +84,10 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
     if (!!this.id) {
       this._specimenService.getSingle(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
+
+    this._genusService.getAll({
+      orderBy: ['name']
+    }).subscribe(this._genusesSubject.next.bind(this._genusesSubject));
   }
 
   save(): Observable<Specimen> {
