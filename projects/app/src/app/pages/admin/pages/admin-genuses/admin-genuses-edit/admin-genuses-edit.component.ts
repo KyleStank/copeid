@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Genus, GenusService, Specimen, SpecimenService } from '@app/features';
+import { Genus, GenusService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -12,7 +12,7 @@ import { IAdminEditView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [GenusService, SpecimenService],
+  providers: [GenusService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminGenusesEditComponent implements IAdminEditView, OnInit, OnDestroy {
@@ -20,9 +20,6 @@ export class AdminGenusesEditComponent implements IAdminEditView, OnInit, OnDest
 
   private readonly _modelSubject = new BehaviorSubject<Genus | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
-
-  private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
-  readonly specimens$ = this._specimensSubject.asObservable();
 
   readonly formGroup = this._fb.group({
     name: ['', Validators.required]
@@ -34,8 +31,7 @@ export class AdminGenusesEditComponent implements IAdminEditView, OnInit, OnDest
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
     private readonly _fb: FormBuilder,
-    private readonly _genusService: GenusService,
-    private readonly _specimenService: SpecimenService
+    private readonly _genusService: GenusService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
     this.model$.subscribe({
@@ -50,8 +46,6 @@ export class AdminGenusesEditComponent implements IAdminEditView, OnInit, OnDest
         this._changeDetectorRef.markForCheck();
       }
     });
-
-    this.specimens$ = this.specimens$.pipe(takeUntil(this.destroyed));
   }
 
   ngOnInit(): void {
@@ -59,10 +53,6 @@ export class AdminGenusesEditComponent implements IAdminEditView, OnInit, OnDest
     if (!!this.id) {
       this._genusService.getSingle(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
-
-    this._specimenService.getAll({
-      orderBy: ['genus.name']
-    }).subscribe(this._specimensSubject.next.bind(this._specimensSubject));
   }
 
   save(): Observable<Genus> {
