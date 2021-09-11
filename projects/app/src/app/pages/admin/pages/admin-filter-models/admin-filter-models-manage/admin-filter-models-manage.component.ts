@@ -52,6 +52,10 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
     }
   }
 
+  viewProperties(model: FilterModel): void {
+    this._router.navigate([model.id, 'properties'], { relativeTo: this._activatedRoute });
+  }
+
   deleteItems(models?: FilterModel[]): void {
     models = models ?? [];
     if (models.length === 0) return;

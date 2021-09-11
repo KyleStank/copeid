@@ -1,24 +1,22 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { FilterModel, FilterModelProperty, FilterModelService } from '@app/features';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { FilterModel, FilterModelService } from '@app/features';
-import { IAdminEditView } from '../../../components';
-
 @Component({
-  selector: 'app-admin-filter-models-edit',
-  templateUrl: './admin-filter-models-edit.component.html',
+  selector: 'app-admin-filter-models-edit-properties',
+  templateUrl: './admin-filter-models-edit-properties.component.html',
   host: {
     'class': 'd-block'
   },
   providers: [FilterModelService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminFilterModelsEditComponent implements IAdminEditView, OnInit, OnDestroy {
+export class AdminFilterModelsEditPropertiesComponent {
   readonly destroyed = new Subject<void>();
 
-  private readonly _modelSubject = new BehaviorSubject<FilterModel | undefined>(undefined);
+  private readonly _modelSubject = new BehaviorSubject<FilterModelProperty[]>([]);
   readonly model$ = this._modelSubject.asObservable();
 
   private readonly _typesSubject = new BehaviorSubject<string[]>([]);
@@ -40,9 +38,9 @@ export class AdminFilterModelsEditComponent implements IAdminEditView, OnInit, O
     this.model$.subscribe({
       next: result => {
         if (!!result) {
-          this.formGroup.patchValue({
-            typeName: result.typeName
-          });
+          // this.formGroup.patchValue({
+          //   typeName: result.typeName
+          // });
         }
 
         this.formGroup.markAllAsTouched();
@@ -54,7 +52,7 @@ export class AdminFilterModelsEditComponent implements IAdminEditView, OnInit, O
   ngOnInit(): void {
     this.id = this._activatedRoute.snapshot.paramMap.get('id') ?? undefined;
     if (!!this.id) {
-      this._filterModelService.getSingle(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
+      this._filterModelService.getProperties(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
     this._filterModelService.getTypes().subscribe(this._typesSubject.next.bind(this._typesSubject));

@@ -4,7 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ILayoutConfig } from '@core/layouts/models';
 import { AdminEditContainerComponent, AdminManageContainerComponent } from '../../components';
 import { AdminFilterModelsEditComponent } from './admin-filter-models-edit';
+import { AdminFilterModelsEditPropertiesComponent } from './admin-filter-models-edit-properties';
 import { AdminFilterModelsManageComponent } from './admin-filter-models-manage';
+import { AdminFilterModelsManagePropertiesComponent } from './admin-filter-models-manage-properties';
 
 const routes: Routes = [
   {
@@ -14,6 +16,17 @@ const routes: Routes = [
       {
         path: '',
         component: AdminFilterModelsManageComponent
+      },
+      {
+        path: ':id/properties',
+        component: AdminFilterModelsManagePropertiesComponent,
+        data: {
+          layout: {
+            config: {
+              pageName: 'Manage Filter Model Properties'
+            }
+          } as ILayoutConfig
+        }
       }
     ],
     data: {
@@ -31,6 +44,17 @@ const routes: Routes = [
       {
         path: ':id',
         component: AdminFilterModelsEditComponent
+      },
+      {
+        path: ':id/properties',
+        component: AdminFilterModelsEditPropertiesComponent,
+        data: {
+          layout: {
+            config: {
+              pageName: 'Edit Filter Model Properties'
+            }
+          } as ILayoutConfig
+        }
       }
     ],
     data: {

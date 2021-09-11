@@ -14,12 +14,16 @@ import { RouterModule } from '@angular/router';
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
 import { AdminDataTableModule } from '../../common';
 import { AdminFilterModelsEditComponent } from './admin-filter-models-edit';
+import { AdminFilterModelsEditPropertiesComponent  } from './admin-filter-models-edit-properties';
 import { AdminFilterModelsManageComponent } from './admin-filter-models-manage';
+import { AdminFilterModelsManagePropertiesComponent } from './admin-filter-models-manage-properties';
 import { AdminFilterModelsRoutingModule } from './admin-filter-models-routing.module';
 
 const exportedDeclarations: any[] = [
   AdminFilterModelsEditComponent,
-  AdminFilterModelsManageComponent
+  AdminFilterModelsEditPropertiesComponent,
+  AdminFilterModelsManageComponent,
+  AdminFilterModelsManagePropertiesComponent
 ];
 
 @NgModule({
