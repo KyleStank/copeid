@@ -72,6 +72,17 @@ const routes: Routes = [
       {
         path: '',
         component: AdminFilterModelsEditComponent
+      },
+      {
+        path: ':id/properties',
+        component: AdminFilterModelsEditPropertiesComponent,
+        data: {
+          layout: {
+            config: {
+              pageName: 'Create Filter Model Properties'
+            }
+          } as ILayoutConfig
+        }
       }
     ],
     data: {
