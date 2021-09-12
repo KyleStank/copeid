@@ -11,87 +11,103 @@ import { AdminFilterModelsManagePropertiesComponent } from './admin-filter-model
 const routes: Routes = [
   {
     path: '',
-    component: AdminManageContainerComponent,
     children: [
       {
         path: '',
-        component: AdminFilterModelsManageComponent
+        component: AdminManageContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFilterModelsManageComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Manage Filter Models'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
       },
       {
-        path: ':id/properties',
-        component: AdminFilterModelsManagePropertiesComponent,
-        data: {
-          layout: {
-            config: {
-              pageName: 'Manage Filter Model Properties'
+        path: 'edit',
+        component: AdminEditContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFilterModelsEditComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Edit Filter Model'
+                }
+              } as ILayoutConfig
             }
-          } as ILayoutConfig
-        }
+          },
+          {
+            path: ':filterModelId',
+            component: AdminFilterModelsEditComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Create Filter Model'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
       }
-    ],
-    data: {
-      layout: {
-        config: {
-          pageName: 'Manage Filter Models'
-        }
-      } as ILayoutConfig
-    },
+    ]
   },
   {
-    path: 'edit',
-    component: AdminEditContainerComponent,
-    children: [
-      {
-        path: ':id',
-        component: AdminFilterModelsEditComponent
-      },
-      {
-        path: ':id/properties',
-        component: AdminFilterModelsEditPropertiesComponent,
-        data: {
-          layout: {
-            config: {
-              pageName: 'Edit Filter Model Properties'
-            }
-          } as ILayoutConfig
-        }
-      }
-    ],
-    data: {
-      layout: {
-        config: {
-          pageName: 'Edit Filter Model'
-        }
-      } as ILayoutConfig
-    }
-  },
-  {
-    path: 'create',
-    component: AdminEditContainerComponent,
+    path: ':filterModelId/properties',
     children: [
       {
         path: '',
-        component: AdminFilterModelsEditComponent
+        component: AdminManageContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFilterModelsManagePropertiesComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Manage Filter Model Properties'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
       },
       {
-        path: ':id/properties',
-        component: AdminFilterModelsEditPropertiesComponent,
-        data: {
-          layout: {
-            config: {
-              pageName: 'Create Filter Model Properties'
+        path: 'edit',
+        component: AdminEditContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFilterModelsEditPropertiesComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Create Filter Model Properties'
+                }
+              } as ILayoutConfig
             }
-          } as ILayoutConfig
-        }
+          },
+          {
+            path: ':filterModelPropertyId',
+            component: AdminFilterModelsEditPropertiesComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Edit Filter Model Property'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
       }
-    ],
-    data: {
-      layout: {
-        config: {
-          pageName: 'Create Filter Model'
-        }
-      } as ILayoutConfig
-    }
+    ]
   }
 ];
 

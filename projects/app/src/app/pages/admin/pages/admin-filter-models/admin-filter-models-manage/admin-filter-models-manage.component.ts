@@ -45,11 +45,8 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
   }
 
   editAddItem(model?: FilterModel): void {
-    if (!!model?.id) {
-      this._router.navigate(['edit', model.id], { relativeTo: this._activatedRoute });
-    } else {
-      this._router.navigate(['create'], { relativeTo: this._activatedRoute });
-    }
+    const params = ['edit'];
+    this._router.navigate(!!model?.id ? [...params, model.id] : params, { relativeTo: this._activatedRoute });
   }
 
   viewProperties(model: FilterModel): void {

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { FilterModel, FilterModelProperty, FilterModelService } from '@app/features';
+import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
 import { IAdminManageView } from '../../../components';
 import { AdminColumn } from '../../../common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-al
   host: {
     'class': 'd-block'
   },
-  providers: [FilterModelService],
+  providers: [FilterModelService, FilterModelPropertyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFilterModelsManagePropertiesComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -27,15 +27,16 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
   readonly propertyTypes$ = this._propertyTypesSubject.asObservable();
 
   public readonly columns: AdminColumn[] = [
-    { title: 'Type Name', property: 'typeName' }
+    { title: 'Property Name', property: 'propertyName' }
   ];
   selectedItems: any[] = [];
 
-  id: string | undefined;
+  filterModelId: string | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _filterModelService: FilterModelService,
+    private readonly _filterModelPropertySerivce: FilterModelPropertyService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
   ) {
@@ -47,19 +48,16 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
   }
 
   getEntities(): void {
-    this.id = this._activatedRoute.snapshot.paramMap.get('id') ?? undefined;
-    if (!!this.id) {
-      this._filterModelService.getProperties(this.id).subscribe(this._filterModelPropertiesSubject.next.bind(this._filterModelPropertiesSubject));
-      this._filterModelService.getPropertyTypes(this.id).subscribe(this._propertyTypesSubject.next.bind(this._propertyTypesSubject));
+    this.filterModelId = this._activatedRoute.snapshot.paramMap.get('filterModelId') ?? undefined;
+    if (!!this.filterModelId) {
+      this._filterModelService.getProperties(this.filterModelId).subscribe(this._filterModelPropertiesSubject.next.bind(this._filterModelPropertiesSubject));
+      this._filterModelService.getPropertyTypes(this.filterModelId).subscribe(this._propertyTypesSubject.next.bind(this._propertyTypesSubject));
     }
   }
 
   editAddItem(model?: FilterModelProperty): void {
-    if (!!model?.id) {
-      this._router.navigate(['edit', model.id, 'properties'], { relativeTo: this._activatedRoute });
-    } else {
-      this._router.navigate(['..', 'create', this.id, 'properties'], { relativeTo: this._activatedRoute });
-    }
+    const params = ['edit'];
+    this._router.navigate(!!model?.id ? [...params, model.id] : params, { relativeTo: this._activatedRoute });
   }
 
   deleteItems(models?: FilterModelProperty[]): void {
@@ -67,7 +65,7 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
     if (models.length === 0) return;
 
     const isSingle = models.length === 1;
-    const modelName = isSingle ? 'Filter Model' : 'Filter Models';
+    const modelName = isSingle ? 'Filter Model Property' : 'Filter Model Properties';
     const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
       data: {
         title: `Delete ${modelName}?`,
@@ -83,7 +81,7 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
         next: () => {
           models!.forEach(m => {
             if (!!m?.id) {
-              this._filterModelService.delete(m.id).subscribe({
+              this._filterModelPropertySerivce.delete(m.id).subscribe({
                 next: () => this.getEntities(),
                 error: (error: any) => console.error('Error:', error)
               });

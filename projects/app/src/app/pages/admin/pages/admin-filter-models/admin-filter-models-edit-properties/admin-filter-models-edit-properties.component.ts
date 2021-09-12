@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FilterModel, FilterModelProperty, FilterModelService } from '@app/features';
+import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -10,37 +10,39 @@ import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
   host: {
     'class': 'd-block'
   },
-  providers: [FilterModelService],
+  providers: [FilterModelService, FilterModelPropertyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFilterModelsEditPropertiesComponent {
   readonly destroyed = new Subject<void>();
 
-  private readonly _modelSubject = new BehaviorSubject<FilterModelProperty[]>([]);
+  private readonly _modelSubject = new BehaviorSubject<FilterModelProperty | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
   private readonly _typesSubject = new BehaviorSubject<string[]>([]);
   readonly types$ = this._typesSubject.asObservable();
 
   readonly formGroup = this._fb.group({
-    typeName: ['', Validators.required]
+    propertyName: ['', Validators.required]
   });
 
-  id: string | undefined;
+  filterModelId: string | undefined;
+  filterModelPropertyId: string | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
     private readonly _filterModelService: FilterModelService,
+    private readonly _filterModelPropertyService: FilterModelPropertyService,
     private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
     this.model$.subscribe({
       next: result => {
         if (!!result) {
-          // this.formGroup.patchValue({
-          //   typeName: result.typeName
-          // });
+          this.formGroup.patchValue({
+            propertyName: result.propertyName
+          });
         }
 
         this.formGroup.markAllAsTouched();
@@ -50,22 +52,31 @@ export class AdminFilterModelsEditPropertiesComponent {
   }
 
   ngOnInit(): void {
-    this.id = this._activatedRoute.snapshot.paramMap.get('id') ?? undefined;
-    if (!!this.id) {
-      this._filterModelService.getProperties(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
+    this.filterModelPropertyId = this._activatedRoute.snapshot.paramMap.get('filterModelPropertyId') ?? undefined;
+    if (!!this.filterModelPropertyId) {
+      this._filterModelPropertyService.getSingle(this.filterModelPropertyId).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
-    this._filterModelService.getTypes().subscribe(this._typesSubject.next.bind(this._typesSubject));
+    this.filterModelId = this._activatedRoute.snapshot.paramMap.get('filterModelId') ?? undefined;
+    if (!!this.filterModelId) {
+      this._filterModelService.getPropertyTypes(this.filterModelId).subscribe(this._typesSubject.next.bind(this._typesSubject));
+    } else {
+      this.filterModelId = this._activatedRoute.snapshot.parent?.paramMap.get('filterModelId') ?? undefined;
+      if (!!this.filterModelId) {
+        this._filterModelService.getPropertyTypes(this.filterModelId).subscribe(this._typesSubject.next.bind(this._typesSubject));
+      }
+    }
   }
 
-  save(): Observable<FilterModel> {
-    const model: FilterModel = {
+  save(): Observable<FilterModelProperty> {
+    const model: FilterModelProperty = {
       ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
-      id: this.id
+      id: this.filterModelPropertyId,
+      filterModelId: this.filterModelId
     };
 
-    return !!model.id ? this._filterModelService.update(model) : this._filterModelService.create(model);
+    return !!model.id ? this._filterModelPropertyService.update(model) : this._filterModelPropertyService.create(model);
   }
 
   ngOnDestroy(): void {
