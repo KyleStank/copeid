@@ -39,6 +39,8 @@ export class AdminFiltersEditComponent implements IAdminEditView, OnInit, OnDest
     private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
+    this.filterModels$ = this.filterModels$.pipe(takeUntil(this.destroyed));
+
     this.model$.subscribe({
       next: result => {
         if (!!result) {
@@ -60,7 +62,9 @@ export class AdminFiltersEditComponent implements IAdminEditView, OnInit, OnDest
       this._filterService.getSingle(this.filterId).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
-    this._filterModelService.getAll().subscribe(this._filterModelsSubject.next.bind(this._filterModelsSubject));
+    this._filterModelService.getAll({
+      orderBy: ['typeName']
+    }).subscribe(this._filterModelsSubject.next.bind(this._filterModelsSubject));
   }
 
   save(): Observable<Filter> {

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { FilterModel, FilterModelService } from '@app/features';
 import { IAdminEditView } from '../../../components';
@@ -37,6 +37,8 @@ export class AdminFilterModelsEditComponent implements IAdminEditView, OnInit, O
     private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
+    this.types$ = this.types$.pipe(takeUntil(this.destroyed));
+
     this.model$.subscribe({
       next: result => {
         if (!!result) {
@@ -57,7 +59,9 @@ export class AdminFilterModelsEditComponent implements IAdminEditView, OnInit, O
       this._filterModelService.getSingle(this.filterModelid).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
-    this._filterModelService.getTypes().subscribe(this._typesSubject.next.bind(this._typesSubject));
+    this._filterModelService.getTypes().pipe(
+      map(results => results.sort((a, b) => a > b ? 1 : -1))
+    ).subscribe(this._typesSubject.next.bind(this._typesSubject));
   }
 
   save(): Observable<FilterModel> {

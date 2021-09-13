@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
 import { IAdminEditView } from '../../../components';
@@ -39,6 +39,8 @@ export class AdminFilterModelsEditPropertiesComponent implements IAdminEditView,
     private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
+    this.types$ = this.types$.pipe(takeUntil(this.destroyed));
+
     this.model$.subscribe({
       next: result => {
         if (!!result) {
@@ -59,14 +61,11 @@ export class AdminFilterModelsEditPropertiesComponent implements IAdminEditView,
       this._filterModelPropertyService.getSingle(this.filterModelPropertyId).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
-    this.filterModelId = this._activatedRoute.snapshot.paramMap.get('filterModelId') ?? undefined;
+    this.filterModelId = this._activatedRoute.snapshot.parent?.paramMap.get('filterModelId') ?? undefined;
     if (!!this.filterModelId) {
-      this._filterModelService.getPropertyTypes(this.filterModelId).subscribe(this._typesSubject.next.bind(this._typesSubject));
-    } else {
-      this.filterModelId = this._activatedRoute.snapshot.parent?.paramMap.get('filterModelId') ?? undefined;
-      if (!!this.filterModelId) {
-        this._filterModelService.getPropertyTypes(this.filterModelId).subscribe(this._typesSubject.next.bind(this._typesSubject));
-      }
+      this._filterModelService.getPropertyTypes(this.filterModelId).pipe(
+        map(results => results.sort((a, b) => a > b ? 1 : -1))
+      ).subscribe(this._typesSubject.next.bind(this._typesSubject));
     }
   }
 

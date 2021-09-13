@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, skipWhile, Subject, takeUntil } from 'rxjs';
 
 import { FilterSectionOption, FilterSectionOptionService, FilterSectionService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
@@ -22,9 +22,6 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
 
   private readonly _filterSectionOptionsSubject = new BehaviorSubject<FilterSectionOption[]>([]);
   readonly filterSectionOptions$ = this._filterSectionOptionsSubject.asObservable();
-
-  private readonly _propertyTypesSubject = new BehaviorSubject<string[]>([]);
-  readonly propertyTypes$ = this._propertyTypesSubject.asObservable();
 
   public readonly columns: AdminColumn[] = [
     { title: 'Display Name', property: 'displayName' },
@@ -52,7 +49,9 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
   getEntities(): void {
     this.filterSectionId = this._activatedRoute.snapshot.paramMap.get('filterSectionId') ?? undefined;
     if (!!this.filterSectionId) {
-      this._filterSectionService.getOptions(this.filterSectionId).subscribe(this._filterSectionOptionsSubject.next.bind(this._filterSectionOptionsSubject));
+      this._filterSectionService.getOptions(this.filterSectionId).pipe(
+        map(results => results.sort((a, b) => a.displayName! > b.displayName! ? 1 : -1))
+      ).subscribe(this._filterSectionOptionsSubject.next.bind(this._filterSectionOptionsSubject));
     }
   }
 

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '@app/environments';
-import { AbstractEntityService } from '@core/services/entity';
-import { FilterSection, FilterSectionOption } from '../models';
+import { AbstractQueryableEntityService } from '@core/services/entity';
+import { FilterSection, FilterSectionOption, FilterSectionQuery } from '../models';
 
 @Injectable()
-export class FilterSectionService extends AbstractEntityService<FilterSection> {
+export class FilterSectionService extends AbstractQueryableEntityService<FilterSection, FilterSectionQuery> {
   public getEndpoint(): string {
     return `${environment.apiUrl}/FilterSection`;
   }

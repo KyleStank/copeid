@@ -41,7 +41,9 @@ export class AdminFiltersManageComponent implements IAdminManageView, OnInit, On
   }
 
   getEntities(): void {
-    this._filterService.getAll().subscribe(this._filtersSubject.next.bind(this._filtersSubject));
+    this._filterService.getAll({
+      orderBy: ['displayName']
+    }).subscribe(this._filtersSubject.next.bind(this._filtersSubject));
   }
 
   editAddItem(model?: Filter): void {

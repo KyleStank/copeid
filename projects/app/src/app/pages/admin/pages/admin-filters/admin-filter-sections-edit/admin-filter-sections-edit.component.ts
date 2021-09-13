@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, mergeMap, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, Observable, Subject, takeUntil } from 'rxjs';
 
 import { FilterModelProperty, FilterModelService, FilterSection, FilterSectionService, FilterService } from '@app/features';
 import { IAdminEditView } from '../../../components';
@@ -71,15 +71,12 @@ export class AdminFiltersSectionsEditComponent implements IAdminEditView, OnInit
       this._filterSectionService.getSingle(this.filterSectionId).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
-    this.filterId = this._activatedRoute.snapshot.paramMap.get('filterId') ?? undefined;
-    if (!this.filterId) {
-      this.filterId = this._activatedRoute.snapshot.parent?.paramMap.get('filterId') ?? undefined;
-    }
-
+    this.filterId = this._activatedRoute.snapshot.parent?.paramMap.get('filterId') ?? undefined;
     if (!!this.filterId) {
       this._filterService.getSingle(this.filterId).pipe(
         mergeMap(result => this._filterModelService.getSingle(result.filterModelId!)),
-        mergeMap(result => this._filterModelService.getProperties(result.id!))
+        mergeMap(result => this._filterModelService.getProperties(result.id!)),
+        map(results => results.sort((a, b) => a.propertyName! > b.propertyName! ? 1 : -1))
       ).subscribe(this._propertiesSubject.next.bind(this._propertiesSubject));
     }
   }

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { FilterSection, FilterSectionService, FilterService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, skipWhile, Subject, takeUntil } from 'rxjs';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
@@ -22,9 +22,6 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
 
   private readonly _filterSectionsSubject = new BehaviorSubject<FilterSection[]>([]);
   readonly filterSections$ = this._filterSectionsSubject.asObservable();
-
-  private readonly _propertyTypesSubject = new BehaviorSubject<string[]>([]);
-  readonly propertyTypes$ = this._propertyTypesSubject.asObservable();
 
   public readonly columns: AdminColumn[] = [
     { title: 'Display Name', property: 'displayName' },
@@ -51,7 +48,9 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
   getEntities(): void {
     this.filterId = this._activatedRoute.snapshot.paramMap.get('filterId') ?? undefined;
     if (!!this.filterId) {
-      this._filterService.getSections(this.filterId).subscribe(this._filterSectionsSubject.next.bind(this._filterSectionsSubject));
+      this._filterService.getSections(this.filterId).pipe(
+        map(results => results.sort((a, b) => a.displayName! > b.displayName! ? 1 : -1))
+      ).subscribe(this._filterSectionsSubject.next.bind(this._filterSectionsSubject));
     }
   }
 

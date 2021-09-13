@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, map, skipWhile, Subject, takeUntil } from 'rxjs';
 
 import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
-import { IAdminManageView } from '../../../components';
-import { AdminColumn } from '../../../common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
+import { AdminColumn } from '../../../common';
+import { IAdminManageView } from '../../../components';
 
 @Component({
   selector: 'app-admin-filter-models-manage-properties',
@@ -22,9 +22,6 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
 
   private readonly _filterModelPropertiesSubject = new BehaviorSubject<FilterModelProperty[]>([]);
   readonly filterModelProperties$ = this._filterModelPropertiesSubject.asObservable();
-
-  private readonly _propertyTypesSubject = new BehaviorSubject<string[]>([]);
-  readonly propertyTypes$ = this._propertyTypesSubject.asObservable();
 
   public readonly columns: AdminColumn[] = [
     { title: 'Property Name', property: 'propertyName' }
@@ -50,8 +47,9 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
   getEntities(): void {
     this.filterModelId = this._activatedRoute.snapshot.paramMap.get('filterModelId') ?? undefined;
     if (!!this.filterModelId) {
-      this._filterModelService.getProperties(this.filterModelId).subscribe(this._filterModelPropertiesSubject.next.bind(this._filterModelPropertiesSubject));
-      this._filterModelService.getPropertyTypes(this.filterModelId).subscribe(this._propertyTypesSubject.next.bind(this._propertyTypesSubject));
+      this._filterModelService.getProperties(this.filterModelId).pipe(
+        map(results => results.sort((a, b) => a.propertyName! > b.propertyName! ? 1 : -1))
+      ).subscribe(this._filterModelPropertiesSubject.next.bind(this._filterModelPropertiesSubject));
     }
   }
 
