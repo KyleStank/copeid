@@ -22,9 +22,7 @@ export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, O
   readonly model$ = this._modelSubject.asObservable();
 
   readonly formGroup = this._fb.group({
-    displayName: ['', Validators.required],
-    code: ['', Validators.required],
-    value: ['', Validators.required]
+    displayName: ['', Validators.required]
   });
 
   filterSectionPartId: string | undefined;

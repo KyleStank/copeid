@@ -7,6 +7,8 @@ import { AdminFiltersSectionsEditComponent } from './admin-filter-sections-edit'
 import { AdminFiltersSectionsManageComponent } from './admin-filter-sections-manage';
 import { AdminFiltersSectionsPartsEditComponent } from './admin-filter-sections-parts-edit';
 import { AdminFiltersSectionsPartsManageComponent } from './admin-filter-sections-parts-manage';
+import { AdminFiltersSectionsPartsOptionsEditComponent } from './admin-filter-sections-parts-options-edit';
+import { AdminFiltersSectionsPartsOptionsManageComponent } from './admin-filter-sections-parts-options-manage';
 import { AdminFiltersEditComponent } from './admin-filters-edit';
 import { AdminFiltersManageComponent } from './admin-filters-manage';
 
@@ -155,6 +157,56 @@ const routes: Routes = [
                   } as ILayoutConfig
                 }
               }
+            ]
+          },
+          {
+            path: ':filterSectionPartId/options',
+            children: [
+              {
+                path: '',
+                component: AdminManageContainerComponent,
+                children: [
+                  {
+                    path: '',
+                    component: AdminFiltersSectionsPartsOptionsManageComponent,
+                    data: {
+                      layout: {
+                        config: {
+                          pageName: 'Manage Filter Section Part Options'
+                        }
+                      } as ILayoutConfig
+                    }
+                  }
+                ]
+              },
+              {
+                path: 'edit',
+                component: AdminEditContainerComponent,
+                children: [
+                  {
+                    path: '',
+                    component: AdminFiltersSectionsPartsOptionsEditComponent,
+                    data: {
+                      layout: {
+                        config: {
+                          pageName: 'Create Filter Section Part Option'
+                        }
+                      } as ILayoutConfig
+                    }
+                  },
+                  {
+                    path: ':filterSectionPartOptionId',
+                    component: AdminFiltersSectionsPartsOptionsEditComponent,
+                    data: {
+                      layout: {
+                        config: {
+                          pageName: 'Edit Filter Section Part Option'
+                        }
+                      } as ILayoutConfig
+                    }
+                  }
+                ]
+              },
             ]
           }
         ]

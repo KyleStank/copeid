@@ -24,9 +24,7 @@ export class AdminFiltersSectionsPartsManageComponent implements IAdminManageVie
   readonly filterSectionParts$ = this._filterSectionPartsSubject.asObservable();
 
   public readonly columns: AdminColumn[] = [
-    { title: 'Display Name', property: 'displayName' },
-    { title: 'Code', property: 'code' },
-    { title: 'Value', property: 'value' }
+    { title: 'Display Name', property: 'displayName' }
   ];
   selectedItems: any[] = [];
 
@@ -58,6 +56,10 @@ export class AdminFiltersSectionsPartsManageComponent implements IAdminManageVie
   editAddItem(model?: FilterSectionPart): void {
     const params = ['edit'];
     this._router.navigate(!!model?.id ? [...params, model.id] : params, { relativeTo: this._activatedRoute });
+  }
+
+  viewOptions(model: FilterSectionPart): void {
+    this._router.navigate([model.id, 'options'], { relativeTo: this._activatedRoute });
   }
 
   deleteItems(models?: FilterSectionPart[]): void {
