@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { FilterSection, FilterSectionService, FilterService } from '@app/features';
+import { FilterSection, FilterSectionService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { BehaviorSubject, map, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
@@ -14,7 +14,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [FilterService, FilterSectionService],
+  providers: [FilterSectionService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFiltersSectionsManageComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -25,6 +25,7 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
 
   public readonly columns: AdminColumn[] = [
     { title: 'Display Name', property: 'displayName' },
+    { title: 'Property', property: 'filterModelProperty.propertyName' },
     { title: 'Code', property: 'code' }
   ];
   selectedItems: any[] = [];
@@ -33,7 +34,6 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _filterService: FilterService,
     private readonly _filterSectionService: FilterSectionService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
@@ -48,9 +48,11 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
   getEntities(): void {
     this.filterId = this._activatedRoute.snapshot.paramMap.get('filterId') ?? undefined;
     if (!!this.filterId) {
-      this._filterService.getSections(this.filterId).pipe(
-        map(results => results.sort((a, b) => a.displayName! > b.displayName! ? 1 : -1))
-      ).subscribe(this._filterSectionsSubject.next.bind(this._filterSectionsSubject));
+      this._filterSectionService.getAll({
+        filterId: [this.filterId],
+        include: ['filterModelProperty'],
+        orderBy: ['displayName']
+      }).subscribe(this._filterSectionsSubject.next.bind(this._filterSectionsSubject));
     }
   }
 

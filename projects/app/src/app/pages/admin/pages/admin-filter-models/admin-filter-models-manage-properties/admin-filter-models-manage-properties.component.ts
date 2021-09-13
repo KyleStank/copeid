@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, map, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
+import { FilterModelProperty, FilterModelPropertyService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -14,7 +14,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [FilterModelService, FilterModelPropertyService],
+  providers: [FilterModelPropertyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFilterModelsManagePropertiesComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -32,7 +32,6 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _filterModelService: FilterModelService,
     private readonly _filterModelPropertySerivce: FilterModelPropertyService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
@@ -47,9 +46,10 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
   getEntities(): void {
     this.filterModelId = this._activatedRoute.snapshot.paramMap.get('filterModelId') ?? undefined;
     if (!!this.filterModelId) {
-      this._filterModelService.getProperties(this.filterModelId).pipe(
-        map(results => results.sort((a, b) => a.propertyName! > b.propertyName! ? 1 : -1))
-      ).subscribe(this._filterModelPropertiesSubject.next.bind(this._filterModelPropertiesSubject));
+      this._filterModelPropertySerivce.getAll({
+        filterModelId: [this.filterModelId],
+        orderBy: ['propertyName']
+      }).subscribe(this._filterModelPropertiesSubject.next.bind(this._filterModelPropertiesSubject));
     }
   }
 

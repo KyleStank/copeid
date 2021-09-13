@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, map, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { FilterSectionOption, FilterSectionOptionService, FilterSectionService } from '@app/features';
+import { FilterSectionOption, FilterSectionOptionService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -14,7 +14,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [FilterSectionService, FilterSectionOptionService],
+  providers: [FilterSectionOptionService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -34,7 +34,6 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _filterSectionService: FilterSectionService,
     private readonly _filterSectionOptionService: FilterSectionOptionService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
@@ -49,9 +48,10 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
   getEntities(): void {
     this.filterSectionId = this._activatedRoute.snapshot.paramMap.get('filterSectionId') ?? undefined;
     if (!!this.filterSectionId) {
-      this._filterSectionService.getOptions(this.filterSectionId).pipe(
-        map(results => results.sort((a, b) => a.displayName! > b.displayName! ? 1 : -1))
-      ).subscribe(this._filterSectionOptionsSubject.next.bind(this._filterSectionOptionsSubject));
+      this._filterSectionOptionService.getAll({
+        filterSectionId: [this.filterSectionId],
+        orderBy: ['displayName']
+      }).subscribe(this._filterSectionOptionsSubject.next.bind(this._filterSectionOptionsSubject));
     }
   }
 
