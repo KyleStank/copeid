@@ -3,60 +3,111 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import { AdminEditContainerComponent, AdminManageContainerComponent } from '../../components';
+import { AdminFiltersSectionsEditComponent } from './admin-filter-sections-edit';
+import { AdminFiltersSectionsManageComponent } from './admin-filter-sections-manage';
 import { AdminFiltersEditComponent } from './admin-filters-edit';
 import { AdminFiltersManageComponent } from './admin-filters-manage';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminManageContainerComponent,
     children: [
       {
         path: '',
-        component: AdminFiltersManageComponent
-      }
-    ],
-    data: {
-      layout: {
-        config: {
-          pageName: 'Manage Filters'
-        }
-      } as ILayoutConfig
-    },
-  },
-  {
-    path: 'edit',
-    component: AdminEditContainerComponent,
-    children: [
+        component: AdminManageContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFiltersManageComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Manage Filters'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
+      },
       {
-        path: ':id',
-        component: AdminFiltersEditComponent
+        path: 'edit',
+        component: AdminEditContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFiltersEditComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Edit Filter'
+                }
+              } as ILayoutConfig
+            }
+          },
+          {
+            path: ':filterId',
+            component: AdminFiltersEditComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Create Filter'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
       }
-    ],
-    data: {
-      layout: {
-        config: {
-          pageName: 'Edit Filter'
-        }
-      } as ILayoutConfig
-    }
+    ]
   },
   {
-    path: 'create',
-    component: AdminEditContainerComponent,
+    path: ':filterId/sections',
     children: [
       {
         path: '',
-        component: AdminFiltersEditComponent
+        component: AdminManageContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFiltersSectionsManageComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Manage Filter Sections'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
+      },
+      {
+        path: 'edit',
+        component: AdminEditContainerComponent,
+        children: [
+          {
+            path: '',
+            component: AdminFiltersSectionsEditComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Create Filter Section'
+                }
+              } as ILayoutConfig
+            }
+          },
+          {
+            path: ':filterSectionId',
+            component: AdminFiltersSectionsEditComponent,
+            data: {
+              layout: {
+                config: {
+                  pageName: 'Edit Filter Section'
+                }
+              } as ILayoutConfig
+            }
+          }
+        ]
       }
-    ],
-    data: {
-      layout: {
-        config: {
-          pageName: 'Create Filter'
-        }
-      } as ILayoutConfig
-    }
+    ]
   }
 ];
 

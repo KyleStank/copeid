@@ -13,11 +13,15 @@ import { RouterModule } from '@angular/router';
 
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
 import { AdminDataTableModule } from '../../common';
+import { AdminFiltersSectionsEditComponent } from './admin-filter-sections-edit';
+import { AdminFiltersSectionsManageComponent } from './admin-filter-sections-manage';
 import { AdminFiltersEditComponent } from './admin-filters-edit';
 import { AdminFiltersManageComponent } from './admin-filters-manage';
 import { AdminFiltersRoutingModule } from './admin-filters-routing.module';
 
 const exportedDeclarations: any[] = [
+  AdminFiltersSectionsEditComponent,
+  AdminFiltersSectionsManageComponent,
   AdminFiltersEditComponent,
   AdminFiltersManageComponent
 ];

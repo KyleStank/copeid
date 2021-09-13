@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+
+import { FilterModelProperty, FilterModelPropertyService, FilterModelService } from '@app/features';
+import { IAdminEditView } from '../../../components';
 
 @Component({
   selector: 'app-admin-filter-models-edit-properties',
@@ -13,7 +15,7 @@ import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
   providers: [FilterModelService, FilterModelPropertyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminFilterModelsEditPropertiesComponent {
+export class AdminFilterModelsEditPropertiesComponent implements IAdminEditView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
   private readonly _modelSubject = new BehaviorSubject<FilterModelProperty | undefined>(undefined);

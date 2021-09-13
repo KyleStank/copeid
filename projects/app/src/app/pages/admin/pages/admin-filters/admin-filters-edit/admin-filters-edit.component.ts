@@ -29,7 +29,7 @@ export class AdminFiltersEditComponent implements IAdminEditView, OnInit, OnDest
     displayName: ['', Validators.required]
   });
 
-  id: string | undefined;
+  filterId: string | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -55,9 +55,9 @@ export class AdminFiltersEditComponent implements IAdminEditView, OnInit, OnDest
   }
 
   ngOnInit(): void {
-    this.id = this._activatedRoute.snapshot.paramMap.get('id') ?? undefined;
-    if (!!this.id) {
-      this._filterService.getSingle(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
+    this.filterId = this._activatedRoute.snapshot.paramMap.get('filterId') ?? undefined;
+    if (!!this.filterId) {
+      this._filterService.getSingle(this.filterId).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
     this._filterModelService.getAll().subscribe(this._filterModelsSubject.next.bind(this._filterModelsSubject));
@@ -67,7 +67,7 @@ export class AdminFiltersEditComponent implements IAdminEditView, OnInit, OnDest
     const model: Filter = {
       ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
-      id: this.id
+      id: this.filterId
     };
 
     return !!model.id ? this._filterService.update(model) : this._filterService.create(model);
