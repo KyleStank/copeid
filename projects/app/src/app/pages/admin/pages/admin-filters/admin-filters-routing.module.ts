@@ -5,8 +5,8 @@ import { ILayoutConfig } from '@core/layouts/models';
 import { AdminEditContainerComponent, AdminManageContainerComponent } from '../../components';
 import { AdminFiltersSectionsEditComponent } from './admin-filter-sections-edit';
 import { AdminFiltersSectionsManageComponent } from './admin-filter-sections-manage';
-import { AdminFiltersSectionsOptionsEditComponent } from './admin-filter-sections-options-edit';
-import { AdminFiltersSectionsOptionsManageComponent } from './admin-filter-sections-options-manage';
+import { AdminFiltersSectionsPartsEditComponent } from './admin-filter-sections-parts-edit';
+import { AdminFiltersSectionsPartsManageComponent } from './admin-filter-sections-parts-manage';
 import { AdminFiltersEditComponent } from './admin-filters-edit';
 import { AdminFiltersManageComponent } from './admin-filters-manage';
 
@@ -110,7 +110,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: ':filterSectionId/options',
+        path: ':filterSectionId/parts',
         children: [
           {
             path: '',
@@ -118,11 +118,11 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                component: AdminFiltersSectionsOptionsManageComponent,
+                component: AdminFiltersSectionsPartsManageComponent,
                 data: {
                   layout: {
                     config: {
-                      pageName: 'Manage Filter Section Options'
+                      pageName: 'Manage Filter Section Parts'
                     }
                   } as ILayoutConfig
                 }
@@ -135,22 +135,22 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                component: AdminFiltersSectionsOptionsEditComponent,
+                component: AdminFiltersSectionsPartsEditComponent,
                 data: {
                   layout: {
                     config: {
-                      pageName: 'Create Filter Section Option'
+                      pageName: 'Create Filter Section Part'
                     }
                   } as ILayoutConfig
                 }
               },
               {
-                path: ':filterSectionOptionId',
-                component: AdminFiltersSectionsOptionsEditComponent,
+                path: ':filterSectionPartId',
+                component: AdminFiltersSectionsPartsEditComponent,
                 data: {
                   layout: {
                     config: {
-                      pageName: 'Edit Filter Section Option'
+                      pageName: 'Edit Filter Section Part'
                     }
                   } as ILayoutConfig
                 }

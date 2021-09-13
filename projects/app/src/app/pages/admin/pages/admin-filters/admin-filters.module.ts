@@ -15,8 +15,8 @@ import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-
 import { AdminDataTableModule } from '../../common';
 import { AdminFiltersSectionsEditComponent } from './admin-filter-sections-edit';
 import { AdminFiltersSectionsManageComponent } from './admin-filter-sections-manage';
-import { AdminFiltersSectionsOptionsEditComponent } from './admin-filter-sections-options-edit';
-import { AdminFiltersSectionsOptionsManageComponent } from './admin-filter-sections-options-manage';
+import { AdminFiltersSectionsPartsEditComponent } from './admin-filter-sections-parts-edit';
+import { AdminFiltersSectionsPartsManageComponent } from './admin-filter-sections-parts-manage';
 import { AdminFiltersEditComponent } from './admin-filters-edit';
 import { AdminFiltersManageComponent } from './admin-filters-manage';
 import { AdminFiltersRoutingModule } from './admin-filters-routing.module';
@@ -24,8 +24,8 @@ import { AdminFiltersRoutingModule } from './admin-filters-routing.module';
 const exportedDeclarations: any[] = [
   AdminFiltersSectionsEditComponent,
   AdminFiltersSectionsManageComponent,
-  AdminFiltersSectionsOptionsEditComponent,
-  AdminFiltersSectionsOptionsManageComponent,
+  AdminFiltersSectionsPartsEditComponent,
+  AdminFiltersSectionsPartsManageComponent,
   AdminFiltersEditComponent,
   AdminFiltersManageComponent
 ];

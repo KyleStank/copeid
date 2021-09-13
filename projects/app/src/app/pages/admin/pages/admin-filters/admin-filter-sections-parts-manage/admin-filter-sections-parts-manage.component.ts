@@ -3,25 +3,25 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { FilterSectionOption, FilterSectionOptionService } from '@app/features';
+import { FilterSectionPart, FilterSectionPartService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
 @Component({
-  selector: 'app-admin-filters-sections-options-manage',
-  templateUrl: './admin-filter-sections-options-manage.component.html',
+  selector: 'app-admin-filters-sections-parts-manage',
+  templateUrl: './admin-filter-sections-parts-manage.component.html',
   host: {
     'class': 'd-block'
   },
-  providers: [FilterSectionOptionService],
+  providers: [FilterSectionPartService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageView, OnInit, OnDestroy {
+export class AdminFiltersSectionsPartsManageComponent implements IAdminManageView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
-  private readonly _filterSectionOptionsSubject = new BehaviorSubject<FilterSectionOption[]>([]);
-  readonly filterSectionOptions$ = this._filterSectionOptionsSubject.asObservable();
+  private readonly _filterSectionPartsSubject = new BehaviorSubject<FilterSectionPart[]>([]);
+  readonly filterSectionParts$ = this._filterSectionPartsSubject.asObservable();
 
   public readonly columns: AdminColumn[] = [
     { title: 'Display Name', property: 'displayName' },
@@ -34,11 +34,11 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _filterSectionOptionService: FilterSectionOptionService,
+    private readonly _filterSectionPartService: FilterSectionPartService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
   ) {
-    this.filterSectionOptions$ = this.filterSectionOptions$.pipe(takeUntil(this.destroyed));
+    this.filterSectionParts$ = this.filterSectionParts$.pipe(takeUntil(this.destroyed));
   }
 
   ngOnInit(): void {
@@ -48,28 +48,24 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
   getEntities(): void {
     this.filterSectionId = this._activatedRoute.snapshot.paramMap.get('filterSectionId') ?? undefined;
     if (!!this.filterSectionId) {
-      this._filterSectionOptionService.getAll({
+      this._filterSectionPartService.getAll({
         filterSectionId: [this.filterSectionId],
         orderBy: ['displayName']
-      }).subscribe(this._filterSectionOptionsSubject.next.bind(this._filterSectionOptionsSubject));
+      }).subscribe(this._filterSectionPartsSubject.next.bind(this._filterSectionPartsSubject));
     }
   }
 
-  editAddItem(model?: FilterSectionOption): void {
+  editAddItem(model?: FilterSectionPart): void {
     const params = ['edit'];
     this._router.navigate(!!model?.id ? [...params, model.id] : params, { relativeTo: this._activatedRoute });
   }
 
-  viewOptions(model: FilterSectionOption): void {
-    this._router.navigate([model.id, 'options'], { relativeTo: this._activatedRoute });
-  }
-
-  deleteItems(models?: FilterSectionOption[]): void {
+  deleteItems(models?: FilterSectionPart[]): void {
     models = models ?? [];
     if (models.length === 0) return;
 
     const isSingle = models.length === 1;
-    const modelName = isSingle ? 'Filter Section Option' : 'Filter Section Options';
+    const modelName = isSingle ? 'Filter Section Part' : 'Filter Section Parts';
     const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
       data: {
         title: `Delete ${modelName}?`,
@@ -85,7 +81,7 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
         next: () => {
           models!.forEach(m => {
             if (!!m?.id) {
-              this._filterSectionOptionService.delete(m.id).subscribe({
+              this._filterSectionPartService.delete(m.id).subscribe({
                 next: () => this.getEntities(),
                 error: (error: any) => console.error('Error:', error)
               });

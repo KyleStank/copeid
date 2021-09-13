@@ -3,22 +3,22 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { FilterSectionOption, FilterSectionOptionService } from '@app/features';
+import { FilterSectionPart, FilterSectionPartService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
-  selector: 'app-admin-filters-sections-options-edit',
-  templateUrl: './admin-filter-sections-options-edit.component.html',
+  selector: 'app-admin-filters-sections-parts-edit',
+  templateUrl: './admin-filter-sections-parts-edit.component.html',
   host: {
     'class': 'd-block'
   },
-  providers: [FilterSectionOptionService],
+  providers: [FilterSectionPartService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminFiltersSectionsOptionsEditComponent implements IAdminEditView, OnInit, OnDestroy {
+export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
-  private readonly _modelSubject = new BehaviorSubject<FilterSectionOption | undefined>(undefined);
+  private readonly _modelSubject = new BehaviorSubject<FilterSectionPart | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
   readonly formGroup = this._fb.group({
@@ -27,13 +27,13 @@ export class AdminFiltersSectionsOptionsEditComponent implements IAdminEditView,
     value: ['', Validators.required]
   });
 
-  filterSectionOptionId: string | undefined;
+  filterSectionPartId: string | undefined;
   filterSectionId: string | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _filterSectionOptionService: FilterSectionOptionService,
+    private readonly _filterSectionPartService: FilterSectionPartService,
     private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
@@ -41,9 +41,7 @@ export class AdminFiltersSectionsOptionsEditComponent implements IAdminEditView,
       next: result => {
         if (!!result) {
           this.formGroup.patchValue({
-            displayName: result.displayName,
-            code: result.code,
-            value: result.value
+            displayName: result.displayName
           });
         }
 
@@ -54,9 +52,9 @@ export class AdminFiltersSectionsOptionsEditComponent implements IAdminEditView,
   }
 
   ngOnInit(): void {
-    this.filterSectionOptionId = this._activatedRoute.snapshot.paramMap.get('filterSectionOptionId') ?? undefined;
-    if (!!this.filterSectionOptionId) {
-      this._filterSectionOptionService.getSingle(this.filterSectionOptionId).subscribe(this._modelSubject.next.bind(this._modelSubject));
+    this.filterSectionPartId = this._activatedRoute.snapshot.paramMap.get('filterSectionPartId') ?? undefined;
+    if (!!this.filterSectionPartId) {
+      this._filterSectionPartService.getSingle(this.filterSectionPartId).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
 
     this.filterSectionId = this._activatedRoute.snapshot.paramMap.get('filterSectionId') ?? undefined;
@@ -65,15 +63,15 @@ export class AdminFiltersSectionsOptionsEditComponent implements IAdminEditView,
     }
   }
 
-  save(): Observable<FilterSectionOption> {
-    const model: FilterSectionOption = {
+  save(): Observable<FilterSectionPart> {
+    const model: FilterSectionPart = {
       ...(this._modelSubject.value ?? {}),
       ...this.formGroup.value,
-      id: this.filterSectionOptionId,
+      id: this.filterSectionPartId,
       filterSectionId: this.filterSectionId
     };
 
-    return !!model.id ? this._filterSectionOptionService.update(model) : this._filterSectionOptionService.create(model);
+    return !!model.id ? this._filterSectionPartService.update(model) : this._filterSectionPartService.create(model);
   }
 
   ngOnDestroy(): void {

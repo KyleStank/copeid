@@ -61,8 +61,8 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
     this._router.navigate(!!model?.id ? [...params, model.id] : params, { relativeTo: this._activatedRoute });
   }
 
-  viewOptions(model: FilterSection): void {
-    this._router.navigate([model.id, 'options'], { relativeTo: this._activatedRoute });
+  viewParts(model: FilterSection): void {
+    this._router.navigate([model.id, 'parts'], { relativeTo: this._activatedRoute });
   }
 
   deleteItems(models?: FilterSection[]): void {
