@@ -1,5 +1,5 @@
 <app-admin-data-table
-  [data]="(filterSections$ | async) ?? []"
+  [data]="(filterSectionOptions$ | async) ?? []"
   [columns]="columns"
   (selected)="selectedItems = $event"
 >
@@ -7,10 +7,6 @@
     <button mat-menu-item (click)="editAddItem(cell)">
       <mat-icon color="primary">edit</mat-icon>
       <span>Edit</span>
-    </button>
-    <button mat-menu-item (click)="viewOptions(cell)">
-      <mat-icon color="accent">settings</mat-icon>
-      <span>Options</span>
     </button>
     <button mat-menu-item (click)="deleteItems([cell])">
       <mat-icon color="warn">delete</mat-icon>

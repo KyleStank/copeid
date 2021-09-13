@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { FilterSection, FilterSectionService, FilterService } from '@app/features';
+import { FilterSection, FilterSectionService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -13,7 +13,7 @@ import { IAdminEditView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [FilterService, FilterSectionService],
+  providers: [FilterSectionService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFiltersSectionsEditComponent implements IAdminEditView, OnInit, OnDestroy {
@@ -36,7 +36,6 @@ export class AdminFiltersSectionsEditComponent implements IAdminEditView, OnInit
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _filterService: FilterService,
     private readonly _filterSectionService: FilterSectionService,
     private readonly _fb: FormBuilder
   ) {
