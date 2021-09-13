@@ -26,6 +26,7 @@ export class AdminFiltersSectionsOptionsEditComponent implements IAdminEditView,
 
   readonly formGroup = this._fb.group({
     displayName: ['', Validators.required],
+    code: ['', Validators.required],
     value: ['', Validators.required]
   });
 
@@ -44,6 +45,7 @@ export class AdminFiltersSectionsOptionsEditComponent implements IAdminEditView,
         if (!!result) {
           this.formGroup.patchValue({
             displayName: result.displayName,
+            code: result.code,
             value: result.value
           });
         }

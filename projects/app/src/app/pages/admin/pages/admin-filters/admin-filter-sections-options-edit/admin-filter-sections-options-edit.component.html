@@ -20,6 +20,23 @@
 
       <div class="col-md my-1">
         <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Code</mat-label>
+
+          <input
+            matInput
+            type="text"
+            aria-label="Code text field."
+            formControlName="code"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
           <mat-label>Value</mat-label>
 
           <input

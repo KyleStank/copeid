@@ -28,6 +28,7 @@ export class AdminFiltersSectionsOptionsManageComponent implements IAdminManageV
 
   public readonly columns: AdminColumn[] = [
     { title: 'Display Name', property: 'displayName' },
+    { title: 'Code', property: 'code' },
     { title: 'Value', property: 'value' }
   ];
   selectedItems: any[] = [];
