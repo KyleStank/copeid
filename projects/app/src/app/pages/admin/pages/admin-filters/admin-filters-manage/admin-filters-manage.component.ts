@@ -23,7 +23,8 @@ export class AdminFiltersManageComponent implements IAdminManageView, OnInit, On
   private readonly _filtersSubject = new BehaviorSubject<Filter[]>([]);
   readonly filters$ = this._filtersSubject.asObservable();
   readonly columns: AdminColumn[] = [
-    { title: 'Display Name', property: 'displayName' }
+    { title: 'Display Name', property: 'displayName' },
+    { title: 'Filter Model', property: 'filterModel.typeName' }
   ];
   selectedItems: any[] = [];
 
@@ -42,6 +43,7 @@ export class AdminFiltersManageComponent implements IAdminManageView, OnInit, On
 
   getEntities(): void {
     this._filterService.getAll({
+      include: ['filterModel'],
       orderBy: ['displayName']
     }).subscribe(this._filtersSubject.next.bind(this._filtersSubject));
   }
