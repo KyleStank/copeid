@@ -1,10 +1,13 @@
 import { IEntity } from '@core/models/entity';
 
+import { FilterSectionPart } from './filter-section-part.model';
+
 export interface IFilterSectionPartOption extends IEntity {
   filterSectionPartId: string | undefined;
   displayName: string | undefined;
   code: string | undefined;
   value: string | undefined;
+  filterSectionPart: FilterSectionPart | undefined;
 }
 
 export class FilterSectionPartOption implements IFilterSectionPartOption {
@@ -13,6 +16,7 @@ export class FilterSectionPartOption implements IFilterSectionPartOption {
   public displayName: string | undefined;
   public code: string | undefined;
   public value: string | undefined;
+  public filterSectionPart: FilterSectionPart | undefined;
 
   constructor(model?: Partial<IFilterSectionPartOption>) {
     this.id = model?.id;
