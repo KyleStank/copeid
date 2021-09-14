@@ -6,9 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { LayoutTemplatesModule } from '@core/layouts/templates';
 import { SharedInfoCardModule } from '@shared/components/info-card';
-import { FilterSectionCardComponent } from './common';
-import { FilterPageComponent } from './components';
-import { FilterLengthSectionComponent } from './sections';
+// import { FilterSectionCardComponent } from './common';
+// import { FilterPageComponent } from './components';
+// import { FilterLengthSectionComponent } from './sections';
+import { FilterPageComponent } from './pages';
 import { FilterRoutingModule } from './filter-routing.module';
 
 @NgModule({
@@ -22,14 +23,17 @@ import { FilterRoutingModule } from './filter-routing.module';
     SharedInfoCardModule
   ],
   declarations: [
-    // Common
-    FilterSectionCardComponent,
+    // Pages
+    FilterPageComponent
 
-    // Components
-    FilterPageComponent,
+    // // Common
+    // FilterSectionCardComponent,
 
-    // Sections
-    FilterLengthSectionComponent
+    // // Components
+    // FilterPageComponent,
+
+    // // Sections
+    // FilterLengthSectionComponent
   ]
 })
 export class FilterPageModule {}

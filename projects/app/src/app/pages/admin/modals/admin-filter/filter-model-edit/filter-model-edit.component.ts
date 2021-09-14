@@ -25,7 +25,8 @@ export class AdminFilterModelEditModalComponent {
     this.types = data?.types ?? [];
     this.model = {
       id: data?.model?.id ?? undefined,
-      typeName: data?.model?.typeName ?? undefined
+      typeName: data?.model?.typeName ?? undefined,
+      filterModelProperties: data?.model?.filterModelProperties ?? undefined
     };
   }
 }
