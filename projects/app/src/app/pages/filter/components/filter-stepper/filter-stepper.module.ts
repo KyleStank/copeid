@@ -8,16 +8,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FilterStepContainerComponent } from './filter-step-container.component';
 import { FilterStepComponent } from './filter-step.component';
 import { FilterStepperComponent } from './filter-stepper.component';
-import { FilterStepOptionDefinitionDirective, FilterStepOutletDirective, FilterStepPartOutletDirective } from './filter-stepper.directive';
 
 const exportedDeclarations: any[] = [
-  FilterStepOptionDefinitionDirective,
-  FilterStepOutletDirective,
-  FilterStepPartOutletDirective,
-
   FilterStepContainerComponent,
   FilterStepComponent,
-  FilterStepperComponent,
+  FilterStepperComponent
 ];
 
 @NgModule({

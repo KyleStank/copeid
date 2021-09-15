@@ -1,7 +1,3 @@
 <app-filter-stepper #stepper color="accent" [sections]="(filterSections$ | async) ?? []">
-  <ng-container *filterStepOptionDef="let option">
-    <div class="d-block">
-      <strong>Option Name:</strong> {{ option.displayName }}
-    </div>
-  </ng-container>
+
 </app-filter-stepper>

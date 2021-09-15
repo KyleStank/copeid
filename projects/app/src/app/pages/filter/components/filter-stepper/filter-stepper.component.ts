@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, OnChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
 
 import { FilterSection } from '@app/features';
-import { FilterStepOptionDefinitionDirective } from './filter-stepper.directive';
 
 @Component({
   selector: 'app-filter-stepper',
@@ -14,9 +13,6 @@ import { FilterStepOptionDefinitionDirective } from './filter-stepper.directive'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterStepperComponent implements OnChanges {
-  @ContentChild(FilterStepOptionDefinitionDirective, { static: true })
-  filterStepOptionDef?: FilterStepOptionDefinitionDirective;
-
   @ViewChild(MatStepper, { static: true })
   matStepper?: MatStepper;
 

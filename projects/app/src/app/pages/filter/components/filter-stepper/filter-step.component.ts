@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { FilterSectionPartOption } from '@app/features';
+import { FilterSectionPart } from '@app/features';
 
 @Component({
   selector: 'app-filter-step',
@@ -12,5 +12,5 @@ import { FilterSectionPartOption } from '@app/features';
 })
 export class FilterStepComponent {
   @Input()
-  option?: FilterSectionPartOption;
+  part?: FilterSectionPart;
 }
