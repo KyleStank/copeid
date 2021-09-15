@@ -1,0 +1,19 @@
+<ng-container *ngFor="let filterSection of (filterSections$ | async)">
+  <mat-card class="my-3">
+    <mat-card-header>
+      <mat-card-title>{{ filterSection.code }}: {{ filterSection.displayName }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="my-2 p-2 border rounded" *ngFor="let filterSectionPart of filterSection.filterSectionParts">
+        <span class="d-block">{{ filterSectionPart.displayName }}</span>
+
+        <div class="my-1 p-2 border rounded" *ngFor="let filterSectionPartOption of filterSectionPart.filterSectionPartOptions">
+          <span class="d-block">Code: {{ filterSectionPartOption.code }}</span>
+          <span class="d-block">Name: {{ filterSectionPartOption.displayName }}</span>
+          <span class="d-block">Value: {{ filterSectionPartOption.value }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

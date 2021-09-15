@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, map, mergeMap, Observable, skipWhile, Subject, takeUntil, tap } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Filter, FilterModel, FilterModelProperty, FilterModelService, FilterSection, FilterSectionService, FilterService } from '@app/features';
+import { Filter, FilterModel, FilterSection, FilterService } from '@app/features';
 
 @Component({
   selector: 'app-filter-page',
@@ -9,7 +9,7 @@ import { Filter, FilterModel, FilterModelProperty, FilterModelService, FilterSec
   host: {
     'class': 'd-block'
   },
-  providers: [FilterService, FilterModelService, FilterSectionService],
+  providers: [FilterService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterPageComponent implements OnInit, OnDestroy {
@@ -17,53 +17,26 @@ export class FilterPageComponent implements OnInit, OnDestroy {
 
   private readonly _filterSubject = new BehaviorSubject<Filter | undefined>(undefined);
   readonly filter$ = this._filterSubject.asObservable();
-
-  private readonly _filterModelSubject = new BehaviorSubject<FilterModel | undefined>(undefined);
-  readonly filterModel$ = this._filterModelSubject.asObservable();
-  readonly filterModelProperties$: Observable<FilterModelProperty[]>;
-
-  private readonly _filterSectionsSubject = new BehaviorSubject<FilterSection[]>([]);
-  readonly filterSections$ = this._filterSectionsSubject.asObservable();
-
-  private readonly _currentFilterSectionSubject = new BehaviorSubject<FilterSection | undefined>(undefined);
-  readonly currentFilterSection$ = this._currentFilterSectionSubject.asObservable();
+  readonly filterModel$: Observable<FilterModel | undefined>
+  readonly filterSections$: Observable<FilterSection[]>
 
   constructor(
-    private readonly _filterService: FilterService,
-    private readonly _filterModelService: FilterModelService,
-    private readonly _filterSectionService: FilterSectionService
+    private readonly _changeDetectorRef: ChangeDetectorRef,
+    private readonly _filterService: FilterService
   ) {
     this.filter$ = this.filter$.pipe(takeUntil(this._destroyed));
-
-    this.filterModel$ = this._filterModelSubject.pipe(takeUntil(this._destroyed));
-    this.filterModelProperties$ = this.filterModel$.pipe(
-      skipWhile(filterModel => !!!filterModel?.filterModelProperties),
-      map(filterModel => filterModel!.filterModelProperties!)
+    this.filterModel$ = this.filter$.pipe(
+      map(filter => filter?.filterModel)
     );
-
-    this.filterSections$ = this._filterSectionsSubject.pipe(takeUntil(this._destroyed));
-
-    this.currentFilterSection$ = this._currentFilterSectionSubject.pipe(takeUntil(this._destroyed));
-    this.currentFilterSection$.subscribe(console.log);
+    this.filterSections$ = this.filter$.pipe(
+      map(filter => filter?.filterSections ?? [])
+    );
   }
 
   ngOnInit(): void {
-    this._filterService.getAll({
-      include: ['filterModel']
-    }).pipe(
-      map(filters => filters.find(f => f.filterModel?.typeName === 'CopeID.Models.Specimens.Specimen')),
-      tap(filter => {
-        this._filterModelService.getSingle(filter!.filterModelId!, {
-          include: ['filterModelProperties']
-        }).subscribe(this._filterModelSubject.next.bind(this._filterModelSubject));
-
-        this._filterSectionService.getAll({
-          filterId: [filter!.id!]
-        }).pipe(
-          tap(filterSections => this._currentFilterSectionSubject.next(filterSections[0]))
-        ).subscribe(this._filterSectionsSubject.next.bind(this._filterSectionsSubject));
-      })
-    ).subscribe(this._filterSubject.next.bind(this._filterSubject));
+    this._filterService.getSpecimenFilter().subscribe({
+      next: filter => this._filterSubject.next(filter)
+    });
   }
 
   ngOnDestroy(): void {
