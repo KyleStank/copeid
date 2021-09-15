@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewChild } from 
 import { ThemePalette } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
 
-import { FilterSection } from '@app/features';
+import { FilterSection, FilterSectionPartOption } from '@app/features';
 
 @Component({
   selector: 'app-filter-stepper',
@@ -24,6 +24,10 @@ export class FilterStepperComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.sections = this.sections ?? [];
+  }
+
+  optionSelected(option: FilterSectionPartOption): void {
+    console.log('Option:', option);
   }
 
   previous(): void {

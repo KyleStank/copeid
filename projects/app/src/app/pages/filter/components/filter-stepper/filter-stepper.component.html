@@ -1,15 +1,24 @@
 <mat-stepper
   orientation="vertical"
-  linear="false"
+  linear="true"
   [color]="color"
 >
   <mat-step *ngFor="let section of sections">
     <ng-container *matStepLabel>{{ section.displayName }}</ng-container>
     <ng-container *matStepContent>
-      <ng-container *ngIf="(section.filterSectionParts || []) as parts">
-        <app-filter-step [part]="parts[0]" *ngIf="parts.length <= 1"></app-filter-step>
-        <app-filter-step-container [parts]="parts" *ngIf="parts.length > 1"></app-filter-step-container>
-      </ng-container>
+      <div class="my-2" *ngIf="(section.filterSectionParts || []) as parts">
+        <app-filter-step
+          [part]="parts[0]"
+          (selected)="optionSelected($event)"
+          *ngIf="parts.length <= 1"
+        ></app-filter-step>
+
+        <app-filter-step-container
+          [parts]="parts"
+          (selected)="optionSelected($event)"
+          *ngIf="parts.length > 1"
+        ></app-filter-step-container>
+      </div>
 
       <div class="d-flex align-items-center flex-wrap">
         <button mat-flat-button class="my-1 me-2" color="warn" (click)="previous()">Back</button>

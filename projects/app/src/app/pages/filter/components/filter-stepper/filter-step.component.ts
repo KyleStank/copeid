@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { FilterSectionPart } from '@app/features';
+import { FilterSectionPart, FilterSectionPartOption } from '@app/features';
 
 @Component({
   selector: 'app-filter-step',
   templateUrl: './filter-step.component.html',
+  styleUrls: ['./filter-step.component.scss'],
   host: {
     'class': 'd-block'
   },
@@ -13,4 +14,14 @@ import { FilterSectionPart } from '@app/features';
 export class FilterStepComponent {
   @Input()
   part?: FilterSectionPart;
+
+  @Output()
+  selected = new EventEmitter<FilterSectionPartOption>();
+
+  selectedOption?: FilterSectionPartOption;
+
+  select(option: FilterSectionPartOption): void {
+    this.selectedOption = option;
+    this.selected.emit(this.selectedOption);
+  }
 }

@@ -1,0 +1,28 @@
+@use 'sass:map';
+@use './variables' as variables;
+
+.option {
+  cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+
+  transition: border-color 200ms ease-out;
+
+  &:hover,
+  &:focus {
+    border-color: map-get(variables.$accent-palette, 500);
+  }
+
+  &:active,
+  &.option--selected {
+    border-color: map-get(variables.$primary-palette, 500);
+  }
+
+  .option--text {
+    margin: 0;
+    padding: 25px;
+    font-size: 2rem;
+    line-height: 2rem;
+    text-align: center;
+  }
+}
