@@ -11,12 +11,13 @@ import { SharedInfoCardModule } from '@shared/components/info-card';
 // import { FilterPageComponent } from './components';
 // import { FilterLengthSectionComponent } from './sections';
 import { FilterPageComponent } from './pages';
-import { FilterStepperComponent } from './components';
+import { FilterStepperModule } from './components';
 import { FilterRoutingModule } from './filter-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    FilterStepperModule,
     FilterRoutingModule,
     LayoutTemplatesModule,
     MatButtonModule,
@@ -26,9 +27,6 @@ import { FilterRoutingModule } from './filter-routing.module';
     SharedInfoCardModule
   ],
   declarations: [
-    // Components
-    FilterStepperComponent,
-
     // Pages
     FilterPageComponent
 
