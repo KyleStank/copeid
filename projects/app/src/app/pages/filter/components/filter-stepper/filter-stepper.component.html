@@ -1,29 +1,73 @@
-<mat-stepper
-  orientation="vertical"
-  linear="true"
-  [color]="color"
->
-  <mat-step *ngFor="let section of sections">
-    <ng-container *matStepLabel>{{ section.displayName }}</ng-container>
-    <ng-container *matStepContent>
-      <div class="my-2" *ngIf="(section.filterSectionParts || []) as parts">
-        <app-filter-step
-          [part]="parts[0]"
-          (selected)="optionSelected($event)"
-          *ngIf="parts.length <= 1"
-        ></app-filter-step>
+<form [formGroup]="formGroup">
+  <mat-stepper
+    orientation="vertical"
+    linear="true"
+    formArrayName="sections"
+    [color]="color"
+  >
+    <mat-step #step="matStep" [formArrayName]="stepIndex" [stepControl]="formSections.controls[stepIndex]" *ngFor="let section of sections; let stepIndex = index;">
+      <ng-container *matStepLabel>{{ section.displayName }}</ng-container>
+      <ng-container *matStepContent>
+        <div class="my-2" *ngIf="(section.filterSectionParts || []) as parts">
+          <ng-template #content let-part="$implicit" let-step="step" let-index="index">
+            <div [formArrayName]="index">
+              <app-filter-step
+                [part]="part"
+                [stepper]="this"
+                (selected)="optionSelected($event, step, index)"
+              ></app-filter-step>
+            </div>
+          </ng-template>
 
-        <app-filter-step-container
-          [parts]="parts"
-          (selected)="optionSelected($event)"
-          *ngIf="parts.length > 1"
-        ></app-filter-step-container>
-      </div>
+          <ng-container *ngFor="let part of parts || []; let first = first; let last = last; let partIndex = index">
+            <div class="my-4" [ngClass]="{ 'mt-0': first, 'mb-0': last }" *ngIf="parts.length > 1">
+              <p class="my-0 c-primary mat-title">{{ part.displayName }}</p>
+              <mat-divider class="my-1"></mat-divider>
+              <ng-container *ngTemplateOutlet="content; context: { $implicit: part, step: step, index: partIndex }"></ng-container>
+            </div>
 
-      <div class="d-flex align-items-center flex-wrap">
-        <button mat-flat-button class="my-1 me-2" color="warn" (click)="previous()">Back</button>
-        <button mat-flat-button class="my-1 me-2" color="primary" (click)="next()">Next</button>
-      </div>
-    </ng-container>
-  </mat-step>
-</mat-stepper>
+            <ng-container *ngIf="parts.length <= 1">
+              <ng-container *ngTemplateOutlet="content; context: { $implicit: part, step: step, index: partIndex }"></ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <div class="d-flex align-items-center flex-wrap">
+          <button
+            mat-flat-button
+            class="my-1 me-2"
+            color="warn"
+            type="button"
+            (click)="previous()"
+            *ngIf="matStepper.selectedIndex !== 0"
+          >
+            Back
+          </button>
+
+          <button
+            mat-flat-button
+            class="my-1 me-2"
+            color="primary"
+            type="button"
+            [disabled]="hasError($any(formSections.controls[stepIndex]))"
+            (click)="next()"
+            *ngIf="matStepper.selectedIndex !== matStepper.steps.length - 1"
+          >
+            Next
+          </button>
+          <button
+            mat-flat-button
+            class="my-1 me-2"
+            color="primary"
+            type="button"
+            [disabled]="hasError($any(formSections.controls[stepIndex]))"
+            (click)="filterResults()"
+            *ngIf="matStepper.selectedIndex === matStepper.steps.length - 1"
+          >
+            Filter Results
+          </button>
+        </div>
+      </ng-container>
+    </mat-step>
+  </mat-stepper>
+</form>

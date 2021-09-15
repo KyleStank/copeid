@@ -1,7 +1,0 @@
-<ng-container *ngFor="let part of parts || []; let first = first; let last = last;">
-  <div class="my-4" [ngClass]="{ 'mt-0': first, 'mb-0': last }">
-    <p class="my-0 c-primary mat-title">{{ part.displayName }}</p>
-    <mat-divider class="my-1"></mat-divider>
-    <app-filter-step class="mt-2" [part]="part" (selected)="selected.emit($event)"></app-filter-step>
-  </div>
-</ng-container>

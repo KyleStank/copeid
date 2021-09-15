@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FilterSectionPart, FilterSectionPartOption } from '@app/features';
+import { FilterStepperComponent } from './filter-stepper.component';
 
 @Component({
   selector: 'app-filter-step',
@@ -14,6 +15,9 @@ import { FilterSectionPart, FilterSectionPartOption } from '@app/features';
 export class FilterStepComponent {
   @Input()
   part?: FilterSectionPart;
+
+  @Input()
+  stepper?: FilterStepperComponent;
 
   @Output()
   selected = new EventEmitter<FilterSectionPartOption>();
