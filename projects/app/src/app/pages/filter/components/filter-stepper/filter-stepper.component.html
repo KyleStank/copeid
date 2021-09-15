@@ -1,0 +1,28 @@
+<mat-stepper
+  orientation="vertical"
+  linear="true"
+  [color]="color"
+>
+  <mat-step *ngFor="let section of sections">
+    <ng-container *matStepLabel>{{ section.displayName }}</ng-container>
+    <ng-container *matStepContent>
+
+      <ng-container *ngFor="let part of section.filterSectionParts">
+        <div class="p-2 border rounded">
+          {{ part.displayName }}
+
+          <ng-container *ngFor="let option of part.filterSectionPartOptions">
+            <div class="p-2 border rounded">
+              {{ option.displayName }}
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <div class="d-flex align-items-center flex-wrap">
+        <button mat-flat-button matStepperPrevious class="my-1 me-2" color="warn" (click)="stop($event)" (mouseup)="stop($event)" (mousedown)="stop($event)">Back</button>
+        <button mat-flat-button matStepperNext class="my-1 me-2" color="primary">Next</button>
+      </div>
+    </ng-container>
+  </mat-step>
+</mat-stepper>

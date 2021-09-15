@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { LayoutTemplatesModule } from '@core/layouts/templates';
 import { SharedInfoCardModule } from '@shared/components/info-card';
@@ -10,6 +11,7 @@ import { SharedInfoCardModule } from '@shared/components/info-card';
 // import { FilterPageComponent } from './components';
 // import { FilterLengthSectionComponent } from './sections';
 import { FilterPageComponent } from './pages';
+import { FilterStepperComponent } from './components';
 import { FilterRoutingModule } from './filter-routing.module';
 
 @NgModule({
@@ -20,9 +22,13 @@ import { FilterRoutingModule } from './filter-routing.module';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatStepperModule,
     SharedInfoCardModule
   ],
   declarations: [
+    // Components
+    FilterStepperComponent,
+
     // Pages
     FilterPageComponent
 
