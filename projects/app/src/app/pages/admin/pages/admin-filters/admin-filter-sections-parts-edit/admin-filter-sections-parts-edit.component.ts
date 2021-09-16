@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, Observable, Subject, takeUntil } from 'rxjs';
 
-import { FilterSectionPart, FilterSectionPartService } from '@app/features';
+import { FilterModelProperty, FilterModelService, FilterSectionPart, FilterSectionPartService, FilterService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -12,7 +12,7 @@ import { IAdminEditView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [FilterSectionPartService],
+  providers: [FilterService, FilterModelService, FilterSectionPartService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, OnInit, OnDestroy {
@@ -21,7 +21,11 @@ export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, O
   private readonly _modelSubject = new BehaviorSubject<FilterSectionPart | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  private readonly _propertiesSubject = new BehaviorSubject<FilterModelProperty[]>([]);
+  readonly properties$ = this._propertiesSubject.asObservable();
+
   readonly formGroup = this._fb.group({
+    filterModelPropertyId: ['', Validators.required],
     displayName: ['', Validators.required]
   });
 
@@ -31,14 +35,19 @@ export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, O
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
+    private readonly _filterService: FilterService,
+    private readonly _filterModelService: FilterModelService,
     private readonly _filterSectionPartService: FilterSectionPartService,
     private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
+    this.properties$ = this.properties$.pipe(takeUntil(this.destroyed));
+
     this.model$.subscribe({
       next: result => {
         if (!!result) {
           this.formGroup.patchValue({
+            filterModelPropertyId: result.filterModelPropertyId,
             displayName: result.displayName
           });
         }
@@ -58,6 +67,15 @@ export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, O
     this.filterSectionId = this._activatedRoute.snapshot.paramMap.get('filterSectionId') ?? undefined;
     if (!this.filterSectionId) {
       this.filterSectionId = this._activatedRoute.snapshot.parent?.paramMap.get('filterSectionId') ?? undefined;
+    }
+
+    const filterId = this._activatedRoute.snapshot.parent?.paramMap.get('filterId') ?? undefined;
+    if (!!filterId) {
+      this._filterService.getSingle(filterId).pipe(
+        mergeMap(result => this._filterModelService.getSingle(result.filterModelId!)),
+        mergeMap(result => this._filterModelService.getProperties(result.id!)),
+        map(results => results.sort((a, b) => a.propertyName! > b.propertyName! ? 1 : -1))
+      ).subscribe(this._propertiesSubject.next.bind(this._propertiesSubject));
     }
   }
 

@@ -24,7 +24,8 @@ export class AdminFiltersSectionsPartsManageComponent implements IAdminManageVie
   readonly filterSectionParts$ = this._filterSectionPartsSubject.asObservable();
 
   public readonly columns: AdminColumn[] = [
-    { title: 'Display Name', property: 'displayName' }
+    { title: 'Display Name', property: 'displayName' },
+    { title: 'Property', property: 'filterModelProperty.propertyName' },
   ];
   selectedItems: any[] = [];
 
@@ -48,6 +49,7 @@ export class AdminFiltersSectionsPartsManageComponent implements IAdminManageVie
     if (!!this.filterSectionId) {
       this._filterSectionPartService.getAll({
         filterSectionId: [this.filterSectionId],
+        include: ['filterModelProperty'],
         orderBy: ['displayName']
       }).subscribe(this._filterSectionPartsSubject.next.bind(this._filterSectionPartsSubject));
     }

@@ -3,6 +3,26 @@
     <div class="row my-1">
       <div class="col-md my-1">
         <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Filter Model Property</mat-label>
+
+          <mat-select
+            aria-label="Filter Model Property selection field."
+            formControlName="filterModelPropertyId"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="property.id" *ngFor="let property of (properties$ | async)">
+              {{ property.propertyName }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
           <mat-label>Display Name</mat-label>
 
           <input

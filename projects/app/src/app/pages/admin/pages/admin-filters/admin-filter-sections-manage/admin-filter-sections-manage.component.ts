@@ -25,7 +25,6 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
 
   public readonly columns: AdminColumn[] = [
     { title: 'Display Name', property: 'displayName' },
-    { title: 'Property', property: 'filterModelProperty.propertyName' },
     { title: 'Code', property: 'code' }
   ];
   selectedItems: any[] = [];
@@ -50,7 +49,6 @@ export class AdminFiltersSectionsManageComponent implements IAdminManageView, On
     if (!!this.filterId) {
       this._filterSectionService.getAll({
         filterId: [this.filterId],
-        include: ['filterModelProperty'],
         orderBy: ['displayName']
       }).subscribe(this._filterSectionsSubject.next.bind(this._filterSectionsSubject));
     }
