@@ -17,7 +17,7 @@
     >
       <ng-container *matStepLabel>{{ section.displayName }}</ng-container>
       <ng-container *matStepContent>
-        <div class="my-2" *ngIf="(section.filterSectionParts || []) as parts">
+        <div class="my-2" formArrayName="options" *ngIf="(section.filterSectionParts || []) as parts">
           <ng-template #content let-part="$implicit" let-step="step" let-index="index">
             <div [formArrayName]="index">
               <app-filter-step

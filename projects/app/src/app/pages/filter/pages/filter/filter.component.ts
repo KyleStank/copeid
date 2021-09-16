@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
-import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, skipWhile, Subject, take, takeUntil } from 'rxjs';
 
-import { Filter, FilterModel, FilterSection, FilterService } from '@app/features';
+import { Filter, FilterModel, FilterSection, FilterSectionPart, FilterService } from '@app/features';
 import { FilterStepperResult } from '../../components';
 
 @Component({
@@ -19,8 +19,8 @@ export class FilterPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly _filterSubject = new BehaviorSubject<Filter | undefined>(undefined);
   readonly filter$ = this._filterSubject.asObservable();
-  readonly filterModel$: Observable<FilterModel | undefined>
-  readonly filterSections$: Observable<FilterSection[]>
+  readonly filterModel$: Observable<FilterModel | undefined>;
+  readonly filterSections$: Observable<FilterSection[]>;
 
   @ViewChild(MatStepper, { static: true })
   stepper?: MatStepper;
@@ -52,14 +52,23 @@ export class FilterPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filtered(results: FilterStepperResult[]): void {
-    this.filterModel$.subscribe({
-      next: filterModel => {
-        if (!!filterModel) {
-          console.log('Results:', results);
-          console.log('Filter Model:', filterModel);
-        }
-      }
+    this._filterService.getFilterResult({
+      filterId: this._filterSubject.value?.id!,
+      results
+    }).subscribe({
+      next: result => console.log('Result:', result),
+      error: err => console.error('Error While Filtering:', err)
     });
+
+    // console.log('R:', results);
+
+    // combineLatest([this.filterModel$, this.filterSections$]).pipe(
+    //   skipWhile(([filterModel, filterSections]) => !!!results || !!!filterModel || !!!filterSections),
+    //   take(1)
+    // ).subscribe({
+    //   next: ([filterModel, filterSections]) => {
+    //   }
+    // });
   }
 
   ngOnDestroy(): void {

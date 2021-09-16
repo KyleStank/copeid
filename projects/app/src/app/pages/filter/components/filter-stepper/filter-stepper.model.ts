@@ -1,11 +1,19 @@
+export class FilterStepperOptionValue {
+  partId: string | undefined;
+  partOptionId: string | undefined;
+
+  constructor(model?: Partial<FilterStepperOptionValue>) {
+    this.partId = model?.partId;
+    this.partOptionId = model?.partOptionId;
+  }
+}
+
 export class FilterStepperResult {
-  filterSectionId: string | undefined;
-  filterSectionPartId: string | undefined;
-  filterSectionPartOptionId: string | undefined;
+  sectionId: string | undefined;
+  optionValues: FilterStepperOptionValue[] | undefined;
 
   constructor(model?: Partial<FilterStepperResult>) {
-    this.filterSectionId = model?.filterSectionId;
-    this.filterSectionPartId = model?.filterSectionPartId;
-    this.filterSectionPartOptionId = model?.filterSectionPartOptionId;
+    this.sectionId = model?.sectionId;
+    this.optionValues = model?.optionValues;
   }
 }
