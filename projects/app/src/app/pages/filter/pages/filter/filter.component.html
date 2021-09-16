@@ -1,3 +1,3 @@
-<app-filter-stepper #stepper color="accent" [sections]="(filterSections$ | async) ?? []">
+<app-filter-stepper #stepper color="accent" [sections]="(filterSections$ | async) ?? []" (search)="filtered($event)">
 
 </app-filter-stepper>

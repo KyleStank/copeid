@@ -3,6 +3,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Filter, FilterModel, FilterSection, FilterService } from '@app/features';
+import { FilterStepperResult } from '../../components';
 
 @Component({
   selector: 'app-filter-page',
@@ -48,6 +49,17 @@ export class FilterPageComponent implements OnInit, AfterViewInit, OnDestroy {
       const steps = this.stepper.steps.toArray();
       console.log('Steps:', steps);
     }
+  }
+
+  filtered(results: FilterStepperResult[]): void {
+    this.filterModel$.subscribe({
+      next: filterModel => {
+        if (!!filterModel) {
+          console.log('Results:', results);
+          console.log('Filter Model:', filterModel);
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {

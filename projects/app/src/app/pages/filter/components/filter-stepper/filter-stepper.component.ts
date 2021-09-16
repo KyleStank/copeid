@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { CdkStep } from '@angular/cdk/stepper';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatStep, MatStepper } from '@angular/material/stepper';
 
 import { FilterSection, FilterSectionPartOption } from '@app/features';
+import { FilterStepperResult } from './filter-stepper.model';
 
 @Component({
   selector: 'app-filter-stepper',
@@ -11,17 +14,34 @@ import { FilterSection, FilterSectionPartOption } from '@app/features';
   host: {
     'class': 'd-block'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('fade', [
+      transition(':enter', [
+        style({ 'opacity': '0' }),
+        animate('250ms ease-in-out', style({ 'opacity': '1' }))
+      ])
+    ])
+  ]
 })
 export class FilterStepperComponent implements OnChanges {
   @ViewChild(MatStepper, { static: true })
   matStepper!: MatStepper;
+  get steps(): MatStep[] { return this.matStepper.steps.toArray(); }
+  get selected(): CdkStep | undefined { return this.matStepper.selected; }
+  get selectedIndex(): number { return this.matStepper.selectedIndex; }
+  get isLastStep(): boolean { return this.selectedIndex === this.steps.length - 1; }
 
   @Input()
   color?: ThemePalette = 'primary';
 
   @Input()
   sections: FilterSection[] = [];
+
+  @Output()
+  search = new EventEmitter<FilterStepperResult[]>();
+
+  isSelectionUpdating = false;
 
   readonly formSections = this.fb.array([], Validators.required);
   readonly formGroup = this.fb.group({
@@ -39,16 +59,17 @@ export class FilterStepperComponent implements OnChanges {
     );
   }
 
-  optionSelected(option: FilterSectionPartOption, step: MatStep, controlIndex: number): void {
+  optionSelected(section: FilterSection, option: FilterSectionPartOption, step: MatStep, controlIndex: number): void {
     const formControl = (step.stepControl as FormArray).controls[controlIndex];
     if (!!formControl) {
-      formControl.setValue(option.id);
-      step.completed = true;
-    } else {
-      step.completed = false;
-    }
+      formControl.setValue(new FilterStepperResult({
+        filterSectionId: section.id,
+        filterSectionPartId: option.filterSectionPartId,
+        filterSectionPartOptionId: option.id
+      }));
 
-    this.changeDetectorRef.markForCheck();
+      if (formControl.valid) this.next();
+    }
   }
 
   hasError(formArray: FormArray): boolean {
@@ -56,16 +77,14 @@ export class FilterStepperComponent implements OnChanges {
   }
 
   previous(): void {
-    this.matStepper.previous();
-    this.changeDetectorRef.markForCheck();
+    if (this.selectedIndex !== 0) this.matStepper.previous();
   }
 
   next(): void {
-    this.matStepper.next();
-    this.changeDetectorRef.markForCheck();
+    if (this.selectedIndex < this.steps.length - 1) this.matStepper.next();
   }
 
   filterResults(): void {
-    console.log('Filter!');
+    this.search.emit(this.formSections.controls.map(c => c.value));
   }
 }
