@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatStepper } from '@angular/material/stepper';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SnackBarService } from '@core/services/snackbar';
 import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Filter, FilterModel, FilterSection, FilterService } from '@app/features';
@@ -22,12 +23,11 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   readonly filterModel$: Observable<FilterModel | undefined>;
   readonly filterSections$: Observable<FilterSection[]>;
 
-  @ViewChild(MatStepper, { static: true })
-  stepper?: MatStepper;
-
   constructor(
-    private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _filterService: FilterService
+    private readonly _activatedRoute: ActivatedRoute,
+    private readonly _filterService: FilterService,
+    private readonly _snackbarService: SnackBarService,
+    private readonly _router: Router
   ) {
     this.filter$ = this.filter$.pipe(takeUntil(this._destroyed));
     this.filterModel$ = this.filter$.pipe(
@@ -50,8 +50,26 @@ export class FilterPageComponent implements OnInit, OnDestroy {
       results
     }).subscribe({
       next: result => {
-        console.log('IDs:', result.filteredIds);
-        console.log('Code:', result.formattedCode);
+        if (result.filteredIds.length > 0) {
+          if (result.filteredIds.length === 1) {
+            this._router.navigate(
+              ['result', result.filteredIds[0]],
+              {
+                relativeTo: this._activatedRoute,
+                queryParams: {
+                  code: encodeURIComponent(result.formattedCode)
+                }
+              }
+            );
+          } else {
+            console.log('Multiple!');
+          }
+        } else {
+          this._snackbarService.open('No results found! Try selecting different options.', {
+            action: 'Okay',
+            duration: 5000
+          });
+        }
       },
       error: err => console.error('Error While Filtering:', err)
     });
