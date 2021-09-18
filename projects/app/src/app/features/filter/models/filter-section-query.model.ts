@@ -2,7 +2,7 @@ import { IEntityQuery } from '@core/models/entity';
 
 export interface IFilterSectionQuery extends IEntityQuery {
   filterId: string[] | undefined;
-  filterModelPropertyId: string[] | undefined;
+  order: number[] | undefined;
   code: string[] | undefined;
   displayName: string[] | undefined;
 }
@@ -13,7 +13,7 @@ export class FilterSectionQuery implements IFilterSectionQuery {
   public orderBy: string[] | undefined;
   public orderByDescending: string[] | undefined;
   public filterId: string[] | undefined;
-  public filterModelPropertyId: string[] | undefined;
+  public order: number[] | undefined;
   public code: string[] | undefined;
   public displayName: string[] | undefined;
 
@@ -23,7 +23,7 @@ export class FilterSectionQuery implements IFilterSectionQuery {
     this.orderBy = model?.orderBy;
     this.orderByDescending = model?.orderByDescending;
     this.filterId = model?.filterId;
-    this.filterModelPropertyId = model?.filterModelPropertyId;
+    this.order = model?.order;
     this.code = model?.code;
     this.displayName = model?.displayName;
   }

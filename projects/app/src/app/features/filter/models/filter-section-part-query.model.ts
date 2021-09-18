@@ -2,6 +2,8 @@ import { IEntityQuery } from '@core/models/entity';
 
 export interface IFilterSectionPartQuery extends IEntityQuery {
   filterSectionId: string[] | undefined;
+  filterModelPropertyId: string[] | undefined;
+  order: number[] | undefined;
   displayName: string[] | undefined;
 }
 
@@ -11,6 +13,8 @@ export class FilterSectionPartQuery implements IFilterSectionPartQuery {
   public orderBy: string[] | undefined;
   public orderByDescending: string[] | undefined;
   public filterSectionId: string[] | undefined;
+  public filterModelPropertyId: string[] | undefined;
+  public order: number[] | undefined;
   public displayName: string[] | undefined;
 
   constructor(model?: Partial<IFilterSectionPartQuery>) {
@@ -19,6 +23,8 @@ export class FilterSectionPartQuery implements IFilterSectionPartQuery {
     this.orderBy = model?.orderBy;
     this.orderByDescending = model?.orderByDescending;
     this.filterSectionId = model?.filterSectionId;
+    this.filterModelPropertyId = model?.filterModelPropertyId;
+    this.order = model?.order;
     this.displayName = model?.displayName;
   }
 }
