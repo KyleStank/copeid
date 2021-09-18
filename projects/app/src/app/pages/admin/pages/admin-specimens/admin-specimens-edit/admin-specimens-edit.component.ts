@@ -40,44 +40,44 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
     genusId: [null, Validators.required],
     gender: [null, Validators.required],
     length: [0, Validators.compose([Validators.required, Validators.min(0)])],
-    specialCharacteristics: ['', Validators.required],
+    specialCharacteristics: [null, Validators.required],
 
     // Antenule
-    antenuleDescription: ['', Validators.required],
-    antenule: ['', Validators.required],
+    antenuleDescription: [null, Validators.required],
+    antenule: [null, Validators.required],
 
     // Rostrum
-    rostrumDescription: ['', Validators.required],
-    rostrum: ['', Validators.required],
+    rostrumDescription: [null, Validators.required],
+    rostrum: [null, Validators.required],
 
     // Body Shape
-    bodyShapeDescription: ['', Validators.required],
-    bodyShape: ['', Validators.required],
+    bodyShapeDescription: [null, Validators.required],
+    bodyShape: [null, Validators.required],
 
     // Eyes
-    eyesDescription: ['', Validators.required],
-    eyes: ['', Validators.required],
+    eyesDescription: [null, Validators.required],
+    eyes: [null, Validators.required],
 
     // Cephalosome
-    cephalosomeDescription: ['', Validators.required],
-    cephalosome: ['', Validators.required],
+    cephalosomeDescription: [null, Validators.required],
+    cephalosome: [null, Validators.required],
 
     // Thorax
-    thoraxDescription: ['', Validators.required],
-    thoraxSegments: ['', Validators.required],
-    thoraxShape: ['', Validators.required],
+    thoraxDescription: [null, Validators.required],
+    thoraxSegments: [null, Validators.required],
+    thoraxShape: [null, Validators.required],
 
     // Urosome
-    urosomeDescription: ['', Validators.required],
-    urosome: ['', Validators.required],
+    urosomeDescription: [null, Validators.required],
+    urosome: [null, Validators.required],
 
     // Furca
-    furcaDescription: ['', Validators.required],
-    furca: ['', Validators.required],
+    furcaDescription: [null, Validators.required],
+    furca: [null, Validators.required],
 
     // Setea
-    seteaDescription: ['', Validators.required],
-    setea: ['', Validators.required]
+    seteaDescription: [null, Validators.required],
+    setea: [null, Validators.required]
   });
   readonly enumSpecimenEyes: typeof SpecimenEyes = SpecimenEyes;
   readonly enumSpecimenFurca: typeof SpecimenFurca = SpecimenFurca;

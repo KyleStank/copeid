@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 
 @Component({
@@ -9,10 +9,15 @@ import { ThemePalette } from '@angular/material/core';
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminEditSectionComponent {
+export class AdminEditSectionComponent implements OnChanges {
   @Input()
   color: ThemePalette = 'primary';
+  colorClass?: string;
 
   @Input()
   header?: string;
+
+  ngOnChanges(): void {
+    this.colorClass = !!this.color ? `c-${this.color}` : undefined;
+  }
 }

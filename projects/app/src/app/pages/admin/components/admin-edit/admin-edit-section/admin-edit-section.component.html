@@ -1,5 +1,5 @@
 <div class="mb-3">
-  <p [class]="'my-0 mat-title ' + 'c-' + color">{{ header }}</p>
+  <p [class]="'my-0 mat-title' + (!!colorClass ? ' ' + colorClass : '')">{{ header }}</p>
   <mat-divider class="my-2"></mat-divider>
   <mat-card>
     <ng-content></ng-content>
