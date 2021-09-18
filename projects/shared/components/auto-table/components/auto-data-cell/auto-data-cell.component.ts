@@ -8,7 +8,7 @@ import { AutoPropertyValuePipe } from '../../pipes';
   template: `
     <!-- Display default value from item property. -->
     <ng-template #defaultTemplate>
-      {{ (item | autoPropertyValue : columnDef?.property) || default }}
+      {{ (item | autoPropertyValue : columnDef?.property) ?? default }}
     </ng-template>
 
     <!-- Display custom value from override directive. -->
