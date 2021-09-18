@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
-import { BehaviorSubject, combineLatest, map, Observable, skipWhile, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Filter, FilterModel, FilterSection, FilterSectionPart, FilterService } from '@app/features';
+import { Filter, FilterModel, FilterSection, FilterService } from '@app/features';
 import { FilterStepperResult } from '../../components';
 
 @Component({
@@ -14,7 +14,7 @@ import { FilterStepperResult } from '../../components';
   providers: [FilterService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FilterPageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FilterPageComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   private readonly _filterSubject = new BehaviorSubject<Filter | undefined>(undefined);
@@ -42,13 +42,6 @@ export class FilterPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this._filterService.getSpecimenFilter().subscribe({
       next: filter => this._filterSubject.next(filter)
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (!!this.stepper) {
-      const steps = this.stepper.steps.toArray();
-      console.log('Steps:', steps);
-    }
   }
 
   filtered(results: FilterStepperResult[]): void {

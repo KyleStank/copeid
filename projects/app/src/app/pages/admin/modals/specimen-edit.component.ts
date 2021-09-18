@@ -336,6 +336,8 @@ export class AdminSpecimenEditModal {
       eyes: data?.model?.eyes || undefined,
       cephalosome: data?.model?.cephalosome || undefined,
       thorax: data?.model?.thorax || undefined,
+      thoraxSegments: data?.model?.thoraxSegments || undefined,
+      thoraxShape: data?.model?.thoraxShape || undefined,
       urosome: data?.model?.urosome || undefined,
       furca: data?.model?.furca || undefined,
       setea: data?.model?.setea || undefined

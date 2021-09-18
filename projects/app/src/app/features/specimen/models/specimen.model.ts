@@ -1,10 +1,11 @@
 import { IGenus, IPhotograph } from '@app/features';
 import { IEntity } from '@core/models/entity';
-
-export enum SpecimenGender {
-  Male = 0,
-  Female = 1
-}
+import { SpecimenEyes } from './specimen-eyes.model';
+import { SpecimenFurca } from './specimen-furca.model';
+import { SpecimenGender } from './specimen-gender.model';
+import { SpecimenSetea } from './specimen-setea.model';
+import { SpecimenThoraxSegments } from './specimen-thorax-segments.model';
+import { SpecimenThoraxShape } from './specimen-thorax-shape.model';
 
 export interface ISpecimen extends IEntity {
   genusId: string | undefined;
@@ -20,12 +21,14 @@ export interface ISpecimen extends IEntity {
   antenule: string | undefined;
   rostrum: string | undefined;
   bodyShape: string | undefined;
-  eyes: string | undefined;
-  cephalosome: string | undefined;
+  eyes: SpecimenEyes | undefined;
+  cephalosome: number | undefined;
   thorax: string | undefined;
-  urosome: string | undefined;
-  furca: string | undefined;
-  setea: string | undefined;
+  thoraxSegments: SpecimenThoraxSegments | undefined;
+  thoraxShape: SpecimenThoraxShape | undefined;
+  urosome: number | undefined;
+  furca: SpecimenFurca | undefined;
+  setea: SpecimenSetea | undefined;
 }
 
 export class Specimen implements ISpecimen {
@@ -40,12 +43,14 @@ export class Specimen implements ISpecimen {
   public antenule: string | undefined;
   public rostrum: string | undefined;
   public bodyShape: string | undefined;
-  public eyes: string | undefined;
-  public cephalosome: string | undefined;
+  public eyes: SpecimenEyes | undefined;
+  public cephalosome: number | undefined;
   public thorax: string | undefined;
-  public urosome: string | undefined;
-  public furca: string | undefined;
-  public setea: string | undefined;
+  public thoraxSegments: SpecimenThoraxSegments | undefined;
+  public thoraxShape: SpecimenThoraxShape | undefined;
+  public urosome: number | undefined;
+  public furca: SpecimenFurca | undefined;
+  public setea: SpecimenSetea | undefined;
 
   constructor(model?: Partial<ISpecimen>) {
     this.id = model?.id;
@@ -62,6 +67,8 @@ export class Specimen implements ISpecimen {
     this.eyes = model?.eyes;
     this.cephalosome = model?.cephalosome;
     this.thorax = model?.thorax;
+    this.thoraxSegments = model?.thoraxSegments;
+    this.thoraxShape = model?.thoraxShape;
     this.urosome = model?.urosome;
     this.furca = model?.furca;
     this.setea = model?.setea;

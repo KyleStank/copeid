@@ -1,235 +1,345 @@
 <form class="w-100" autocomplete="off" [formGroup]="formGroup">
-  <div class="row my-1">
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Genus</mat-label>
+  <!-- START Basic Information -->
+  <app-admin-edit-section class="my-3" header="Basic Information">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Genus</mat-label>
 
-        <mat-select
-          aria-label="Genus selection field."
-          formControlName="genusId"
-        >
-          <mat-option [value]="null">--</mat-option>
-          <mat-option [value]="genus.id" *ngFor="let genus of (genuses$ | async)">
-            {{ genus.name }}
-          </mat-option>
-        </mat-select>
+          <mat-select
+            aria-label="Genus selection field."
+            formControlName="genusId"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="genus.id" *ngFor="let genus of (genuses$ | async)">
+              {{ genus.name }}
+            </mat-option>
+          </mat-select>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Gender</mat-label>
+
+          <mat-select
+            aria-label="Gender selection field."
+            formControlName="gender"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="enumSpecimenGender.Male">Male</mat-option>
+            <mat-option [value]="enumSpecimenGender.Female">Female</mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Length</mat-label>
+
+          <input
+            matInput
+            type="number"
+            aria-label="Length number field."
+            formControlName="length"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Gender</mat-label>
 
-        <mat-select
-          aria-label="Gender selection field."
-          formControlName="gender"
-        >
-          <mat-option [value]="null">--</mat-option>
-          <mat-option [value]="enumSpecimenGender.Male">Male</mat-option>
-          <mat-option [value]="enumSpecimenGender.Female">Female</mat-option>
-        </mat-select>
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Special Characteristics</mat-label>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Special Characteristics textarea input."
+            formControlName="specialCharacteristics"
+          ></textarea>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Length</mat-label>
+  </app-admin-edit-section>
+  <!-- END Basic Information-->
 
-        <input
-          matInput
-          type="number"
-          aria-label="Length number field."
-          formControlName="length"
-        />
+  <!-- START Antenule -->
+  <app-admin-edit-section class="my-3" header="Antenule">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Antenule</mat-label>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Antenule textarea input."
+            formControlName="antenule"
+          ></textarea>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
+  </app-admin-edit-section>
+  <!-- END Antenule -->
 
-  <mat-divider class="my-2"></mat-divider>
+  <!-- START Rostrum -->
+  <app-admin-edit-section class="my-3" header="Rostrum">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Rostrum</mat-label>
 
-  <div class="row my-1">
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Antenule</mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Rostrum textarea input."
+            formControlName="rostrum"
+          ></textarea>
 
-        <input
-          matInput
-          type="text"
-          aria-label="Antenule text field."
-          formControlName="antenule"
-        />
-
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Rostrum</mat-label>
+  </app-admin-edit-section>
+  <!-- END Rostrum -->
 
-        <input
-          matInput
-          type="text"
-          aria-label="Rostrum text field."
-          formControlName="rostrum"
-        />
+  <!-- START Body Shape -->
+  <app-admin-edit-section class="my-3" header="Body Shape">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Body Shape</mat-label>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Body Shape textarea input."
+            formControlName="bodyShape"
+          ></textarea>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Body Shape</mat-label>
+  </app-admin-edit-section>
+  <!-- END Body Shape -->
 
-        <input
-          matInput
-          type="text"
-          aria-label="Body Shape text field."
-          formControlName="bodyShape"
-        />
+  <!-- START Eyes -->
+  <app-admin-edit-section class="my-3" header="Eyes">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Eyes</mat-label>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <mat-select
+            aria-label="Eyes selection field."
+            formControlName="eyes"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="enumSpecimenEyes.None">None</mat-option>
+            <mat-option [value]="enumSpecimenEyes.DorsalSingle">Dorsal Single</mat-option>
+            <mat-option [value]="enumSpecimenEyes.VentralSingle">Ventral Single</mat-option>
+            <mat-option [value]="enumSpecimenEyes.Transformed">Transformed</mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
+  </app-admin-edit-section>
+  <!-- END Eyes-->
 
-  <div class="row my-1">
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Eyes</mat-label>
+  <!-- START Cephalosome -->
+  <app-admin-edit-section class="my-3" header="Cephalosome">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Cephalosome</mat-label>
 
-        <input
-          matInput
-          type="text"
-          aria-label="Eyes text field."
-          formControlName="eyes"
-        />
+          <input
+            matInput
+            type="number"
+            aria-label="Cephalosome number field."
+            formControlName="cephalosome"
+          />
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Cephalosome</mat-label>
+  </app-admin-edit-section>
+  <!-- END Cephalosome-->
 
-        <input
-          matInput
-          type="text"
-          aria-label="Cephalosome text field."
-          formControlName="cephalosome"
-        />
+  <!-- START Thorax -->
+  <app-admin-edit-section class="my-3" header="Thorax">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Thorax</mat-label>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <input
+            matInput
+            type="text"
+            aria-label="Thorax text field."
+            formControlName="thorax"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Thorax Segments</mat-label>
+
+          <mat-select
+            aria-label="Thorax Segments selection field."
+            formControlName="thoraxSegments"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.Two">2 Segments</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.Three">3 Segments</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.Four">4 Segments</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.FusedFourFive">Fused 4 & 5</mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Thorax Shape</mat-label>
+
+          <mat-select
+            aria-label="Thorax Shape selection field."
+            formControlName="thoraxShape"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.Blunt">Blunt</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.Saddle">Saddle</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.TwoPointed">2 Pointed</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.FourPointed">4 Pointed</mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Thorax</mat-label>
+  </app-admin-edit-section>
+  <!-- END Thorax -->
 
-        <input
-          matInput
-          type="text"
-          aria-label="Thorax text field."
-          formControlName="thorax"
-        />
+  <!-- START Urosome -->
+  <app-admin-edit-section class="my-3" header="Urosome">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Urosome</mat-label>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <input
+            matInput
+            type="number"
+            aria-label="Urosome number field."
+            formControlName="urosome"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
+  </app-admin-edit-section>
+  <!-- END Urosome -->
 
-  <div class="row my-1">
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Urosome</mat-label>
+  <!-- START Furca -->
+  <app-admin-edit-section class="my-3" header="Setea">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Furca</mat-label>
 
-        <input
-          matInput
-          type="text"
-          aria-label="Urosome text field."
-          formControlName="urosome"
-        />
+          <mat-select
+            aria-label="Furca selection field."
+            formControlName="furca"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="enumSpecimenFurca.Short">Short</mat-option>
+            <mat-option [value]="enumSpecimenFurca.Long">Long</mat-option>
+            <mat-option [value]="enumSpecimenFurca.Curved">Curved</mat-option>
+          </mat-select>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Furca</mat-label>
+  </app-admin-edit-section>
+  <!-- END Furca -->
 
-        <input
-          matInput
-          type="text"
-          aria-label="Furca text field."
-          formControlName="furca"
-        />
+  <!-- START Setea -->
+  <app-admin-edit-section class="my-3" header="Setea">
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Setea</mat-label>
 
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
+          <mat-select
+            aria-label="Setea selection field."
+            formControlName="setea"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="enumSpecimenSetea.Shorter">Shorter than Furca</mat-option>
+            <mat-option [value]="enumSpecimenSetea.Same">Same as Furca</mat-option>
+            <mat-option [value]="enumSpecimenSetea.Longer">Longer than Furca</mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Setea</mat-label>
-
-        <input
-          matInput
-          type="text"
-          aria-label="Setea text field."
-          formControlName="setea"
-        />
-
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
-    </div>
-  </div>
-
-  <mat-divider class="my-2"></mat-divider>
-
-  <div class="row my-1">
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Special Characteristics</mat-label>
-
-        <textarea
-          matInput
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="2"
-          cdkAutosizeMaxRows="5"
-          aria-label="Special Characteristics textarea input."
-          formControlName="specialCharacteristics"
-        ></textarea>
-
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
-    </div>
-  </div>
+  </app-admin-edit-section>
+  <!-- END Setea -->
 </form>

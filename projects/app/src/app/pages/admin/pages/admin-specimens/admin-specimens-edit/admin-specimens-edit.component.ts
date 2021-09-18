@@ -3,7 +3,18 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Genus, GenusService, Specimen, SpecimenGender, SpecimenService } from '@app/features';
+import {
+  Genus,
+  GenusService,
+  Specimen,
+  SpecimenEyes,
+  SpecimenFurca,
+  SpecimenGender,
+  SpecimenService,
+  SpecimenThoraxSegments,
+  SpecimenThoraxShape,
+  SpecimenSetea
+} from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -35,11 +46,18 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
     eyes: ['', Validators.required],
     cephalosome: ['', Validators.required],
     thorax: ['', Validators.required],
+    thoraxSegments: ['', Validators.required],
+    thoraxShape: ['', Validators.required],
     urosome: ['', Validators.required],
     furca: ['', Validators.required],
     setea: ['', Validators.required],
   });
+  readonly enumSpecimenEyes: typeof SpecimenEyes = SpecimenEyes;
+  readonly enumSpecimenFurca: typeof SpecimenFurca = SpecimenFurca;
   readonly enumSpecimenGender: typeof SpecimenGender = SpecimenGender;
+  readonly enumSpecimenThoraxSegments: typeof SpecimenThoraxSegments = SpecimenThoraxSegments;
+  readonly enumSpecimenThoraxShape: typeof SpecimenThoraxShape = SpecimenThoraxShape;
+  readonly enumSpecimenSetea: typeof SpecimenSetea = SpecimenSetea;
 
   id: string | undefined;
 
@@ -65,6 +83,8 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
             eyes: result.eyes,
             cephalosome: result.cephalosome,
             thorax: result.thorax,
+            thoraxSegments: result.thoraxSegments,
+            thoraxShape: result.thoraxShape,
             urosome: result.urosome,
             furca: result.furca,
             setea: result.setea
