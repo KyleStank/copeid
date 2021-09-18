@@ -218,7 +218,7 @@ export interface SpecimenEditDialogData {
                 cdkAutosizeMaxRows="5"
                 aria-label="Specimen Thorax input."
                 name="thorax"
-                [(ngModel)]="model.thorax"
+                [(ngModel)]="model.thoraxDescription"
               ></textarea>
 
               <mat-error>
@@ -322,6 +322,8 @@ export class AdminSpecimenEditModal {
   ) {
     this.model = {
       ...(data?.model || {}),
+
+      // Basic Information
       id: data?.model?.id || undefined,
       genusId: data?.model?.genusId || undefined,
       genus: data?.model?.genus || undefined,
@@ -330,16 +332,42 @@ export class AdminSpecimenEditModal {
       gender: data?.model?.gender || SpecimenGender.Male,
       length: data?.model?.length || 0,
       specialCharacteristics: data?.model?.specialCharacteristics || undefined,
+
+      // Antenule
+      antenuleDescription: data?.model?.antenuleDescription || undefined,
       antenule: data?.model?.antenule || undefined,
+
+      // Rostrum
+      rostrumDescription: data?.model?.rostrumDescription || undefined,
       rostrum: data?.model?.rostrum || undefined,
+
+      // Body Shape
+      bodyShapeDescription: data?.model?.bodyShapeDescription || undefined,
       bodyShape: data?.model?.bodyShape || undefined,
+
+      // Eyes
+      eyesDescription: data?.model?.eyesDescription || undefined,
       eyes: data?.model?.eyes || undefined,
+
+      // Cephalosome
+      cephalosomeDescription: data?.model?.cephalosomeDescription || undefined,
       cephalosome: data?.model?.cephalosome || undefined,
-      thorax: data?.model?.thorax || undefined,
+
+      // Thorax
+      thoraxDescription: data?.model?.thoraxDescription || undefined,
       thoraxSegments: data?.model?.thoraxSegments || undefined,
       thoraxShape: data?.model?.thoraxShape || undefined,
+
+      // Urosome
+      urosomeDescription: data?.model?.urosomeDescription || undefined,
       urosome: data?.model?.urosome || undefined,
+
+      // Furca
+      furcaDescription: data?.model?.furcaDescription || undefined,
       furca: data?.model?.furca || undefined,
+
+      // Setea
+      seteaDescription: data?.model?.seteaDescription || undefined,
       setea: data?.model?.setea || undefined
     };
 
