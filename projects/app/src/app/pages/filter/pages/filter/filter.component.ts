@@ -49,19 +49,12 @@ export class FilterPageComponent implements OnInit, OnDestroy {
       filterId: this._filterSubject.value?.id!,
       results
     }).subscribe({
-      next: result => console.log('Result:', result),
+      next: result => {
+        console.log('IDs:', result.filteredIds);
+        console.log('Code:', result.formattedCode);
+      },
       error: err => console.error('Error While Filtering:', err)
     });
-
-    // console.log('R:', results);
-
-    // combineLatest([this.filterModel$, this.filterSections$]).pipe(
-    //   skipWhile(([filterModel, filterSections]) => !!!results || !!!filterModel || !!!filterSections),
-    //   take(1)
-    // ).subscribe({
-    //   next: ([filterModel, filterSections]) => {
-    //   }
-    // });
   }
 
   ngOnDestroy(): void {

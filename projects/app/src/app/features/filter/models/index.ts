@@ -10,3 +10,4 @@ export * from './filter-section-part.model';
 export * from './filter-section-query.model';
 export * from './filter-section.model';
 export * from './filter.model';
+export * from './final-filter-result.model';

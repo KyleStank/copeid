@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '@app/environments';
 import { AbstractQueryableEntityService } from '@core/services/entity';
-import { Filter, FilterQuery } from '../models';
+import { Filter, FilterQuery, FinalFilterResult } from '../models';
 import { FilterStepperResult } from '../../../pages/filter/components';
 
 export interface FilterResultModel {
@@ -22,8 +22,8 @@ export class FilterService extends AbstractQueryableEntityService<Filter, Filter
     return this._http.get<Filter>(endpoint);
   }
 
-  public getFilterResult(results: FilterResultModel): Observable<string> {
+  public getFilterResult(results: FilterResultModel): Observable<FinalFilterResult> {
     const endpoint = `${this._endpoint}/Result`;
-    return this._http.post<string>(endpoint, results)
+    return this._http.post<FinalFilterResult>(endpoint, results)
   }
 }
