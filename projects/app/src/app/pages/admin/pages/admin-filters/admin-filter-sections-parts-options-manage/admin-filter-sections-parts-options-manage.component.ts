@@ -26,7 +26,8 @@ export class AdminFiltersSectionsPartsOptionsManageComponent implements IAdminMa
   public readonly columns: AdminColumn[] = [
     { title: 'Display Name', property: 'displayName' },
     { title: 'Code', property: 'code' },
-    { title: 'Value', property: 'value' }
+    { title: 'Value', property: 'value' },
+    { title: 'Order', property: 'order' }
   ];
   selectedItems: any[] = [];
 
@@ -50,7 +51,7 @@ export class AdminFiltersSectionsPartsOptionsManageComponent implements IAdminMa
     if (!!this.filterSectionPartId) {
       this._filterSectionPartOptionService.getAll({
         filterSectionPartId: [this.filterSectionPartId],
-        orderBy: ['displayName']
+        orderBy: ['order']
       }).subscribe(this._filterSectionPartOptionsSubject.next.bind(this._filterSectionPartOptionsSubject));
     }
   }

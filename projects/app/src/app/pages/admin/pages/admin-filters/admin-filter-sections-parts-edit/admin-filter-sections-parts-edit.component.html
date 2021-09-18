@@ -37,6 +37,23 @@
           </mat-error>
         </mat-form-field>
       </div>
+
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Order</mat-label>
+
+          <input
+            matInput
+            type="number"
+            aria-label="Order number field."
+            formControlName="order"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </form>
 </div>

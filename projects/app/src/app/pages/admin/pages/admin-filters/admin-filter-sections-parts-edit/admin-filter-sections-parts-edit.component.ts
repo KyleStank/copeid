@@ -27,6 +27,7 @@ export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, O
   get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     filterModelPropertyId: ['', Validators.required],
+    order: [0, Validators.required],
     displayName: ['', Validators.required]
   });
 
@@ -49,6 +50,7 @@ export class AdminFiltersSectionsPartsEditComponent implements IAdminEditView, O
         if (!!result) {
           this.formGroup.patchValue({
             filterModelPropertyId: result.filterModelPropertyId,
+            order: result.order,
             displayName: result.displayName
           });
         }

@@ -23,6 +23,7 @@ export class AdminFiltersSectionsPartsOptionsEditComponent implements IAdminEdit
 
   get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
+    order: [0, Validators.required],
     displayName: ['', Validators.required],
     code: ['', Validators.required],
     value: ['', Validators.required]
@@ -42,6 +43,7 @@ export class AdminFiltersSectionsPartsOptionsEditComponent implements IAdminEdit
       next: result => {
         if (!!result) {
           this.formGroup.patchValue({
+            order: result.order,
             displayName: result.displayName,
             code: result.code,
             value: result.value
