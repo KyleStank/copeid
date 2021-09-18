@@ -4,6 +4,7 @@
       class="my-1 me-2"
       mat-flat-button
       color="primary"
+      [disabled]="!activeView?.valid"
       (click)="save()"
     >
       Save

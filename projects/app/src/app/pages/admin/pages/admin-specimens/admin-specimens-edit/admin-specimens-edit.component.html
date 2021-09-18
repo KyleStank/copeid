@@ -3,7 +3,7 @@
   <app-admin-edit-section class="my-3" header="Basic Information">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Genus</mat-label>
 
           <mat-select
@@ -22,7 +22,7 @@
         </mat-form-field>
       </div>
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Gender</mat-label>
 
           <mat-select
@@ -40,7 +40,7 @@
         </mat-form-field>
       </div>
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Length</mat-label>
 
           <input
@@ -59,7 +59,7 @@
 
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Special Characteristics</mat-label>
 
           <textarea
@@ -84,17 +84,30 @@
   <app-admin-edit-section class="my-3" header="Antenule">
     <div class="row">
       <div class="col-md my-1">
-        <p class="mb-1 mat-body-strong c-accent">Description</p>
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Antenule</mat-label>
+
+          <input
+            matInput
+            type="text"
+            aria-label="Antenule text field."
+            formControlName="antenule"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
 
           <textarea
             matInput
             cdkTextareaAutosize
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="5"
-            aria-label="Antenule textarea input."
-            formControlName="antenule"
+            aria-label="Antenule Description textarea input."
+            formControlName="antenuleDescription"
           ></textarea>
 
           <mat-error>
@@ -110,16 +123,30 @@
   <app-admin-edit-section class="my-3" header="Rostrum">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Rostrum</mat-label>
+
+          <input
+            matInput
+            type="text"
+            aria-label="Rostrum text field."
+            formControlName="rostrum"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
 
           <textarea
             matInput
             cdkTextareaAutosize
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="5"
-            aria-label="Rostrum textarea input."
-            formControlName="rostrum"
+            aria-label="Rostrum Description textarea input."
+            formControlName="rostrumDescription"
           ></textarea>
 
           <mat-error>
@@ -135,16 +162,30 @@
   <app-admin-edit-section class="my-3" header="Body Shape">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Body Shape</mat-label>
+
+          <input
+            matInput
+            type="text"
+            aria-label="Body Shape text field."
+            formControlName="bodyShape"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
 
           <textarea
             matInput
             cdkTextareaAutosize
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="5"
-            aria-label="Body Shape textarea input."
-            formControlName="bodyShape"
+            aria-label="Body Shape Description textarea input."
+            formControlName="bodyShapeDescription"
           ></textarea>
 
           <mat-error>
@@ -160,7 +201,7 @@
   <app-admin-edit-section class="my-3" header="Eyes">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Eyes</mat-label>
 
           <mat-select
@@ -178,6 +219,22 @@
             Field is required.
           </mat-error>
         </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
+
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Eyes Description textarea input."
+            formControlName="eyesDescription"
+          ></textarea>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
   </app-admin-edit-section>
@@ -187,7 +244,7 @@
   <app-admin-edit-section class="my-3" header="Cephalosome">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Cephalosome</mat-label>
 
           <input
@@ -196,6 +253,22 @@
             aria-label="Cephalosome number field."
             formControlName="cephalosome"
           />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
+
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Cephalosome Description textarea input."
+            formControlName="cephalosomeDescription"
+          ></textarea>
 
           <mat-error>
             Field is required.
@@ -210,23 +283,7 @@
   <app-admin-edit-section class="my-3" header="Thorax">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
-          <mat-label>Thorax</mat-label>
-
-          <input
-            matInput
-            type="text"
-            aria-label="Thorax text field."
-            formControlName="thoraxDescription"
-          />
-
-          <mat-error>
-            Field is required.
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Thorax Segments</mat-label>
 
           <mat-select
@@ -246,7 +303,7 @@
         </mat-form-field>
       </div>
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Thorax Shape</mat-label>
 
           <mat-select
@@ -266,6 +323,27 @@
         </mat-form-field>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
+
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Thorax Description textarea input."
+            formControlName="thoraxDescription"
+          ></textarea>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
   </app-admin-edit-section>
   <!-- END Thorax -->
 
@@ -273,7 +351,7 @@
   <app-admin-edit-section class="my-3" header="Urosome">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Urosome</mat-label>
 
           <input
@@ -282,6 +360,22 @@
             aria-label="Urosome number field."
             formControlName="urosome"
           />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
+
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Urosome Description textarea input."
+            formControlName="urosomeDescription"
+          ></textarea>
 
           <mat-error>
             Field is required.
@@ -296,7 +390,7 @@
   <app-admin-edit-section class="my-3" header="Furca">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Furca</mat-label>
 
           <mat-select
@@ -313,6 +407,22 @@
             Field is required.
           </mat-error>
         </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
+
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Furca Description textarea input."
+            formControlName="furcaDescription"
+          ></textarea>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
   </app-admin-edit-section>
@@ -322,7 +432,7 @@
   <app-admin-edit-section class="my-3" header="Setea">
     <div class="row">
       <div class="col-md my-1">
-        <mat-form-field class="w-100" appearance="fill">
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Setea</mat-label>
 
           <mat-select
@@ -334,6 +444,22 @@
             <mat-option [value]="enumSpecimenSetea.Same">Same as Furca</mat-option>
             <mat-option [value]="enumSpecimenSetea.Longer">Longer than Furca</mat-option>
           </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Description</mat-label>
+
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Setea Description textarea input."
+            formControlName="seteaDescription"
+          ></textarea>
 
           <mat-error>
             Field is required.

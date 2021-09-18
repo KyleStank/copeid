@@ -5,6 +5,7 @@ import { IAdminContainer, IAdminView } from '../../models';
 
 export interface IAdminEditView<TEntity extends IEntity = IEntity<any>> extends IAdminView {
   model$: Observable<TEntity | undefined>;
+  valid: boolean;
 
   save: () => Observable<TEntity | undefined>;
 }

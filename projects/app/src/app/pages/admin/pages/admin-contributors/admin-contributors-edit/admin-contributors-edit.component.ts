@@ -21,6 +21,7 @@ export class AdminContributorsEditComponent implements IAdminEditView, OnInit, O
   private readonly _modelSubject = new BehaviorSubject<Contributor | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     name: ['', Validators.required]
   });

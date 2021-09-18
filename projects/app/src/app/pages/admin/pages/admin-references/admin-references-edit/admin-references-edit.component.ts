@@ -21,6 +21,7 @@ export class AdminReferencesEditComponent implements IAdminEditView, OnInit, OnD
   private readonly _modelSubject = new BehaviorSubject<Reference | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     content: ['', Validators.required]
   });

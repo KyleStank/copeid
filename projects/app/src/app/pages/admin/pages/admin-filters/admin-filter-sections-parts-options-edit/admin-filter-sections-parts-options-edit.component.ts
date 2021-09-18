@@ -21,6 +21,7 @@ export class AdminFiltersSectionsPartsOptionsEditComponent implements IAdminEdit
   private readonly _modelSubject = new BehaviorSubject<FilterSectionPartOption | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     displayName: ['', Validators.required],
     code: ['', Validators.required],

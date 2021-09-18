@@ -35,48 +35,49 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
   private readonly _genusesSubject = new BehaviorSubject<Genus[]>([]);
   readonly genuses$ = this._genusesSubject.asObservable();
 
+  get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     // Basic Information
     genusId: [null, Validators.required],
     gender: [null, Validators.required],
     length: [0, Validators.compose([Validators.required, Validators.min(0)])],
-    specialCharacteristics: [null, Validators.required],
+    specialCharacteristics: [null],
 
     // Antenule
-    antenuleDescription: [null, Validators.required],
+    antenuleDescription: [null],
     antenule: [null, Validators.required],
 
     // Rostrum
-    rostrumDescription: [null, Validators.required],
+    rostrumDescription: [null],
     rostrum: [null, Validators.required],
 
     // Body Shape
-    bodyShapeDescription: [null, Validators.required],
+    bodyShapeDescription: [null],
     bodyShape: [null, Validators.required],
 
     // Eyes
-    eyesDescription: [null, Validators.required],
+    eyesDescription: [null],
     eyes: [null, Validators.required],
 
     // Cephalosome
-    cephalosomeDescription: [null, Validators.required],
+    cephalosomeDescription: [null],
     cephalosome: [null, Validators.required],
 
     // Thorax
-    thoraxDescription: [null, Validators.required],
+    thoraxDescription: [null],
     thoraxSegments: [null, Validators.required],
     thoraxShape: [null, Validators.required],
 
     // Urosome
-    urosomeDescription: [null, Validators.required],
+    urosomeDescription: [null],
     urosome: [null, Validators.required],
 
     // Furca
-    furcaDescription: [null, Validators.required],
+    furcaDescription: [null],
     furca: [null, Validators.required],
 
     // Setea
-    seteaDescription: [null, Validators.required],
+    seteaDescription: [null],
     setea: [null, Validators.required]
   });
   readonly enumSpecimenEyes: typeof SpecimenEyes = SpecimenEyes;

@@ -24,6 +24,7 @@ export class AdminFiltersEditComponent implements IAdminEditView, OnInit, OnDest
   private readonly _filterModelsSubject = new BehaviorSubject<FilterModel[]>([]);
   readonly filterModels$ = this._filterModelsSubject.asObservable();
 
+  get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     filterModelId: [null, Validators.required],
     displayName: ['', Validators.required]

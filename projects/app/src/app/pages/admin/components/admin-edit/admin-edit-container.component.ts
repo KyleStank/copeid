@@ -32,7 +32,7 @@ export class AdminEditContainerComponent implements IAdminEditContainer, OnDestr
   }
 
   save(): void {
-    if (!!this.activeView) {
+    if (!!this.activeView && this.activeView?.valid) {
       this.activeView.save()
         .pipe(takeUntil(this.destroyed))
         .subscribe({

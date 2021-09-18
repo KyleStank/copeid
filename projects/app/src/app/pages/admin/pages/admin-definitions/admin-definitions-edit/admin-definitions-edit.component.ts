@@ -21,6 +21,7 @@ export class AdminDefinitionsEditComponent implements IAdminEditView, OnInit, On
   private readonly _modelSubject = new BehaviorSubject<Definition | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     name: ['', Validators.required],
     meaning: ['', Validators.required]
