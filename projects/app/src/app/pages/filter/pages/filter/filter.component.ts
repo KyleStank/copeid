@@ -52,6 +52,8 @@ export class FilterPageComponent implements OnInit, OnDestroy {
       next: result => {
         if (result.filteredIds.length > 0) {
           if (result.filteredIds.length === 1) {
+            this._snackbarService.close(); // Close any snackbar that may still be open.
+
             this._router.navigate(
               ['result', result.filteredIds[0]],
               {
