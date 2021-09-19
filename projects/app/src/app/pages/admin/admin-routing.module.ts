@@ -37,7 +37,7 @@ const routes: Routes = [
   {
     path: 'specimens',
     loadChildren: () => import('./pages/admin-specimens/admin-specimens.module').then(m => m.AdminSpecimensModule)
-  },
+  }
 ];
 
 @NgModule({

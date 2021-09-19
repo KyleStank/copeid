@@ -1,0 +1,43 @@
+<div mat-dialog-title>
+  <h2 class="my-0 c-primary">Choose Result</h2>
+</div>
+<div class="py-2" mat-dialog-content>
+  <div class="row mb-1">
+    <div class="col-md">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Result</mat-label>
+
+        <mat-select aria-label="Result Selection Control" [formControl]="selectionControl">
+          <mat-option [value]="null">--</mat-option>
+          <mat-option [value]="result.id" *ngFor="let result of results; let index = index;">
+            {{ result | recursivePropertyValue : displayProperty }} ({{ index }})
+          </mat-option>
+        </mat-select>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <ng-container *ngIf="selectedResult$ | async as selectedResult">
+    <mat-divider class="my-2"></mat-divider>
+    <div class="row mt-1">
+      <div class="col-md">
+        <ng-container *ngFor="let infoProp of infoProperties">
+          <mat-card class="info-card mt-0 mb-2" *ngIf="selectedResult | recursivePropertyValue : infoProp.value as value">
+            <mat-card-header>
+              <mat-card-title class="my-0 py-1 c-accent">{{ infoProp.key }}</mat-card-title>
+              <mat-card-subtitle class="my-0 py-1">{{ value }}</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" [mat-dialog-close]="null">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="selectionControl.invalid" [mat-dialog-close]="selectionControl.value">Select</button>
+</div>

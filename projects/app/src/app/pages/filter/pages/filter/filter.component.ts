@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SnackBarService } from '@core/services/snackbar';
-import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Observable, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { Filter, FilterModel, FilterSection, FilterService } from '@app/features';
+import { Filter, FilterModel, FilterSection, FilterService, FinalFilterResult } from '@app/features';
+import { IEntity } from '@core/models/entity';
+import { SnackBarService } from '@core/services/snackbar';
+import { FilterResultSelectionModalComponent, IFilterResultSelectionModalData } from './filter-result-selection';
 import { FilterStepperResult } from '../../components';
 
 @Component({
@@ -26,6 +29,7 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _filterService: FilterService,
+    private readonly _dialog: MatDialog,
     private readonly _snackbarService: SnackBarService,
     private readonly _router: Router
   ) {
@@ -50,12 +54,13 @@ export class FilterPageComponent implements OnInit, OnDestroy {
       results
     }).subscribe({
       next: result => {
-        if (result.filteredIds.length > 0) {
-          if (result.filteredIds.length === 1) {
+        const filteredResults = result.filteredResults;
+        if (filteredResults.length > 0) {
+          if (filteredResults.length === 1) {
             this._snackbarService.close(); // Close any snackbar that may still be open.
 
             this._router.navigate(
-              ['result', result.filteredIds[0]],
+              ['result', filteredResults[0].id],
               {
                 relativeTo: this._activatedRoute,
                 queryParams: {
@@ -64,7 +69,32 @@ export class FilterPageComponent implements OnInit, OnDestroy {
               }
             );
           } else {
-            console.log('Multiple!');
+            const dialogRef = this._dialog.open<FilterResultSelectionModalComponent, IFilterResultSelectionModalData, any>(
+              FilterResultSelectionModalComponent, {
+                data: {
+                  results: filteredResults,
+                  displayProperty: 'genus.name',
+                  infoProperties: [
+                    { key: 'Genus', value: 'genus.name' },
+                    { key: 'Length (mm)', value: 'length' },
+                    { key: 'Eyes', value: 'eyesDescription' },
+                    { key: 'Cephalosome', value: 'cephalosomeDescription' },
+                    { key: 'Thorax', value: 'thoraxDescription' },
+                    { key: 'Urosome', value: 'urosomeDescription' },
+                    { key: 'Furca', value: 'furcaDescription' },
+                    { key: 'Setea', value: 'seteaDescription' }
+                  ]
+                },
+                width: '700px'
+              }
+            );
+
+            dialogRef.afterClosed().pipe(
+              takeUntil(this._destroyed),
+              skipWhile(result => !!!result)
+            ).subscribe({
+              next: result => console.log('Result:', result)
+            });
           }
         } else {
           this._snackbarService.open('No results found! Try selecting different options.', {

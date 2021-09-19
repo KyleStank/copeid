@@ -1,24 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ILayoutConfig } from '@core/layouts/models';
-import { FilterPageComponent, FilterResultPageComponent } from './pages';
-
 const routes: Routes = [
   {
     path: '',
-    component: FilterPageComponent
+    loadChildren: () => import('./pages/filter/filter.module').then(m => m.FilterModule)
   },
   {
-    path: 'result/:id',
-    component: FilterResultPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Filter Result'
-        }
-      } as ILayoutConfig
-    }
+    path: 'result',
+    loadChildren: () => import('./pages/filter-result/filter-result.module').then(m => m.FilterResultModule)
   }
 ];
 
@@ -26,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FilterRoutingModule {}
+export class FilterPageRoutingModule {}

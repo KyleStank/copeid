@@ -1,9 +1,9 @@
-export class FinalFilterResult {
-  filteredIds: string[];
+export class FinalFilterResult<TResult = Object> {
+  filteredResults: TResult[];
   formattedCode: string;
 
-  constructor(filteredIds: string[], formattedCode: string) {
-    this.filteredIds = filteredIds;
+  constructor(filteredResults: TResult[], formattedCode: string) {
+    this.filteredResults = filteredResults;
     this.formattedCode = formattedCode;
   }
 }

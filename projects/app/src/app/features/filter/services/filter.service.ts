@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '@app/environments';
+import { IEntity } from '@core/models/entity';
 import { AbstractQueryableEntityService } from '@core/services/entity';
 import { Filter, FilterQuery, FinalFilterResult } from '../models';
 import { FilterStepperResult } from '../../../pages/filter/components';
@@ -22,8 +23,8 @@ export class FilterService extends AbstractQueryableEntityService<Filter, Filter
     return this._http.get<Filter>(endpoint);
   }
 
-  public getFilterResult(results: FilterResultModel): Observable<FinalFilterResult> {
+  public getFilterResult(results: FilterResultModel): Observable<FinalFilterResult<IEntity>> {
     const endpoint = `${this._endpoint}/Result`;
-    return this._http.post<FinalFilterResult>(endpoint, results)
+    return this._http.post<FinalFilterResult<IEntity>>(endpoint, results)
   }
 }
