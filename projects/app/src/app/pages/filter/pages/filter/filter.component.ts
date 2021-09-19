@@ -57,12 +57,12 @@ export class FilterPageComponent implements OnInit, OnDestroy {
         const filteredResults = result.filteredResults ?? [];
         if (filteredResults.length > 0) {
           if (filteredResults.length === 1) { // Navigate to result page if single result was found.
-            this._viewResult(filteredResults[0].id!, result.formattedCode);
+            if (!!filteredResults[0]) this._viewResult(filteredResults[0], result.formattedCode);
           } else { // Open result selection modal if multiple results were found.
             this._openSelectionModal(filteredResults).subscribe({
               next: id => {
                 const selected = filteredResults.find(r => r.id === id);
-                if (!!selected) this._viewResult(selected.id!, result.formattedCode);
+                if (!!selected) this._viewResult(selected, result.formattedCode);
               }
             });
           }
@@ -104,13 +104,14 @@ export class FilterPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  private _viewResult(id: string, code: string): void {
+  private _viewResult(result: IEntity, code: string): void {
     this._snackbarService.close(); // Close any snackbar that may still be open.
 
     this._router.navigate(
-      ['result', id],
+      ['result', result.id],
       {
         relativeTo: this._activatedRoute,
+        state: { result },
         queryParams: {
           code: encodeURIComponent(code)
         }
