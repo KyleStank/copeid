@@ -331,6 +331,7 @@ export class AdminSpecimenEditModal {
       photograph: data?.model?.photograph || undefined,
       gender: data?.model?.gender || SpecimenGender.Male,
       length: data?.model?.length || 0,
+      summary: data?.model?.summary || undefined,
       specialCharacteristics: data?.model?.specialCharacteristics || undefined,
 
       // Antenule

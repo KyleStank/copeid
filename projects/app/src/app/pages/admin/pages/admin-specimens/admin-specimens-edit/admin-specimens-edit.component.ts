@@ -41,6 +41,7 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
     genusId: [null, Validators.required],
     gender: [null, Validators.required],
     length: [0, Validators.compose([Validators.required, Validators.min(0)])],
+    summary: [null],
     specialCharacteristics: [null],
 
     // Antenule
@@ -105,6 +106,7 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
             genusId: result.genusId,
             gender: result.gender,
             length: result.length,
+            summary: result.summary,
             specialCharacteristics: result.specialCharacteristics,
 
             // Antenule

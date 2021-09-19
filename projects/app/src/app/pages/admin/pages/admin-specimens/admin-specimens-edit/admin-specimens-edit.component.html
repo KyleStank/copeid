@@ -61,6 +61,22 @@
     <div class="row">
       <div class="col-md my-1">
         <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+          <mat-label>Summary</mat-label>
+
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            aria-label="Summary textarea input."
+            formControlName="summary"
+          ></textarea>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Special Characteristics</mat-label>
 
           <textarea

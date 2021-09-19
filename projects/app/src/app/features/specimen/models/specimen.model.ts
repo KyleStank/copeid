@@ -16,6 +16,7 @@ export interface ISpecimen extends IEntity {
   photograph: IPhotograph | undefined;
   gender: SpecimenGender | undefined;
   length: number | undefined;
+  summary: string | undefined;
   specialCharacteristics: string | undefined;
 
   // Antenule
@@ -65,6 +66,7 @@ export class Specimen implements ISpecimen {
   public photograph: IPhotograph | undefined;
   public gender: SpecimenGender | undefined;
   public length: number | undefined;
+  public summary: string | undefined;
   public specialCharacteristics: string | undefined;
 
   // Antenule
@@ -113,6 +115,7 @@ export class Specimen implements ISpecimen {
     this.photograph = model?.photograph;
     this.gender = model?.gender;
     this.length = model?.length;
+    this.summary = model?.summary;
     this.specialCharacteristics = model?.specialCharacteristics;
 
     // Antenule
