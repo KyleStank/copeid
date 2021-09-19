@@ -18,25 +18,12 @@
     <mat-divider class="my-3" [inset]="true"></mat-divider>
 
     <div class="result-info">
-      <p class="result-item">
-        {{ specimen.specialCharacteristics }}
+      <p class="my-0 py-2 result-item">
+        {{ specimen.summary || 'N/A' }}
       </p>
-
-      <!-- TODO: Move to Info page component once ready. -->
-      <!-- <p class="result-item">
-        <span class="result-item--text mat-body-strong">Length:&nbsp;</span>
-        <span class="result-item--text mat-body">{{ specimen.length }}mm</span>
+      <p class="my-0 py-2 result-item">
+        <a mat-flat-button color="primary" [routerLink]="['/', 'info', specimen.id]">View Detailed Information</a>
       </p>
-
-      <p class="result-item">
-        <span class="result-item--text mat-body-strong">Eyes:&nbsp;</span>
-        <span class="result-item--text mat-body">
-          <ng-container *ngIf="specimen.eyes === enumSpecimenEyes.None">None</ng-container>
-          <ng-container *ngIf="specimen.eyes === enumSpecimenEyes.DorsalSingle">Dorsal Single</ng-container>
-          <ng-container *ngIf="specimen.eyes === enumSpecimenEyes.VentralSingle">Ventral Single</ng-container>
-          <ng-container *ngIf="specimen.eyes === enumSpecimenEyes.Transformed">Transformed</ng-container>
-        </span>
-      </p> -->
     </div>
 
     <mat-divider class="my-3" [inset]="true"></mat-divider>

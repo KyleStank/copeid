@@ -36,11 +36,11 @@ export class FilterResultPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.code = this._activatedRoute.snapshot.queryParamMap.get('code') ?? undefined;
+
     if (!!!this._specimenSubject.value) {
       const id = this._activatedRoute.snapshot.paramMap.get('id');
       if (!!id) {
-        this.code = this._activatedRoute.snapshot.queryParamMap.get('code') ?? undefined;
-
         this._specimenService.getSingle(id, {
           include: ['genus', 'photograph']
         }).subscribe({
