@@ -7,6 +7,7 @@ import { TemplateAdminComponent, TemplateDefaultComponent } from '@core/layouts/
 const defaultMenu = [
   { label: 'Home', url: [''], logo: 'home' },
   { label: 'Filter', url: ['filter'], logo: 'search' },
+  { label: 'Info', url: ['info'], logo: 'info' },
   { label: 'Anatomy & Definitions', url: ['definitions'], logo: 'library_books' },
   { label: 'Contributors & References', url: ['references'], logo: 'menu_book' }
 ];
@@ -92,6 +93,20 @@ const routes: Routes = [
         config: {
           appName: 'CopeID',
           pageName: 'Filter',
+          menu: defaultMenu
+        }
+      } as ILayoutConfig
+    }
+  },
+  {
+    path: 'info',
+    loadChildren: () => import('./pages/info/info.module').then(m => m.InfoPageModule),
+    data: {
+      layout: {
+        component: TemplateDefaultComponent,
+        config: {
+          appName: 'CopeID',
+          pageName: 'Info',
           menu: defaultMenu
         }
       } as ILayoutConfig
