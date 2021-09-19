@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, map, Observable, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { Filter, FilterModel, FilterSection, FilterService, FinalFilterResult } from '@app/features';
+import { Filter, FilterModel, FilterSection, FilterService } from '@app/features';
 import { IEntity } from '@core/models/entity';
 import { SnackBarService } from '@core/services/snackbar';
 import { FilterResultSelectionModalComponent, IFilterResultSelectionModalData } from './filter-result-selection';
@@ -54,49 +54,19 @@ export class FilterPageComponent implements OnInit, OnDestroy {
       results
     }).subscribe({
       next: result => {
-        const filteredResults = result.filteredResults;
+        const filteredResults = result.filteredResults ?? [];
         if (filteredResults.length > 0) {
-          if (filteredResults.length === 1) {
-            this._snackbarService.close(); // Close any snackbar that may still be open.
-
-            this._router.navigate(
-              ['result', filteredResults[0].id],
-              {
-                relativeTo: this._activatedRoute,
-                queryParams: {
-                  code: encodeURIComponent(result.formattedCode)
-                }
+          if (filteredResults.length === 1) { // Navigate to result page if single result was found.
+            this._viewResult(filteredResults[0].id!, result.formattedCode);
+          } else { // Open result selection modal if multiple results were found.
+            this._openSelectionModal(filteredResults).subscribe({
+              next: id => {
+                const selected = filteredResults.find(r => r.id === id);
+                if (!!selected) this._viewResult(selected.id!, result.formattedCode);
               }
-            );
-          } else {
-            const dialogRef = this._dialog.open<FilterResultSelectionModalComponent, IFilterResultSelectionModalData, any>(
-              FilterResultSelectionModalComponent, {
-                data: {
-                  results: filteredResults,
-                  displayProperty: 'genus.name',
-                  infoProperties: [
-                    { key: 'Genus', value: 'genus.name' },
-                    { key: 'Length (mm)', value: 'length' },
-                    { key: 'Eyes', value: 'eyesDescription' },
-                    { key: 'Cephalosome', value: 'cephalosomeDescription' },
-                    { key: 'Thorax', value: 'thoraxDescription' },
-                    { key: 'Urosome', value: 'urosomeDescription' },
-                    { key: 'Furca', value: 'furcaDescription' },
-                    { key: 'Setea', value: 'seteaDescription' }
-                  ]
-                },
-                width: '700px'
-              }
-            );
-
-            dialogRef.afterClosed().pipe(
-              takeUntil(this._destroyed),
-              skipWhile(result => !!!result)
-            ).subscribe({
-              next: result => console.log('Result:', result)
             });
           }
-        } else {
+        } else { // If not results were found, notify user.
           this._snackbarService.open('No results found! Try selecting different options.', {
             action: 'Okay',
             duration: 5000
@@ -105,6 +75,47 @@ export class FilterPageComponent implements OnInit, OnDestroy {
       },
       error: err => console.error('Error While Filtering:', err)
     });
+  }
+
+  private _openSelectionModal(filteredResults: IEntity[]): Observable<string | undefined> {
+    const dialogRef = this._dialog.open<FilterResultSelectionModalComponent, IFilterResultSelectionModalData, string>(
+      FilterResultSelectionModalComponent, {
+        data: {
+          results: filteredResults,
+          displayProperty: 'genus.name',
+          infoProperties: [
+            { key: 'Genus', value: 'genus.name' },
+            { key: 'Length (mm)', value: 'length' },
+            { key: 'Eyes', value: 'eyesDescription' },
+            { key: 'Cephalosome', value: 'cephalosomeDescription' },
+            { key: 'Thorax', value: 'thoraxDescription' },
+            { key: 'Urosome', value: 'urosomeDescription' },
+            { key: 'Furca', value: 'furcaDescription' },
+            { key: 'Setea', value: 'seteaDescription' }
+          ]
+        },
+        width: '700px'
+      }
+    );
+
+    return dialogRef.afterClosed().pipe(
+      takeUntil(this._destroyed),
+      skipWhile(id => !!!id)
+    );
+  }
+
+  private _viewResult(id: string, code: string): void {
+    this._snackbarService.close(); // Close any snackbar that may still be open.
+
+    this._router.navigate(
+      ['result', id],
+      {
+        relativeTo: this._activatedRoute,
+        queryParams: {
+          code: encodeURIComponent(code)
+        }
+      }
+    );
   }
 
   ngOnDestroy(): void {
