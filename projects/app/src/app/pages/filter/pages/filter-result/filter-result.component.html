@@ -22,7 +22,7 @@
         {{ specimen.summary || 'N/A' }}
       </p>
       <p class="my-0 py-2 result-item">
-        <a mat-flat-button color="primary" [routerLink]="['/', 'info', specimen.id]">View Detailed Information</a>
+        <a mat-flat-button color="primary" [routerLink]="['/', 'info', specimen.id]" [state]="{ result: specimen }">View Detailed Information</a>
       </p>
     </div>
 
