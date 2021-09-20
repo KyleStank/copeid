@@ -1,0 +1,57 @@
+<form [formGroup]="formGroup">
+  <mat-card>
+    <div class="row">
+      <!-- Genus Name-->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Genus Name</mat-label>
+
+          <input
+            matInput
+            aria-label="Genus Name control"
+            type="text"
+            formControlName="genusName"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Length Greater Than -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Length Greater Than</mat-label>
+
+          <input
+            matInput
+            aria-label="Length Greater Than control"
+            step="0.1"
+            type="number"
+            formControlName="lengthGreaterThan"
+          />
+
+          <mat-error *ngIf="!!formGroup.controls['lengthGreaterThan']!.errors?.min">
+            Value must be greater than or equal to 0.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Length Less Than -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Length Less Than</mat-label>
+
+          <input
+            matInput
+            aria-label="Length Less Than control"
+            step="0.1"
+            type="number"
+            formControlName="lengthLessThan"
+          />
+
+          <mat-error *ngIf="!!formGroup.controls['lengthLessThan']!.errors?.min">
+            Value must be greater than or equal to 0.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+</form>

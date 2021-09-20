@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Subject, takeUntil } from 'rxjs';
 
 import { Specimen, SpecimenService } from '@app/features';
 
@@ -18,9 +18,12 @@ export class InfoPageComponent implements OnInit, OnDestroy {
   private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
   readonly specimens$ = this._specimensSubject.asObservable();
 
+  private readonly _filteredSpecimensSubject = new BehaviorSubject<Specimen[]>([]);
+  readonly filteredSpecimens$ = this._filteredSpecimensSubject.asObservable();
+
   constructor(private readonly _specimenService: SpecimenService) {
     this.specimens$ = this.specimens$.pipe(takeUntil(this._destroyed));
-    this.specimens$.subscribe(console.log);
+    this.filteredSpecimens$ = this.filteredSpecimens$.pipe(takeUntil(this._destroyed));
   }
 
   ngOnInit(): void {
@@ -31,8 +34,13 @@ export class InfoPageComponent implements OnInit, OnDestroy {
     // });
     this._specimenService.getAll({
       include: ['genus', 'photograph']
-    }).subscribe({
-      next: specimens => this._specimensSubject.next(specimens.sort((a, b) => a.genus!.name! > b.genus!.name! ? 1 : -1))
+    }).pipe(
+      map(specimens => specimens.sort((a, b) => a.genus!.name! > b.genus!.name! ? 1 : -1))
+    ).subscribe({
+      next: specimens => {
+        this._specimensSubject.next(specimens);
+        this._filteredSpecimensSubject.next(specimens);
+      }
     });
   }
 

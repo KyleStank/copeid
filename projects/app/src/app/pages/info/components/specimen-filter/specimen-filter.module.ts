@@ -3,34 +3,27 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { SpecimenCardModule, SpecimenFilterModule } from '../../components';
-import { InfoRoutingModule } from './info-routing.module';
-import { InfoPageComponent } from './info.component';
+import { SpecimenFilterComponent } from './specimen-filter.component';
 
 const exportedDeclarations = [
-  InfoPageComponent
+  SpecimenFilterComponent
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    InfoRoutingModule,
     MatButtonModule,
     MatCardModule,
-    MatDialogModule,
-    MatDividerModule,
     MatFormFieldModule,
+    MatInputModule,
     MatSelectModule,
-    ReactiveFormsModule,
-    SpecimenCardModule,
-    SpecimenFilterModule,
+    ReactiveFormsModule
   ],
   declarations: [exportedDeclarations],
   exports: [exportedDeclarations]
 })
-export class InfoModule {}
+export class SpecimenFilterModule {}
