@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
+import { SpecimenCardModule } from '../../components';
 import { InfoRoutingModule } from './info-routing.module';
 import { InfoPageComponent } from './info.component';
 
@@ -25,7 +26,8 @@ const exportedDeclarations = [
     MatDividerModule,
     MatFormFieldModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SpecimenCardModule
   ],
   declarations: [exportedDeclarations],
   exports: [exportedDeclarations]

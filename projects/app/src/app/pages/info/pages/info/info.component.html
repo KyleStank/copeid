@@ -1,0 +1,4 @@
+<ng-container *ngFor="let specimen of (specimens$ | async) ?? []; let last = last;">
+  <app-specimen-card [specimen]="specimen"></app-specimen-card>
+  <mat-divider class="my-3" *ngIf="!last"></mat-divider>
+</ng-container>
