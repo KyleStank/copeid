@@ -1,5 +1,6 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { merge } from 'lodash-es';
+import { Observable } from 'rxjs';
 
 /**
  * Takes a root snapshot's route data and then recursively traverses the children of the snapshot.
@@ -58,3 +59,57 @@ export const recursivePropertySearch = <T = any>(item: T, property: string | und
   return recursivePropertySearch((item as any)[arr[0]], arr.slice(1, arr.length).join(seperator));
 };
 
+export const isString = (value: any): boolean => {
+  return typeof (value) === 'string' || value instanceof String;
+};
+
+export const isNumber = (value: any): boolean => {
+  return typeof (value) === 'number' || value instanceof Number;
+};
+
+export const isBoolean = (value: any): boolean => {
+  return typeof (value) === 'boolean' || value instanceof Boolean;
+};
+
+export const isSymbol = (value: any): boolean => {
+  return typeof (value) === 'symbol' || value instanceof Symbol;
+};
+
+export const isFunction = (value: any): boolean => {
+  return typeof (value) === 'function' || value instanceof Function;
+};
+
+export const isObject = (value: any, instanceType: any): boolean => {
+  return typeof (value) === 'object' && value instanceof instanceType;
+};
+
+export const isTypeOf = (value: any, instanceType: any): boolean => {
+  if (instanceType === String) return isString(value);
+  else if (instanceType === Number) return isNumber(value);
+  else if (instanceType === Boolean) return isBoolean(value);
+  else if (instanceType === Symbol) return isSymbol(value);
+  else if (instanceType === Function) return isFunction(value);
+  else if (instanceType === Array) return isObject(value, Array) && Array.isArray(value);
+  return isObject(value, instanceType);
+};
+
+export const convertFile = (file: File): Observable<string> => {
+  return new Observable<string>(sub => {
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (event: ProgressEvent<FileReader>): void => {
+      sub.next(event.target?.result?.toString());
+      sub.complete();
+    };
+
+    reader.onerror = (error: ProgressEvent<FileReader>): void => {
+      sub.error(error);
+      sub.complete();
+    };
+
+    reader.onabort = (error: ProgressEvent<FileReader>): void => {
+      sub.error(error);
+      sub.complete();
+    };
+  });
+};

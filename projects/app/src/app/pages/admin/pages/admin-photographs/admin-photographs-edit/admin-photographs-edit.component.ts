@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Photograph, PhotographService } from '@app/features';
+import { FileService, Photograph, PhotographService } from '@app/features';
+import { IAdminEditView } from '../../../components';
 
 @Component({
   selector: 'app-admin-photographs-edit',
@@ -11,20 +12,21 @@ import { Photograph, PhotographService } from '@app/features';
   host: {
     'class': 'd-block'
   },
-  providers: [PhotographService],
+  providers: [FileService, PhotographService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminPhotographsEditComponent {
+export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
   private readonly _modelSubject = new BehaviorSubject<Photograph | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  get valid() { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     title: ['', Validators.required],
     description: ['', Validators.required],
     alt: [''],
-    url: ['', Validators.required]
+    url: ['']
   });
 
   id: string | undefined;

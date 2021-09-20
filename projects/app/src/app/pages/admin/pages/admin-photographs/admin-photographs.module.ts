@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { SharedFileUploadInputModule } from '@shared/components/file-upload-input';
 import { AdminDataTableModule } from '../../common';
 import { AdminPhotographsEditComponent } from './admin-photographs-edit';
 import { AdminPhotographsManageComponent } from './admin-photographs-manage';
@@ -31,6 +32,7 @@ const exportedDeclarations = [
     MatFormFieldModule,
     MatMenuModule,
     ReactiveFormsModule,
+    SharedFileUploadInputModule,
     TextFieldModule
   ],
   declarations: exportedDeclarations,

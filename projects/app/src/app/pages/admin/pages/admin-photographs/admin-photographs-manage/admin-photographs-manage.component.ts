@@ -32,8 +32,8 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _photographService: PhotographService,
     private readonly _dialog: MatDialog,
+    private readonly _photographService: PhotographService,
     private readonly _router: Router
   ) {
     this.photographs$ = this.photographs$.pipe(takeUntil(this.destroyed));
