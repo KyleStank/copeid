@@ -15,6 +15,7 @@ const defaultMenu = [
 const adminMenu = [
   { label: 'Contributors', url: ['admin', 'contributors'], logo: 'group' },
   { label: 'Definitions', url: ['admin', 'definitions'], logo: 'library_books' },
+  { label: 'Files', url: ['admin', 'files'], logo: 'attach_file' },
   { label: 'Filter', url: ['admin', 'filters'], logo: 'search' },
   { label: 'Filter Models', url: ['admin', 'filter-models'], logo: 'search' },
   { label: 'Genuses', url: ['admin', 'genuses'], logo: 'pest_control' },

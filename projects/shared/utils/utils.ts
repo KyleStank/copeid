@@ -98,7 +98,7 @@ export const convertFile = (file: File): Observable<string> => {
     const reader = new FileReader();
     reader.readAsBinaryString(file);
     reader.onload = (event: ProgressEvent<FileReader>): void => {
-      sub.next(event.target?.result?.toString());
+      sub.next(btoa(event.target!.result!.toString()));
       sub.complete();
     };
 

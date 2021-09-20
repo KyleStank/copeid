@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin-definitions/admin-definitions.module').then(m => m.AdminDefinitionsModule)
   },
   {
+    path: 'files',
+    loadChildren: () => import('./pages/admin-files/admin-files.module').then(m => m.AdminFilesModule)
+  },
+  {
     path: 'filters',
     loadChildren: () => import('./pages/admin-filters/admin-filters.module').then(m => m.AdminFiltersModule)
   },
