@@ -1,5 +1,6 @@
 export * from './contributor';
 export * from './definition';
+export * from './files';
 export * from './filter';
 export * from './genus';
 export * from './photograph';
