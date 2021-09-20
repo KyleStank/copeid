@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { BehaviorSubject, map, Subject, takeUntil } from 'rxjs';
 
 import { Specimen, SpecimenService } from '@app/features';
+import { ISpecimenFilterValue } from '../../components';
 
 @Component({
   selector: 'app-info',
@@ -27,11 +28,6 @@ export class InfoPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this._specimenService.getInfoSpecimens().subscribe({
-    //   next: specimens => {
-    //     console.log(specimens);
-    //   }
-    // });
     this._specimenService.getAll({
       include: ['genus', 'photograph']
     }).pipe(
@@ -42,6 +38,47 @@ export class InfoPageComponent implements OnInit, OnDestroy {
         this._filteredSpecimensSubject.next(specimens);
       }
     });
+  }
+
+  filterChange(filterValue: ISpecimenFilterValue): void {
+    this._filteredSpecimensSubject.next(this._specimensSubject.value.filter(specimen => {
+      const genusName = specimen.genus!.name!;
+      const gender = specimen.gender!;
+      const length = specimen.length!;
+      const antenule = specimen.antenule!;
+      const rostrum = specimen.rostrum!;
+      const bodyShape = specimen.bodyShape!;
+      const eyes = specimen.eyes!;
+      const cephalosome = specimen.cephalosome!;
+      const thoraxSegments = specimen.thoraxSegments!;
+      const thoraxShape = specimen.thoraxShape!;
+      const urosome = specimen.urosome!;
+      const furca = specimen.furca!;
+      const setea = specimen.setea!;
+
+      return (
+        (filterValue.genusName == null || filterValue.genusName.trim().length === 0)
+        || genusName.toLowerCase().includes(filterValue.genusName.toLowerCase())
+      ) && (filterValue.gender == null || gender === filterValue.gender)
+        && (filterValue.lengthGreaterThan == null || length >= filterValue.lengthGreaterThan)
+        && (filterValue.lengthLessThan == null || length <= filterValue.lengthLessThan)
+        && (
+          (filterValue.antenule == null || filterValue.antenule.trim().length === 0)
+          || antenule.toLowerCase().includes(filterValue.antenule.toLowerCase())
+        ) && (
+          (filterValue.rostrum == null || filterValue.rostrum.trim().length === 0)
+          || rostrum.toLowerCase().includes(filterValue.rostrum.toLowerCase())
+        ) && (
+          (filterValue.bodyShape == null || filterValue.bodyShape.trim().length === 0)
+          || bodyShape.toLowerCase().includes(filterValue.bodyShape.toLowerCase())
+        ) && (filterValue.eyes == null || eyes === filterValue.eyes)
+        && (filterValue.cephalosome == null || cephalosome === filterValue.cephalosome)
+        && (filterValue.thoraxSegments == null || thoraxSegments === filterValue.thoraxSegments)
+        && (filterValue.thoraxShape == null || thoraxShape === filterValue.thoraxShape)
+        && (filterValue.urosome == null || urosome === filterValue.urosome)
+        && (filterValue.furca == null || furca === filterValue.furca)
+        && (filterValue.setea == null || setea === filterValue.setea);
+    }));
   }
 
   ngOnDestroy(): void {

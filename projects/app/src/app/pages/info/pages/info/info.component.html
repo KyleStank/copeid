@@ -1,14 +1,13 @@
 <h2 class="mb-2 c-primary mat-display-1">Filter</h2>
 <mat-divider class="mb-1"></mat-divider>
-<app-specimen-filter class="mb-3" [specimens]="(specimens$ | async) ?? []"></app-specimen-filter>
+<app-specimen-filter
+  class="mb-3"
+  (filterChange)="filterChange($event)"
+></app-specimen-filter>
 
 <h2 class="mb-2 c-primary mat-display-1">Copepods</h2>
 <mat-divider class="mb-1"></mat-divider>
-<ng-container *ngFor="let specimen of (specimens$ | async) ?? [] as specimens; let last = last;">
-
-</ng-container>
-
-<ng-container *ngIf="(specimens$ | async) ?? [] as specimens">
+<ng-container *ngIf="(filteredSpecimens$ | async) ?? [] as specimens">
   <div [ngClass]="{ 'mb-3': !last }" *ngFor="let specimen of specimens; let last = last;">
     <app-specimen-card [specimen]="specimen"></app-specimen-card>
     <mat-divider class="mt-3" *ngIf="!last"></mat-divider>
