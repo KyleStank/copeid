@@ -66,7 +66,7 @@ export class AdminFilesEditComponent implements IAdminEditView, OnInit, OnDestro
         ...(this._modelSubject.value ?? {}),
         ...this.formGroup.value,
         id: this.id,
-        path: this._modelSubject.value?.path ?? '', // TODO: Adjust models to NOT require path.
+        path: this._modelSubject.value?.path ?? 'worthless_value_that_is_overwritten_on_server', // TODO: Adjust models to NOT require path.
         data
       })),
       mergeMap(model => !!model.id ? this._fileService.update(model) : this._fileService.create(model))
