@@ -29,7 +29,7 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _fileService: DocumentService,
+    private readonly _documentService: DocumentService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
   ) {
@@ -41,7 +41,7 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
   }
 
   getEntities(): void {
-    this._fileService.getAll({
+    this._documentService.getAll({
       orderBy: ['name']
     }).subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
   }
@@ -75,7 +75,7 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
         next: () => {
           models!.forEach(m => {
             if (!!m?.id) {
-              this._fileService.delete(m.id).subscribe({
+              this._documentService.delete(m.id).subscribe({
                 next: () => this.getEntities(),
                 error: (error: any) => console.error('Error:', error)
               });
