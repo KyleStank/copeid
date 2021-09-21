@@ -1,11 +1,11 @@
 import { IEntityQuery } from '@core/models/entity';
 
-export interface IFileQuery extends IEntityQuery {
+export interface IDocumentQuery extends IEntityQuery {
   name: string[] | undefined;
   path: string[] | undefined;
 }
 
-export class FileQuery implements IFileQuery {
+export class DocumentQuery implements IDocumentQuery {
   public id: string[] | undefined;
   public include: string[] | undefined;
   public orderBy: string[] | undefined;
@@ -13,7 +13,7 @@ export class FileQuery implements IFileQuery {
   public name: string[] | undefined;
   public path: string[] | undefined;
 
-  constructor(model?: Partial<IFileQuery>) {
+  constructor(model?: Partial<IDocumentQuery>) {
     this.id = model?.id;
     this.include = model?.include;
     this.orderBy = model?.orderBy;

@@ -3,23 +3,23 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, map, mergeMap, Observable, Subject, takeUntil } from 'rxjs';
 
-import { File, FileService } from '@app/features';
-import { IAdminEditView } from '../../../components';
+import { Document, DocumentService } from '@app/features';
 import { convertFile } from '@shared/utils';
+import { IAdminEditView } from '../../../components';
 
 @Component({
-  selector: 'app-admin-files-edit',
-  templateUrl: './admin-files-edit.component.html',
+  selector: 'app-admin-documents-edit',
+  templateUrl: './admin-documents-edit.component.html',
   host: {
     'class': 'd-block'
   },
-  providers: [FileService],
+  providers: [DocumentService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminFilesEditComponent implements IAdminEditView, OnInit, OnDestroy {
+export class AdminDocumentsEditComponent implements IAdminEditView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
-  private readonly _modelSubject = new BehaviorSubject<File | undefined>(undefined);
+  private readonly _modelSubject = new BehaviorSubject<Document | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
   get valid(): boolean { return this.formGroup.valid; }
@@ -33,7 +33,7 @@ export class AdminFilesEditComponent implements IAdminEditView, OnInit, OnDestro
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _fileService: FileService,
+    private readonly _fileService: DocumentService,
     private readonly _fb: FormBuilder
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
@@ -58,11 +58,10 @@ export class AdminFilesEditComponent implements IAdminEditView, OnInit, OnDestro
     }
   }
 
-  save(): Observable<File> {
-    const file: globalThis.File = this.formGroup.get('data')!.value;
-    console.log(file);
+  save(): Observable<Document> {
+    const file: File = this.formGroup.get('data')!.value;
     return convertFile(file).pipe(
-      map(data => new File({
+      map(data => new Document({
         ...(this._modelSubject.value ?? {}),
         ...this.formGroup.value,
         id: this.id,

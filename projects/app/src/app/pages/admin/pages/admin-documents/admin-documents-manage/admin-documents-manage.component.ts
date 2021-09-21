@@ -3,24 +3,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { File, FileService } from '@app/features';
+import { Document, DocumentService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
 @Component({
-  selector: 'app-admin-files-manage',
-  templateUrl: './admin-files-manage.component.html',
+  selector: 'app-admin-documents-manage',
+  templateUrl: './admin-documents-manage.component.html',
   host: {
     'class': 'd-block'
   },
-  providers: [FileService],
+  providers: [DocumentService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminFilesManageComponent implements IAdminManageView, OnInit, OnDestroy {
+export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
-  private readonly _definitionsSubject = new BehaviorSubject<File[]>([]);
+  private readonly _definitionsSubject = new BehaviorSubject<Document[]>([]);
   readonly definitions$ = this._definitionsSubject.asObservable();
   readonly columns: AdminColumn[] = [
     { title: 'Name', property: 'name' }
@@ -29,7 +29,7 @@ export class AdminFilesManageComponent implements IAdminManageView, OnInit, OnDe
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _fileService: FileService,
+    private readonly _fileService: DocumentService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
   ) {
@@ -46,7 +46,7 @@ export class AdminFilesManageComponent implements IAdminManageView, OnInit, OnDe
     }).subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
   }
 
-  editAddItem(model?: File): void {
+  editAddItem(model?: Document): void {
     if (!!model?.id) {
       this._router.navigate(['edit', model.id], { relativeTo: this._activatedRoute });
     } else {
@@ -54,12 +54,12 @@ export class AdminFilesManageComponent implements IAdminManageView, OnInit, OnDe
     }
   }
 
-  deleteItems(models?: File[]): void {
+  deleteItems(models?: Document[]): void {
     models = models ?? [];
     if (models.length === 0) return;
 
     const isSingle = models.length === 1;
-    const modelName = isSingle ? 'File' : 'Files';
+    const modelName = isSingle ? 'Document' : 'Documents';
     const dialogRef = this._dialog.open(ConfirmationAlertModalCompoonent, {
       data: {
         title: `Delete ${modelName}?`,

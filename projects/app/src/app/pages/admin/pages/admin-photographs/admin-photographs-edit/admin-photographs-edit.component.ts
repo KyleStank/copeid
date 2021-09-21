@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { FileService, Photograph, PhotographService } from '@app/features';
+import { DocumentService, Photograph, PhotographService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -12,7 +12,7 @@ import { IAdminEditView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [FileService, PhotographService],
+  providers: [DocumentService, PhotographService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, OnDestroy {

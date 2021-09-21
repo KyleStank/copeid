@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ILayoutConfig } from '@core/layouts/models';
 import { AdminEditContainerComponent, AdminManageContainerComponent } from '../../components';
-import { AdminFilesEditComponent } from './admin-files-edit';
-import { AdminFilesManageComponent } from './admin-files-manage';
+import { AdminDocumentsEditComponent } from './admin-documents-edit';
+import { AdminDocumentsManageComponent } from './admin-documents-manage';
 
 const routes: Routes = [
   {
@@ -13,13 +13,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminFilesManageComponent
+        component: AdminDocumentsManageComponent
       }
     ],
     data: {
       layout: {
         config: {
-          pageName: 'Manage Files'
+          pageName: 'Manage Documents'
         }
       } as ILayoutConfig
     },
@@ -30,13 +30,13 @@ const routes: Routes = [
     children: [
       {
         path: ':id',
-        component: AdminFilesEditComponent
+        component: AdminDocumentsEditComponent
       }
     ],
     data: {
       layout: {
         config: {
-          pageName: 'Edit File'
+          pageName: 'Edit Document'
         }
       } as ILayoutConfig
     }
@@ -47,13 +47,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminFilesEditComponent
+        component: AdminDocumentsEditComponent
       }
     ],
     data: {
       layout: {
         config: {
-          pageName: 'Create File'
+          pageName: 'Create Document'
         }
       } as ILayoutConfig
     }
@@ -64,4 +64,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminFilesEditRoutingModule {}
+export class AdminDocumentsRoutingModule {}

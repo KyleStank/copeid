@@ -10,19 +10,19 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { SharedFileUploadInputModule } from '@shared/components/file-upload-input';
 import { AdminDataTableModule } from '../../common';
-import { AdminFilesEditComponent } from './admin-files-edit';
-import { AdminFilesManageComponent } from './admin-files-manage';
-import { AdminFilesEditRoutingModule } from './admin-files-routing.module';
+import { AdminDocumentsEditComponent } from './admin-documents-edit';
+import { AdminDocumentsManageComponent } from './admin-documents-manage';
+import { AdminDocumentsRoutingModule } from './admin-documents-routing.module';
 
 const exportedDeclarations: any[] = [
-  AdminFilesEditComponent,
-  AdminFilesManageComponent
+  AdminDocumentsEditComponent,
+  AdminDocumentsManageComponent
 ];
 
 @NgModule({
   imports: [
     AdminDataTableModule,
-    AdminFilesEditRoutingModule,
+    AdminDocumentsRoutingModule,
     CommonModule,
     MatButtonModule,
     MatDividerModule,
@@ -36,4 +36,4 @@ const exportedDeclarations: any[] = [
   declarations: exportedDeclarations,
   exports: exportedDeclarations
 })
-export class AdminFilesModule {}
+export class AdminDocumentsModule {}
