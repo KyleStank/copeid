@@ -82,6 +82,7 @@ export class AdminDocumentsEditComponent implements IAdminEditView, OnInit, OnDe
         ...this.formGroup.value,
         id: this.id,
         path: this._modelSubject.value?.path ?? 'worthless_value_that_is_overwritten_on_server', // TODO: Adjust models to NOT require path.
+        mimeType: file.type,
         data
       })),
       mergeMap(model => !!model.id ? this._documentService.update(model) : this._documentService.create(model))

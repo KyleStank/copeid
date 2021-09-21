@@ -3,6 +3,7 @@ import { IEntityQuery } from '@core/models/entity';
 export interface IDocumentQuery extends IEntityQuery {
   name: string[] | undefined;
   path: string[] | undefined;
+  mimeType: string[] | undefined;
 }
 
 export class DocumentQuery implements IDocumentQuery {
@@ -12,6 +13,7 @@ export class DocumentQuery implements IDocumentQuery {
   public orderByDescending: string[] | undefined;
   public name: string[] | undefined;
   public path: string[] | undefined;
+  public mimeType: string[] | undefined;
 
   constructor(model?: Partial<IDocumentQuery>) {
     this.id = model?.id;
@@ -20,5 +22,6 @@ export class DocumentQuery implements IDocumentQuery {
     this.orderByDescending = model?.orderByDescending;
     this.name = model?.name;
     this.path = model?.path;
+    this.mimeType = model?.mimeType;
   }
 }
