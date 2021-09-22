@@ -1,1 +1,1 @@
-export * from './filter/filter.component';
+export * from './filter-stepper';

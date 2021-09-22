@@ -1,0 +1,7 @@
+<div class="row">
+  <div class="col-md my-2" *ngFor="let option of part?.filterSectionPartOptions ?? []">
+    <div class="option" [ngClass]="{ 'option--selected': selectedOption === option }" (click)="select(option)">
+      <p class="option--text">{{ option.displayName }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<mat-table
+  class="overflow-auto"
+  auto-table
+  matSort
+  [dataSource]="dataSource"
+>
+  <ng-container [matColumnDef]="column.property" *ngFor="let column of columnDefs">
+    <ng-container *ngIf="column.sortable then sortableHeader else defaultHeader"></ng-container>
+
+    <!-- Content displayed inside header column -->
+    <ng-template #headerContent>
+      <auto-header-cell
+        [columnDef]="column"
+      ></auto-header-cell>
+    </ng-template>
+
+    <!-- Sortable header column -->
+    <ng-template #sortableHeader>
+      <mat-header-cell mat-sort-header *matHeaderCellDef>
+        <ng-container *ngTemplateOutlet="headerContent"></ng-container>
+      </mat-header-cell>
+    </ng-template>
+
+    <!-- Default/un-sortable header column -->
+    <ng-template #defaultHeader>
+      <mat-header-cell *matHeaderCellDef>
+        <ng-container *ngTemplateOutlet="headerContent"></ng-container>
+      </mat-header-cell>
+    </ng-template>
+
+    <!-- Data column -->
+    <mat-cell *matCellDef="let cell; let index = index;">
+      <auto-data-cell
+        [columnDef]="column"
+        [item]="cell.value"
+        [index]="cell.index"
+        [rowIndex]="index"
+        [default]="column.default"
+      ></auto-data-cell>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="noResults">
+    <mat-footer-cell *matFooterCellDef>
+      <em>No results</em>
+    </mat-footer-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columnProps"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columnProps"></mat-row>
+  <mat-footer-row [class.d-none]="dataSource.data.length > 0" *matFooterRowDef="['noResults']"></mat-footer-row>
+</mat-table>
+
+<ng-content select="[autoPaginator]"></ng-content>

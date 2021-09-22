@@ -1,0 +1,40 @@
+<form class="w-100" autocomplete="off" [formGroup]="formGroup">
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Filter Model</mat-label>
+
+        <mat-select
+          aria-label="Filter Model selection field."
+          formControlName="filterModelId"
+        >
+          <mat-option [value]="null">--</mat-option>
+          <mat-option [value]="filterModel.id" *ngFor="let filterModel of (filterModels$ | async)">
+            {{ filterModel.typeName }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Display Name</mat-label>
+
+        <input
+          matInput
+          type="text"
+          aria-label="Display Name text field."
+          formControlName="displayName"
+        />
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

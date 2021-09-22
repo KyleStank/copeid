@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Definition, DefinitionService } from '@app/features';
-import { SnackBarService } from '@core';
+import { SnackBarService } from '@core/services/snackbar';
 import { createFadeTrigger, createListTrigger, createSlideFadeUpTrigger } from '@shared/animations';
 
 @Component({

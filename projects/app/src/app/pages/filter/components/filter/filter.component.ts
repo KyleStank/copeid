@@ -1,29 +1,33 @@
 import { ChangeDetectionStrategy, Component, ComponentRef, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
-import { ILayoutConfig, LayoutBuilder, LayoutHostDirective, Specimen, SpecimenService } from '@app/features';
+import { LayoutHostDirective } from '@core/layouts/directives';
+import { ILayoutConfig } from '@core/layouts/models';
+import { LayoutBuilder } from '@core/layouts/services';
 import { IFilterDefinition, IFilterDefinitionSelected, IFilterOption, IFilterSection } from '../../models';
 import { FilterLengthSectionComponent } from '../../sections';
+
+export interface IFilterSectionConfig {
+  componentType: Type<IFilterSection>;
+  title: string;
+  filterDefinition: IFilterDefinition<any, any>;
+}
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'],
-  providers: [SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterPageComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
-  private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
-  readonly specimens$ = this._specimensSubject.asObservable();
+  private readonly _selectedDefinitions: IFilterDefinitionSelected<any, any>[] = [];
 
-  private readonly _selectedDefinitions: IFilterDefinitionSelected[] = [];
-
-  readonly filterSectionComponentRefs: ComponentRef<IFilterSection>[] = [];
-  readonly filterSectionConfigs: { component: Type<IFilterSection>; filterDefinition: IFilterDefinition<any, any>; }[] = [
+  readonly filterSectionConfigs: IFilterSectionConfig[] = [
     {
-      component: FilterLengthSectionComponent,
+      componentType: FilterLengthSectionComponent,
+      title: 'Length of Specimen (mm)',
       filterDefinition: {
         identifier: 'L',
         options: [
@@ -33,42 +37,128 @@ export class FilterPageComponent implements OnInit, OnDestroy {
           { key: 'W', value: 2.0 }
         ] as IFilterOption<string, number>[]
       }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      title: 'Eyes of Specimen',
+      filterDefinition: {
+        identifier: 'E',
+        options: [
+          { key: '0', value: 'None' },
+          { key: '1', value: 'Dorsal Single' },
+          { key: '2', value: 'Ventral Single' },
+          { key: '3', value: 'Transformed' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      title: 'Cephalosome of Specimen',
+      filterDefinition: {
+        identifier: 'C',
+        options: [
+          { key: '4', value: '40%' },
+          { key: '5', value: '50%' },
+          { key: '6', value: '60%' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      title: 'Thorax of Specimen (Segments)',
+      filterDefinition: {
+        identifier: 'T1',
+        options: [
+          { key: '2', value: '2 Segments' },
+          { key: '3', value: '3 Segments' },
+          { key: '4', value: '4 Segments' },
+          { key: '5', value: 'Fused 4 & 5' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      title: 'Thorax of Specimen (Shape)',
+      filterDefinition: {
+        identifier: 'T2',
+        options: [
+          { key: 'B', value: 'Blunt Shape' },
+          { key: 'S', value: 'Saddle Shape' },
+          { key: 'P2', value: '2 Pointed' },
+          { key: 'P4', value: '4 Points' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      title: 'Urosome of Specimen',
+      filterDefinition: {
+        identifier: 'U',
+        options: [
+          { key: '1', value: '1' },
+          { key: '2', value: '2' },
+          { key: '3', value: '3' },
+          { key: '4', value: '4' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      title: 'Furca of Specimen',
+      filterDefinition: {
+        identifier: 'F',
+        options: [
+          { key: 'S', value: 'Short' },
+          { key: 'L', value: 'Long' },
+          { key: 'C', value: 'Curved' }
+        ] as IFilterOption<string, string>[]
+      }
+    },
+    {
+      componentType: FilterLengthSectionComponent,
+      title: 'Setea of Specimen',
+      filterDefinition: {
+        identifier: 'S',
+        options: [
+          { key: 'S', value: 'Shorter than Furca' },
+          { key: 'M', value: 'Same Length as Furca' },
+          { key: 'L', value: 'Longer than Furca' }
+        ] as IFilterOption<string, string>[]
+      }
     }
   ];
+  currentFilterSectionConfig?: IFilterSectionConfig;
 
   @ViewChild(LayoutHostDirective, { static: true })
   layoutHost?: LayoutHostDirective;
 
   constructor(
-    private readonly _layoutBuilder: LayoutBuilder,
-    private readonly _specimenService: SpecimenService
-  ) {
-    this.specimens$ = this.specimens$.pipe(takeUntil(this._destroyed));
-  }
+    private readonly _layoutBuilder: LayoutBuilder
+  ) {}
 
   ngOnInit(): void {
-    // this._specimenService.getAll({
-    //   include: ['genus']
-    // }).subscribe(this._specimensSubject.next.bind(this._specimensSubject));
-
-    this.filterSectionConfigs.forEach(filterSectionConfig => this._setupFilterSection(filterSectionConfig));
+    if (this.filterSectionConfigs.length > 0) {
+      this._setupFilterSection(this.filterSectionConfigs[0]);
+    }
   }
 
-  private _setupFilterSection(config?: { component?: Type<IFilterSection>; filterDefinition?: IFilterDefinition<any, any>; }): void {
-    if (!config?.component) return;
+  private _setupFilterSection(config?: IFilterSectionConfig): void {
+    if (!config?.componentType) return;
 
-    const componentRef = this._createFilterSection(config.component, config.filterDefinition ? { filterDefinition: config.filterDefinition } : null);
+    const componentRef = this._createFilterSection(
+      config.componentType,
+      config.filterDefinition ? {
+        filterDefinition: config.filterDefinition,
+        selectedOption: this._selectedDefinitions.find(x => x.identifier === config?.filterDefinition?.identifier)?.option
+      } : null
+    );
     if (componentRef) {
-      // Respond to when an option is selected.
       componentRef.instance.optionSelected$
         .pipe(takeUntil(this._destroyed))
         .subscribe(this._selectDefinition.bind(this));
-
-      // Track newly created component ref.
-      const index = this.filterSectionComponentRefs.findIndex(x => x === componentRef);
-      if (index === -1) this.filterSectionComponentRefs.push(componentRef);
-      else this.filterSectionComponentRefs[index] = componentRef;
     }
+
+    this.currentFilterSectionConfig = config;
   }
 
   private _createFilterSection(sectionComponent: Type<IFilterSection>, config?: any): ComponentRef<IFilterSection> | undefined {
@@ -81,6 +171,8 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   }
 
   private _selectDefinition(definition: IFilterDefinitionSelected<any, any>): void {
+    if (definition == null) return;
+
     const index = this._selectedDefinitions.findIndex(x => x.identifier === definition.identifier);
     const def: IFilterDefinitionSelected = {
       identifier: definition.identifier,
@@ -92,11 +184,44 @@ export class FilterPageComponent implements OnInit, OnDestroy {
   }
 
   previousSection(): void {
-    console.log('Previous Section!');
+    const currentIndex = this.filterSectionConfigs.findIndex(c => this.currentFilterSectionConfig === c);
+    const prevIndex = currentIndex !== 0 && currentIndex - 1 >= 0 ? currentIndex - 1 : currentIndex;
+    if (prevIndex !== currentIndex) this._setupFilterSection(this.filterSectionConfigs[prevIndex]);
   }
 
   nextSection(): void {
-    console.log('Next Section!');
+    const currentIndex = this.filterSectionConfigs.findIndex(c => this.currentFilterSectionConfig === c);
+    const nextIndex = currentIndex !== this.filterSectionConfigs.length - 1 && currentIndex + 1 < this.filterSectionConfigs.length ?
+      currentIndex + 1 : currentIndex;
+    if (nextIndex !== currentIndex) this._setupFilterSection(this.filterSectionConfigs[nextIndex]);
+  }
+
+  search(): void {
+    console.log('Search!');
+
+    // TODO: Update all parts of filter to reflect updated API data.
+    // const length = this._selectedDefinitions.find(x => x.identifier === 'L')?.option.value;
+    // const eyes = this._selectedDefinitions.find(x => x.identifier === 'E')?.option.value;
+    // const cephalosome = this._selectedDefinitions.find(x => x.identifier === 'C')?.option.value;
+    // const thoraxSegments = this._selectedDefinitions.find(x => x.identifier === 'T1')?.option.value;
+    // const thoraxShape = this._selectedDefinitions.find(x => x.identifier === 'T2')?.option.value;
+    // const urosome = this._selectedDefinitions.find(x => x.identifier === 'U')?.option.value;
+    // const furca = this._selectedDefinitions.find(x => x.identifier === 'F')?.option.value;
+    // const setea = this._selectedDefinitions.find(x => x.identifier === 'S')?.option.value;
+
+    // TODO: Remove.
+    // this._filterService.filter(new FilterData({
+    //   length,
+    //   eyes,
+    //   cephalosome,
+    //   thoraxSegments,
+    //   thoraxShape,
+    //   urosome,
+    //   furca,
+    //   setea
+    // })).subscribe({
+    //   next: specimen => console.log('Result:', specimen)
+    // });
   }
 
   ngOnDestroy(): void {

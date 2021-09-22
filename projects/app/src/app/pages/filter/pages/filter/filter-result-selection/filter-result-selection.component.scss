@@ -1,0 +1,17 @@
+.info-card {
+  .mat-card-title {
+    $titleFontSize: 1.25rem;
+
+    font-size: $titleFontSize;
+    line-height: $titleFontSize;
+  }
+
+  .mat-card-subtitle {
+    $subtitleFontSize: 0.95rem;
+
+    font-size: $subtitleFontSize;
+    line-height:$subtitleFontSize;
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: 500;
+  }
+}

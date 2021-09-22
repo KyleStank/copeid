@@ -1,0 +1,25 @@
+<div class="mb-3 pb-3">
+  <div class="d-flex align-items-center justify-content-start flex-wrap">
+    <button
+      class="my-1 me-2"
+      mat-flat-button
+      color="primary"
+      (click)="editAddItem()"
+    >
+      Add New
+    </button>
+    <button
+      class="my-1"
+      mat-flat-button
+      color="warn"
+      [disabled]="activeView?.selectedItems?.length === 0 ?? true"
+      (click)="deleteSelectedItems()"
+    >
+      Delete Selected
+    </button>
+  </div>
+  <mat-divider class="my-2"></mat-divider>
+  <div class="table-overflow">
+    <router-outlet (activate)="activateView($event)" (deactivate)="deactivateView($event)"></router-outlet>
+  </div>
+</div>

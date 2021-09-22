@@ -1,19 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ILayoutConfig, TemplateAdminComponent, TemplateDefaultComponent } from './features';
+import { ILayoutConfig } from '@core/layouts/models';
+import { TemplateAdminComponent, TemplateDefaultComponent } from '@core/layouts/templates';
 
 const defaultMenu = [
   { label: 'Home', url: [''], logo: 'home' },
   { label: 'Filter', url: ['filter'], logo: 'search' },
+  { label: 'Info', url: ['info'], logo: 'info' },
   { label: 'Anatomy & Definitions', url: ['definitions'], logo: 'library_books' },
   { label: 'Contributors & References', url: ['references'], logo: 'menu_book' }
 ];
 
 const adminMenu = [
-  { label: 'Home', url: ['admin'], logo: 'home' },
   { label: 'Contributors', url: ['admin', 'contributors'], logo: 'group' },
   { label: 'Definitions', url: ['admin', 'definitions'], logo: 'library_books' },
+  { label: 'Documents', url: ['admin', 'documents'], logo: 'attach_file' },
+  { label: 'Filter', url: ['admin', 'filters'], logo: 'search' },
+  { label: 'Filter Models', url: ['admin', 'filter-models'], logo: 'search' },
   { label: 'Genuses', url: ['admin', 'genuses'], logo: 'pest_control' },
   { label: 'Photographs', url: ['admin', 'photographs'], logo: 'photo_library' },
   { label: 'References', url: ['admin', 'references'], logo: 'menu_book' },
@@ -90,6 +94,20 @@ const routes: Routes = [
         config: {
           appName: 'CopeID',
           pageName: 'Filter',
+          menu: defaultMenu
+        }
+      } as ILayoutConfig
+    }
+  },
+  {
+    path: 'info',
+    loadChildren: () => import('./pages/info/info.module').then(m => m.InfoPageModule),
+    data: {
+      layout: {
+        component: TemplateDefaultComponent,
+        config: {
+          appName: 'CopeID',
+          pageName: 'Info',
           menu: defaultMenu
         }
       } as ILayoutConfig

@@ -28,6 +28,30 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.c-primary {
+  color: map-get(variables.$primary-palette, 500);
+}
+
+.c-primary-bg {
+  background-color: map-get(variables.$primary-palette, 500);
+}
+
+.c-accent {
+  color: map-get(variables.$accent-palette, 500);
+}
+
+.c-accent-bg {
+  background-color: map-get(variables.$accent-palette, 500);
+}
+
+.c-warn {
+  color: map-get(variables.$warn-palette, 500);
+}
+
+.c-warn-bg {
+  background-color: map-get(variables.$warn-palette, 500);
+}
+
 .img-fluid {
   @include image.img-fluid();
 }

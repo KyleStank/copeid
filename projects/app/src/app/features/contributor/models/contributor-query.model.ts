@@ -1,21 +1,21 @@
-import { IEntityQuery } from '@core';
+import { IEntityQuery } from '@core/models/entity';
 
 export interface IContributorQuery extends IEntityQuery {
-  name: string[];
+  name: string[] | undefined;
 }
 
 export class ContributorQuery implements IContributorQuery {
-  public id: string[];
-  public include: string[];
-  public orderBy: string[];
-  public orderByDescending: string[];
-  public name: string[];
+  public id: string[] | undefined;
+  public include: string[] | undefined;
+  public orderBy: string[] | undefined;
+  public orderByDescending: string[] | undefined;
+  public name: string[] | undefined;
 
-  constructor(model?: IContributorQuery) {
-    this.id = model?.id as string[];
-    this.include = model?.include as string[];
-    this.orderBy = model?.orderBy as string[];
-    this.orderByDescending = model?.orderByDescending as string[];
-    this.name = model?.name as string[];
+  constructor(model?: Partial<IContributorQuery>) {
+    this.id = model?.id;
+    this.include = model?.include;
+    this.orderBy = model?.orderBy;
+    this.orderByDescending = model?.orderByDescending;
+    this.name = model?.name;
   }
 }

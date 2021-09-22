@@ -1,0 +1,36 @@
+<div class="my-3 d-flex align-items-center justify-content-center flex-wrap">
+  <h2 class="my-2 c-accent mat-display-2 text-center">Your Species Is...</h2>
+</div>
+
+<ng-container *ngIf="specimen$ | async as specimen">
+  <div class="my-3 d-flex align-items-center justify-content-center flex-wrap">
+    <img
+      style="width: 40%"
+      class="img-fluid mx-auto d-block border rounded"
+      src="/assets/annotated_cope_cropped.jpg"
+      alt="Specimen Image"
+    />
+  </div>
+
+  <mat-card class="mt-4 result-card">
+    <h3 class="mb-2 specimen-title c-primary text-center">{{ specimen.genus!.name }}</h3>
+    <h4 class="my-0 code-title c-accent text-center">{{ code }}</h4>
+    <mat-divider class="my-3" [inset]="true"></mat-divider>
+
+    <div class="result-info">
+      <p class="my-0 py-2 result-item">
+        {{ specimen.summary || 'N/A' }}
+      </p>
+      <p class="my-0 py-2 result-item">
+        <a mat-flat-button color="primary" [routerLink]="['/', 'info', specimen.id]" [state]="{ result: specimen }">View Detailed Information</a>
+      </p>
+    </div>
+
+    <mat-divider class="my-3" [inset]="true"></mat-divider>
+    <p class="explanation mat-body-strong text-center">
+      If you don't think this is correct, or if you want to know more about Copepods, visit the
+      <a class="c-primary" [routerLink]="['/', 'definitions']">Anatomy & Definitions</a> and/or
+      <a class="c-primary" [routerLink]="['/', 'info']">Info</a> pages.
+    </p>
+  </mat-card>
+</ng-container>

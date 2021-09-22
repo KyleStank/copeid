@@ -1,94 +1,46 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ILayoutConfig } from '@app/features';
-import {
-  AdminContributorsPageComponent,
-  AdminDefinitionsPageComponent,
-  AdminGenusesPageComponent,
-  AdminPageComponent,
-  AdminPhotographsPageComponent,
-  AdminReferencesPageComponent,
-  AdminSpecimensPageComponent
-} from './components';
-
 const routes: Routes = [
   {
     path: '',
-    component: AdminPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Dashboard'
-        }
-      } as ILayoutConfig
-    }
+    redirectTo: 'contributors'
   },
   {
     path: 'contributors',
-    component: AdminContributorsPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Contributors'
-        }
-      } as ILayoutConfig
-    }
+    loadChildren: () => import('./pages/admin-contributors/admin-contributors.module').then(m => m.AdminContributorsModule)
   },
   {
     path: 'definitions',
-    component: AdminDefinitionsPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Definitions'
-        }
-      } as ILayoutConfig
-    }
+    loadChildren: () => import('./pages/admin-definitions/admin-definitions.module').then(m => m.AdminDefinitionsModule)
+  },
+  {
+    path: 'documents',
+    loadChildren: () => import('./pages/admin-documents/admin-documents.module').then(m => m.AdminDocumentsModule)
+  },
+  {
+    path: 'filters',
+    loadChildren: () => import('./pages/admin-filters/admin-filters.module').then(m => m.AdminFiltersModule)
+  },
+  {
+    path: 'filter-models',
+    loadChildren: () => import('./pages/admin-filter-models/admin-filter-models.module').then(m => m.AdminFilterModelsModule)
   },
   {
     path: 'genuses',
-    component: AdminGenusesPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Genuses'
-        }
-      }
-    }
+    loadChildren: () => import('./pages/admin-genuses/admin-genuses.module').then(m => m.AdminGenusesModule)
   },
   {
     path: 'photographs',
-    component: AdminPhotographsPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Photographs'
-        }
-      }
-    }
-  },
-  {
-    path: 'specimens',
-    component: AdminSpecimensPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'Specimens'
-        }
-      }
-    }
+    loadChildren: () => import('./pages/admin-photographs/admin-photographs.module').then(m => m.AdminPhotographsModule)
   },
   {
     path: 'references',
-    component: AdminReferencesPageComponent,
-    data: {
-      layout: {
-        config: {
-          pageName: 'References'
-        }
-      }
-    }
+    loadChildren: () => import('./pages/admin-references/admin-references.module').then(m => m.AdminReferencesModule)
+  },
+  {
+    path: 'specimens',
+    loadChildren: () => import('./pages/admin-specimens/admin-specimens.module').then(m => m.AdminSpecimensModule)
   }
 ];
 

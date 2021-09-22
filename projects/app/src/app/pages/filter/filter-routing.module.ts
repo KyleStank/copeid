@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { FilterPageComponent } from './components';
-
 const routes: Routes = [
   {
     path: '',
-    component: FilterPageComponent
+    loadChildren: () => import('./pages/filter/filter.module').then(m => m.FilterModule)
+  },
+  {
+    path: 'result',
+    loadChildren: () => import('./pages/filter-result/filter-result.module').then(m => m.FilterResultModule)
   }
 ];
 
@@ -14,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FilterRoutingModule {}
+export class FilterPageRoutingModule {}

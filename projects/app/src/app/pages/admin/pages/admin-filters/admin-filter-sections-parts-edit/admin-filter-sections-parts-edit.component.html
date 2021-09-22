@@ -1,0 +1,59 @@
+<div class="my-1">
+  <form class="w-100" autocomplete="off" [formGroup]="formGroup">
+    <div class="row my-1">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Filter Model Property</mat-label>
+
+          <mat-select
+            aria-label="Filter Model Property selection field."
+            formControlName="filterModelPropertyId"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="property.id" *ngFor="let property of (properties$ | async)">
+              {{ property.propertyName }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Display Name</mat-label>
+
+          <input
+            matInput
+            type="text"
+            aria-label="Display Name text field."
+            formControlName="displayName"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Order</mat-label>
+
+          <input
+            matInput
+            type="number"
+            aria-label="Order number field."
+            formControlName="order"
+          />
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>

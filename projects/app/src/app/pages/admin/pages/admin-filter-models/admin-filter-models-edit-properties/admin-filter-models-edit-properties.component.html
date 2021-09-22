@@ -1,0 +1,25 @@
+<div class="my-1">
+  <form class="w-100" autocomplete="off" [formGroup]="formGroup">
+    <div class="row my-1">
+      <div class="col-md my-1">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Property Name</mat-label>
+
+          <mat-select
+            aria-label="Property Name selection field."
+            formControlName="propertyName"
+          >
+            <mat-option [value]="null">--</mat-option>
+            <mat-option [value]="type" *ngFor="let type of (types$ | async)">
+              {{ type }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error>
+            Field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>

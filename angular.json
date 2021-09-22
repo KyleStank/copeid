@@ -39,7 +39,12 @@
               "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
               "node_modules/bootstrap/dist/css/bootstrap-utilities.min.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/app/src/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -115,7 +120,12 @@
               "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
               "node_modules/bootstrap/dist/css/bootstrap-utilities.min.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/app/src/styles"
+              ]
+            }
           }
         }
       }
@@ -123,7 +133,7 @@
     "core": {
       "projectType": "library",
       "root": "projects/core",
-      "sourceRoot": "projects/core/src",
+      "sourceRoot": "projects/core",
       "prefix": "lib",
       "architect": {
         "build": {

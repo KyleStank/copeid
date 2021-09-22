@@ -1,0 +1,89 @@
+<ng-container *ngIf="!!specimen">
+  <div class="row">
+    <div class="col-lg-4 py-2">
+      <h2 class="mt-0 py-1">
+        <span class="c-accent mat-display-1">{{ specimen.genus!.name! }}</span>
+        <br />
+        <span>({{ specimen.gender === enumSpecimenGender.Male ? 'Male' : 'Female' }})</span>
+      </h2>
+      <img
+        class="img-fluid mx-auto d-block border rounded"
+        src="/assets/annotated_cope_cropped.jpg"
+        alt="Specimen Photo"
+      />
+    </div>
+    <div class="col-lg py-2">
+      <!-- Summary -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Summary</p>
+        <p class="my-0">{{ specimen.summary || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Special Characteristics -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Special Characteristics</p>
+        <p class="my-0">{{ specimen.specialCharacteristics || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Length -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Length</p>
+        <p class="my-0">{{ specimen.length ? specimen.length + 'mm' : 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Antenule -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Antenule</p>
+        <p class="my-0">{{ specimen.antenuleDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Rostrum -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Rostrum</p>
+        <p class="my-0">{{ specimen.rostrumDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Body Shape -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Body Shape</p>
+        <p class="my-0">{{ specimen.bodyShapeDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Eyes -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Eyes</p>
+        <p class="my-0">{{ specimen.eyesDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Cephalosome -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Cephalosome</p>
+        <p class="my-0">{{ specimen.cephalosomeDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Thorax -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Thorax</p>
+        <p class="my-0">{{ specimen.thoraxDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Urosome -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Urosome</p>
+        <p class="my-0">{{ specimen.urosomeDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Furca -->
+      <mat-card class="mb-3">
+        <p class="my-0 c-primary mat-body-strong">Furca</p>
+        <p class="my-0">{{ specimen.furcaDescription || 'N/A' }}</p>
+      </mat-card>
+
+      <!-- Setea -->
+      <mat-card>
+        <p class="my-0 c-primary mat-body-strong">Setea</p>
+        <p class="my-0">{{ specimen.seteaDescription || 'N/A' }}</p>
+      </mat-card>
+    </div>
+  </div>
+</ng-container>

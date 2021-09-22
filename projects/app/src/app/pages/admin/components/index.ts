@@ -1,3 +1,2 @@
-export * from './admin/admin.component';
-export * from './admin-pages.pipe';
-export * from './admin-pages';
+export * from './admin-edit';
+export * from './admin-manage';

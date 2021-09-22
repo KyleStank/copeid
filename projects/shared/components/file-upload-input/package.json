@@ -1,0 +1,9 @@
+{
+  "name": "@shared/components/file-upload-input",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/materia
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LayoutTemplatesModule } from './features';
+import { LayoutTemplatesModule } from '@core/layouts/templates';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';

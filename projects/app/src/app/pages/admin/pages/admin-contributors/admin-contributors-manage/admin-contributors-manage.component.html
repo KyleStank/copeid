@@ -1,0 +1,16 @@
+<app-admin-data-table
+  [data]="(contributors$ | async) ?? []"
+  [columns]="columns"
+  (selected)="selectedItems = $event"
+>
+  <ng-container *adminDataTableMenu="let cell">
+    <button mat-menu-item (click)="editAddItem(cell)">
+      <mat-icon color="primary">edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="deleteItems([cell])">
+      <mat-icon color="warn">delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </ng-container>
+</app-admin-data-table>

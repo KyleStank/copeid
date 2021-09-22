@@ -1,0 +1,235 @@
+<form class="py-2" [formGroup]="formGroup">
+  <mat-card>
+    <div class="row">
+      <!-- Genus Name-->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Genus Name</mat-label>
+
+          <input
+            matInput
+            aria-label="Genus Name control"
+            autocomplete="off"
+            type="text"
+            formControlName="genusName"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Gender -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Gender</mat-label>
+
+          <mat-select aria-label="Gender control" formControlName="gender">
+            <mat-option [value]="undefined">--</mat-option>
+            <mat-option [value]="enumSpecimenGender.Male">Male</mat-option>
+            <mat-option [value]="enumSpecimenGender.Female">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Length Greater Than -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Length Greater Than</mat-label>
+
+          <input
+            matInput
+            aria-label="Length Greater Than control"
+            autocomplete="off"
+            step="0.1"
+            type="number"
+            formControlName="lengthGreaterThan"
+          />
+
+          <mat-error *ngIf="!!formGroup.controls['lengthGreaterThan']!.errors?.min">
+            Value must be greater than or equal to 0.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Length Less Than -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Length Less Than</mat-label>
+
+          <input
+            matInput
+            aria-label="Length Less Than control"
+            autocomplete="off"
+            step="0.1"
+            type="number"
+            formControlName="lengthLessThan"
+          />
+
+          <mat-error *ngIf="!!formGroup.controls['lengthLessThan']!.errors?.min">
+            Value must be greater than or equal to 0.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Antenule -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Antenule</mat-label>
+
+          <input
+            matInput
+            aria-label="Antenule control"
+            autocomplete="off"
+            type="text"
+            formControlName="antenule"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Rostrum -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Rostrum</mat-label>
+
+          <input
+            matInput
+            aria-label="Rostrum control"
+            autocomplete="off"
+            type="text"
+            formControlName="rostrum"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Body Shape -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Body Shape</mat-label>
+
+          <input
+            matInput
+            aria-label="Body Shape control"
+            autocomplete="off"
+            type="text"
+            formControlName="bodyShape"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Eyes -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Eyes</mat-label>
+
+          <mat-select aria-label="Eyes control" formControlName="eyes">
+            <mat-option [value]="undefined">--</mat-option>
+            <mat-option [value]="enumSpecimenEyes.None">None</mat-option>
+            <mat-option [value]="enumSpecimenEyes.DorsalSingle">Dorsal Single</mat-option>
+            <mat-option [value]="enumSpecimenEyes.VentralSingle">Ventral Single</mat-option>
+            <mat-option [value]="enumSpecimenEyes.Transformed">Transformed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Cephalosome -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Cephalosome</mat-label>
+
+          <input
+            matInput
+            aria-label="Cephalosome control"
+            autocomplete="off"
+            type="number"
+            formControlName="cephalosome"
+          />
+
+          <mat-error *ngIf="!!formGroup.controls['cephalosome']!.errors?.min">
+            Value must be greater than or equal to 0.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Thorax Segments -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Thorax Segments</mat-label>
+
+          <mat-select aria-label="Thorax Segments control" formControlName="thoraxSegments">
+            <mat-option [value]="undefined">--</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.Two">2 Segments</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.Three">3 Segments</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.Four">4 Segments</mat-option>
+            <mat-option [value]="enumSpecimenThoraxSegments.FusedFourFive">Fused 4 & 5</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Thorax Shape -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Thorax Shape</mat-label>
+
+          <mat-select aria-label="Thorax Shape control" formControlName="thoraxShape">
+            <mat-option [value]="undefined">--</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.Blunt">Blunt Shape</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.Saddle">Saddle Shape</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.TwoPointed">2 Pointed</mat-option>
+            <mat-option [value]="enumSpecimenThoraxShape.FourPointed">4 Pointed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Urosome -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Urosome</mat-label>
+
+          <input
+            matInput
+            aria-label="Urosome control"
+            autocomplete="off"
+            type="number"
+            formControlName="urosome"
+          />
+
+          <mat-error *ngIf="!!formGroup.controls['urosome']!.errors?.min">
+            Value must be greater than or equal to 0.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Furca -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Furca</mat-label>
+
+          <mat-select aria-label="Furca control" formControlName="furca">
+            <mat-option [value]="undefined">--</mat-option>
+            <mat-option [value]="enumSpecimenFurca.Short">Short</mat-option>
+            <mat-option [value]="enumSpecimenFurca.Long">Long</mat-option>
+            <mat-option [value]="enumSpecimenFurca.Curved">Curved</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Setea -->
+      <div class="col-md p-2">
+        <mat-form-field class="w-100" appearance="fill" color="accent">
+          <mat-label>Setea</mat-label>
+
+          <mat-select aria-label="Setea control" formControlName="setea">
+            <mat-option [value]="undefined">--</mat-option>
+            <mat-option [value]="enumSpecimenSetea.Shorter">Shorter than Furca</mat-option>
+            <mat-option [value]="enumSpecimenSetea.Same">Same as Furca</mat-option>
+            <mat-option [value]="enumSpecimenSetea.Longer">Longer than Furca</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+</form>

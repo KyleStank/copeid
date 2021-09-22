@@ -14,8 +14,9 @@
         "./projects/app/src/environments"
       ],
 
-      "@core": [
-        "./projects/core/src/index"
+      "@core/*": [
+        "./dist/core/*",
+        "./projects/core/*"
       ],
 
       "@shared/*": [
@@ -39,7 +40,7 @@
     "lib": [
       "es2018",
       "dom"
-    ],
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,16 +1,16 @@
-import { IEntity, Nullable } from '@core';
+import { IEntity } from '@core/models/entity';
 
 export interface IDefinition extends IEntity {
-  name: Nullable<string>;
-  meaning: Nullable<string>
+  name: string | undefined;
+  meaning: string | undefined;
 }
 
 export class Definition implements IDefinition {
-  public id: Nullable<string>;
-  public name: Nullable<string>;
-  public meaning: Nullable<string>;
+  public id: string | undefined;
+  public name: string | undefined;
+  public meaning: string | undefined;
 
-  constructor(model?: IDefinition) {
+  constructor(model?: Partial<IDefinition>) {
     this.id = model?.id;
     this.name = model?.name;
     this.meaning = model?.meaning;

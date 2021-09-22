@@ -1,0 +1,5 @@
+<app-filter-stepper
+  color="accent"
+  [sections]="(filterSections$ | async) ?? []"
+  (search)="filtered($event)"
+></app-filter-stepper>

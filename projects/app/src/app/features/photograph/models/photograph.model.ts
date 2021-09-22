@@ -1,20 +1,20 @@
-import { IEntity, Nullable } from '@core';
+import { IEntity } from '@core/models/entity';
 
 export interface IPhotograph extends IEntity {
-  title: Nullable<string>;
-  description: Nullable<string>;
-  alt: Nullable<string>;
-  url: Nullable<string>;
+  title: string | undefined;
+  description: string | undefined;
+  alt: string | undefined;
+  url: string | undefined;
 }
 
 export class Photograph implements IPhotograph {
-  public id: Nullable<string>;
-  public title: Nullable<string>;
-  public description: Nullable<string>;
-  public alt: Nullable<string>;
-  public url: Nullable<string>;
+  public id: string | undefined;
+  public title: string | undefined;
+  public description: string | undefined;
+  public alt: string | undefined;
+  public url: string | undefined;
 
-  constructor(model?: IPhotograph) {
+  constructor(model?: Partial<IPhotograph>) {
     this.id = model?.id;
     this.title = model?.title;
     this.description = model?.description;

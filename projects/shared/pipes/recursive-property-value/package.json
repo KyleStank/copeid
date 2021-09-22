@@ -1,0 +1,9 @@
+{
+  "name": "@shared/pipes/recursive-property",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
+    }
+  }
+}

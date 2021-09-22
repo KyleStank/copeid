@@ -1,17 +1,17 @@
-import { IEntityQuery } from '@core';
+import { IEntityQuery } from '@core/models/entity';
 
 export interface IDefinitionQuery extends IEntityQuery {
-  name: string[];
-  meaning: string[];
+  name: string[] | undefined;
+  meaning: string[] | undefined;
 }
 
-export class DefinitionQuery implements Partial<IDefinitionQuery> {
-  public id?: string[];
-  public include?: string[];
-  public orderBy?: string[];
-  public orderByDescending?: string[];
-  public name?: string[];
-  public meaning?: string[];
+export class DefinitionQuery implements IDefinitionQuery {
+  public id: string[] | undefined;
+  public include: string[] | undefined;
+  public orderBy: string[] | undefined;
+  public orderByDescending: string[] | undefined;
+  public name: string[] | undefined;
+  public meaning: string[] | undefined;
 
   constructor(model?: Partial<IDefinitionQuery>) {
     this.id = model?.id;

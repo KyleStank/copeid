@@ -1,14 +1,14 @@
-import { IEntity, Nullable } from '@core';
+import { IEntity } from '@core/models/entity';
 
 export interface IContributor extends IEntity {
-  name: Nullable<string>;
+  name: string | undefined;
 }
 
 export class Contributor implements IContributor {
-  public id: Nullable<string>;
-  public name: Nullable<string>;
+  public id: string | undefined;
+  public name: string | undefined;
 
-  constructor(model?: IContributor) {
+  constructor(model?: Partial<IContributor>) {
     this.id = model?.id;
     this.name = model?.name;
   }

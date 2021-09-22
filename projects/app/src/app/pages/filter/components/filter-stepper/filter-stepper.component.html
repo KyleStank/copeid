@@ -1,0 +1,79 @@
+<form [formGroup]="formGroup">
+  <mat-stepper
+    orientation="vertical"
+    linear="true"
+    formArrayName="sections"
+    [color]="color"
+    (animationDone)="isSelectionUpdating = false"
+    (selectionChange)="isSelectionUpdating = true"
+  >
+    <mat-step
+      #step="matStep"
+      [formArrayName]="stepIndex"
+      [hasError]="formSections.controls[stepIndex].invalid"
+      [stepControl]="formSections.controls[stepIndex]"
+      [state]="step.hasError ? 'error' : step.state"
+      *ngFor="let section of sections; let stepIndex = index;"
+    >
+      <ng-container *matStepLabel>{{ section.displayName }}</ng-container>
+      <ng-container *matStepContent>
+        <div class="my-2" formArrayName="options" *ngIf="(section.filterSectionParts || []) as parts">
+          <ng-template #content let-part="$implicit" let-step="step" let-index="index">
+            <div [formArrayName]="index">
+              <app-filter-step
+                [part]="part"
+                [stepper]="this"
+                (selected)="optionSelected(section, $event, step, index)"
+              ></app-filter-step>
+            </div>
+          </ng-template>
+
+          <ng-container *ngFor="let part of parts || []; let first = first; let last = last; let partIndex = index">
+            <div class="my-4" [ngClass]="{ 'mt-0': first, 'mb-0': last }" *ngIf="parts.length > 1">
+              <p class="my-0 c-primary mat-title">{{ part.displayName }}</p>
+              <mat-divider class="my-1"></mat-divider>
+              <ng-container *ngTemplateOutlet="content; context: { $implicit: part, step: step, index: partIndex }"></ng-container>
+            </div>
+
+            <ng-container *ngIf="parts.length <= 1">
+              <ng-container *ngTemplateOutlet="content; context: { $implicit: part, step: step, index: partIndex }"></ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <div @fade class="d-flex align-items-center flex-wrap" *ngIf="!isSelectionUpdating">
+          <button
+            mat-flat-button
+            class="my-1 me-2"
+            color="warn"
+            type="button"
+            (click)="previous()"
+            *ngIf="selectedIndex !== 0"
+          >
+            <mat-icon class="me-1">
+              navigate_before
+            </mat-icon>
+            <span>Back</span>
+          </button>
+          <button
+            mat-flat-button
+            class="my-1 me-2"
+            color="primary"
+            type="button"
+            [disabled]="step.hasError"
+            (click)="isLastStep ? filterResults() : next()"
+          >
+            <span>{{ isLastStep ? 'Filter Results' : 'Next' }}</span>
+            <mat-icon class="ms-1">
+              {{ isLastStep ? 'search' : 'navigate_next' }}
+            </mat-icon>
+          </button>
+        </div>
+      </ng-container>
+    </mat-step>
+
+    <ng-container *matStepperIcon="'error'">
+      <mat-icon color="warn">priority_high</mat-icon>
+    </ng-container>
+  </mat-stepper>
+</form>

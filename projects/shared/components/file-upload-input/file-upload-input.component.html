@@ -1,0 +1,16 @@
+<div class="d-flex align-items-center justify-content-between">
+  <input
+    #fileInput
+    class="d-none"
+    type="file"
+    [attr.aria-label]="ariaLabel ?? null"
+    (change)="fileSelected($event)"
+  />
+
+  <div class="file-upload-container">
+    <span class="me-2 mat-body-strong">{{ fileName ?? 'No file uploaded' }}</span>
+    <button mat-mini-fab class="mat-elevation-z2" [color]="color" (click)="fileInput.click()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  </div>
+</div>

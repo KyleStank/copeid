@@ -1,0 +1,3 @@
+<ng-container *ngIf="specimen$ | async as specimen">
+  <app-specimen-card [specimen]="specimen" *ngIf="!!specimen"></app-specimen-card>
+</ng-container>

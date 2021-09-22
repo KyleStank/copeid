@@ -1,0 +1,9 @@
+{
+  "name": "@shared/components/auto-table",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
+    }
+  }
+}

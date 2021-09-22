@@ -1,42 +1,70 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
+
+import { AutoTableComponent } from '@shared/components/auto-table';
+import { AdminDataTableMenuDirective } from './admin-data-table-menu.directive';
+
+export interface AdminSelectionItem {
+  selected: boolean;
+}
+
+export interface AdminColumn {
+  title: string;
+  property: string;
+}
 
 @Component({
   selector: 'app-admin-data-table',
   templateUrl: './admin-data-table.component.html',
-  styleUrls: ['./admin-data-table.component.html'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./admin-data-table.component.scss'],
+  host: {
+    'class': 'd-block w-100'
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
-export class AdminDataTableComponent implements OnChanges, AfterViewInit {
-  readonly dataSource = new MatTableDataSource<any>();
+export class AdminDataTableComponent implements OnChanges {
+  @ViewChild(AutoTableComponent, { static: true })
+  autoTable?: AutoTableComponent;
 
-  @ViewChild(MatSort, { static: true })
-  sort: MatSort | undefined;
-
-  @ViewChild(MatPaginator, { static: true })
-  paginator: MatPaginator | undefined;
+  @ContentChild(AdminDataTableMenuDirective, { static: true })
+  adminMenuDirective?: AdminDataTableMenuDirective;
 
   @Input()
   data: any[] | undefined | null = [];
+  selectionData: AdminSelectionItem[] = [];
 
   @Input()
-  columns: string[] = [];
+  columns: AdminColumn[] = [];
+
+  @Output()
+  selected = new EventEmitter<AdminSelectionItem[]>();
 
   ngOnChanges(): void {
-    if (this.data) {
-      this.dataSource.data = this.data;
-    }
+    this.data = this.data ?? [];
+    this.selectionData = this._createSelectionItems(this.data);
+
+    this.columns = this.columns ?? [];
   }
 
-  ngAfterViewInit(): void {
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
+  private _createSelectionItems(items: any[]): AdminSelectionItem[] {
+    return items?.map(x => ({
+      ...x,
+      selected: false
+    })) as AdminSelectionItem[] ?? [] as AdminSelectionItem[];
+  }
 
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
+  toggleItem(item: AdminSelectionItem): void {
+    item.selected = !item.selected;
+    this.selected.emit(this.selectionData.filter(x => x.selected));
   }
 }

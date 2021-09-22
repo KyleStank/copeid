@@ -1,1 +1,9 @@
+.anatomy-img {
+  width: 80%;
+}
 
+@media only screen and (max-width: 768px) {
+  .anatomy-img {
+    width: 100%;
+  }
+}

@@ -1,23 +1,23 @@
 import { IPhotograph, ISpecimen } from '@app/features';
-import { IEntity, Nullable } from '@core';
+import { IEntity } from '@core/models/entity';
 
 export interface IGenus extends IEntity {
-  photographId: Nullable<string>;
-  photograph: Nullable<IPhotograph>;
+  photographId: string | undefined;
+  photograph: IPhotograph | undefined;
 
-  name: Nullable<string>;
+  name: string | undefined;
 
-  specimens: Nullable<ISpecimen[]>;
+  specimens: ISpecimen[] | undefined;
 }
 
 export class Genus implements IGenus {
-  public id: Nullable<string>;
-  public photographId: Nullable<string>;
-  public photograph: Nullable<IPhotograph>;
-  public name: Nullable<string>;
-  public specimens: Nullable<ISpecimen[]>;
+  public id: string | undefined;
+  public photographId: string | undefined;
+  public photograph: IPhotograph | undefined;
+  public name: string | undefined;
+  public specimens: ISpecimen[] | undefined;
 
-  constructor(model?: IGenus) {
+  constructor(model?: Partial<IGenus>) {
     this.id = model?.id;
     this.photographId = model?.photographId;
     this.photograph = model?.photograph;
