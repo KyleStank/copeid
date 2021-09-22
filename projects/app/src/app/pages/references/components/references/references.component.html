@@ -1,7 +1,7 @@
 <div class="contributors my-2" @fadeInOut>
   <h2 class="my-0 d-none" color="accent">Contributors</h2>
-  <div class="row justify-content-center">
-    <ng-container *ngFor="let contributor of (contributors$ | async); let index = index;">
+  <div class="row" *ngFor="let contributor of (contributors$ | async); let index = index;">
+    <ng-container>
       <div class="col-md-auto" @slideFadeUp>
         <app-info-card
           class="my-2"
@@ -19,8 +19,8 @@
 
 <div class="references my-2" @fadeInOut>
   <h2 class="my-0 d-none" color="accent">References</h2>
-  <div class="row justify-content-center">
-    <ng-container *ngFor="let reference of (references$ | async); let index = index;">
+  <div class="row" *ngFor="let reference of (references$ | async); let index = index;">
+    <ng-container>
       <div class="col-md-auto" @slideFadeUp>
         <app-info-card
           class="my-2"

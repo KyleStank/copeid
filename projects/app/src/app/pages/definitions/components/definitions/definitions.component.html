@@ -7,9 +7,9 @@
 
 <div class="definitions my-2" @fadeInOut>
   <h2 class="my-0 d-none" color="accent">Definitions</h2>
-  <div class="row justify-content-center">
-    <ng-container *ngFor="let definition of (definitions$ | async); let index = index;">
-      <div class="col-md-auto" @slideFadeUp>
+  <div class="row" *ngFor="let definition of (definitions$ | async); let index = index;">
+    <ng-container>
+      <div class="col-md" @slideFadeUp>
         <app-info-card
           class="my-2"
           color="accent"
