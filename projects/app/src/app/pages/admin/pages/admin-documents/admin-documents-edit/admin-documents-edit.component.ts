@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, distinctUntilChanged, map, mergeMap, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Document, DocumentService } from '@app/features';
+import { Document, DocumentMimeType, DocumentService } from '@app/features';
 import { SnackBarService } from '@core/services/snackbar';
 import { convertFile } from '@shared/utils';
 import { IAdminEditView } from '../../../components';
@@ -56,7 +56,7 @@ export class AdminDocumentsEditComponent implements IAdminEditView, OnInit, OnDe
     this.dataControl.valueChanges.pipe(
       takeUntil(this.destroyed),
       distinctUntilChanged(),
-      mergeMap((data: File) => this._documentService.verifyMime(data?.type))
+      mergeMap((data: File) => this._documentService.verifyMime(new DocumentMimeType(data?.type)))
     ).subscribe({
       next: valid => {
         if (!valid) {
