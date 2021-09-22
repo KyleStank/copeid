@@ -51,4 +51,4 @@
   <mat-footer-row [class.d-none]="dataSource.data.length > 0" *matFooterRowDef="['noResults']"></mat-footer-row>
 </mat-table>
 
-<ng-content select="[autoPaginator]"></ng-content>
+<ng-content select="[autoPaginator]" *ngIf="!!autoPaginator?.paginator"></ng-content>

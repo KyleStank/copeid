@@ -24,7 +24,8 @@
 
   <ng-container [autoColumnDef]="column.property" [header]="column.title" *ngFor="let column of columns"></ng-container>
 
-  <ng-container autoPaginator>
-    <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
-  </ng-container>
+  <mat-paginator
+    autoPaginator
+    [pageSizeOptions]="[10, 25, 50]"
+  ></mat-paginator>
 </auto-table>

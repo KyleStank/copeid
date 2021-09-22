@@ -73,7 +73,9 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
   }
 
   ngAfterContentInit(): void {
-    this.dataSource.paginator = this.autoPaginator?.paginator ?? this.dataSource.paginator;
+    if (!!this.autoPaginator?.paginator && !this.autoPaginator?.controlManually) {
+      this.dataSource.paginator = this.autoPaginator.paginator;
+    }
 
     if (this.autoColumnDefs) {
       this._refreshColumns(this.autoColumnDefs.toArray());

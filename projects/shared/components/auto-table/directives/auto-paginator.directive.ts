@@ -1,10 +1,13 @@
-import { ContentChild, Directive } from '@angular/core';
+import { Directive, Inject, Input, Optional } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Directive({
-  selector: '[autoPaginator]'
+  selector: '[autoPaginator]',
+  exportAs: 'autoPaginator'
 })
 export class AutoPaginatorDirective {
-  @ContentChild(MatPaginator)
-  paginator: MatPaginator | undefined;
+  @Input()
+  controlManually = false;
+
+  constructor(@Inject(MatPaginator) @Optional() readonly paginator: MatPaginator) {}
 }
