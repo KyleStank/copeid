@@ -17,4 +17,25 @@
       </mat-form-field>
     </div>
   </div>
+
+  <div class="row my-1">
+    <div class="col-md my-1">
+      <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
+        <mat-label>Description</mat-label>
+
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="5"
+          aria-label="Description textarea input."
+          formControlName="description"
+        ></textarea>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
 </form>

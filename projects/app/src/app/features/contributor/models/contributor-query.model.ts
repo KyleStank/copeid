@@ -2,6 +2,7 @@ import { IEntityQuery } from '@core/models/entity';
 
 export interface IContributorQuery extends IEntityQuery {
   name: string[] | undefined;
+  description: string[] | undefined;
 }
 
 export class ContributorQuery implements IContributorQuery {
@@ -10,6 +11,7 @@ export class ContributorQuery implements IContributorQuery {
   public orderBy: string[] | undefined;
   public orderByDescending: string[] | undefined;
   public name: string[] | undefined;
+  public description: string[] | undefined;
 
   constructor(model?: Partial<IContributorQuery>) {
     this.id = model?.id;
@@ -17,5 +19,6 @@ export class ContributorQuery implements IContributorQuery {
     this.orderBy = model?.orderBy;
     this.orderByDescending = model?.orderByDescending;
     this.name = model?.name;
+    this.description = model?.description;
   }
 }

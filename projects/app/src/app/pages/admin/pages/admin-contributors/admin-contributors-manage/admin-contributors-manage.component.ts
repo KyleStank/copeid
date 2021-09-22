@@ -23,7 +23,8 @@ export class AdminContributorsManageComponent implements IAdminManageView, OnIni
   private readonly _contributorsSubject = new BehaviorSubject<Contributor[]>([]);
   readonly contributors$ = this._contributorsSubject.asObservable();
   public readonly columns: AdminColumn[] = [
-    { title: 'Name', property: 'name' }
+    { title: 'Name', property: 'name' },
+    { title: 'Description', property: 'description' }
   ];
   selectedItems: any[] = [];
 
