@@ -1,3 +1,4 @@
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,7 +36,8 @@ const exportedDeclarations = [
     MatFormFieldModule,
     MatMenuModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TextFieldModule
   ],
   declarations: exportedDeclarations,
   exports: exportedDeclarations

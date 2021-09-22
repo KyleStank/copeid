@@ -23,7 +23,8 @@ export class AdminContributorsEditComponent implements IAdminEditView, OnInit, O
 
   get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
-    name: ['', Validators.required]
+    name: ['', Validators.required],
+    description: ['', Validators.required]
   });
 
   id: string | undefined;
@@ -39,7 +40,8 @@ export class AdminContributorsEditComponent implements IAdminEditView, OnInit, O
       next: result => {
         if (!!result) {
           this.formGroup.patchValue({
-            name: result.name
+            name: result.name,
+            description: result.description
           });
         }
 
