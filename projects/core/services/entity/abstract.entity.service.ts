@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { IEntity } from '@core/models/entity';
+import { PaginationRequest } from '@core/models/pagination';
 
 @Injectable()
 export abstract class AbstractEntityService<TEntity = IEntity> {
@@ -15,9 +16,11 @@ export abstract class AbstractEntityService<TEntity = IEntity> {
 
   public abstract getEndpoint(): string;
 
-  public getAll(): Observable<TEntity[]> {
+  public getAll(paginationRequest?: PaginationRequest): Observable<TEntity[]> {
     const endpoint = this._endpoint;
-    return this._http.get<TEntity[]>(endpoint);
+    return this._http.get<TEntity[]>(
+      paginationRequest ? this._createQueryEndpoint(endpoint, paginationRequest) : endpoint
+    );
   }
 
   public getSingle(id: string): Observable<TEntity> {
@@ -38,6 +41,18 @@ export abstract class AbstractEntityService<TEntity = IEntity> {
   public delete(id: string): Observable<string> {
     const endpoint = `${this._endpoint}/${id}`;
     return this._http.delete<string>(endpoint);
+  }
+
+  protected _createQueryEndpoint(endpoint: string, query: Object): string {
+    const params: KeyValue<string, string>[] = [];
+    Object.keys(query).forEach(key => {
+      const value = (query as any)[key];
+      if (value == null) return;
+
+      if (Array.isArray(value)) value.forEach(v => params.push({ key, value: v }));
+      else params.push({ key, value: value });
+    });
+    return this._createParamsEndpoint(endpoint, params);
   }
 
   protected _createParamsEndpoint(endpoint: string, params: KeyValue<string, string>[]): string {

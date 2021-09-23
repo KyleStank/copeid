@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { IEntity, IEntityQuery } from '@core/models/entity';
+import { PaginationRequest } from '@core/models/pagination';
 
 @Injectable()
 export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery = IEntityQuery> {
@@ -15,7 +16,7 @@ export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery =
 
   public abstract getEndpoint(): string;
 
-  public getAll(query?: Partial<TQuery>): Observable<TEntity[]> {
+  public getAll(query?: Partial<TQuery> | PaginationRequest): Observable<TEntity[]> {
     const endpoint = this._endpoint;
     return this._http.get<TEntity[]>(
       query ? this._createQueryEndpoint(endpoint, query) : endpoint
@@ -50,7 +51,7 @@ export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery =
     return this._http.delete<string>(endpoint);
   }
 
-  protected _createQueryEndpoint(endpoint: string, query: Partial<TQuery>): string {
+  protected _createQueryEndpoint(endpoint: string, query: Object): string {
     const params: KeyValue<string, string>[] = [];
     Object.keys(query).forEach(key => {
       const value = (query as any)[key];
