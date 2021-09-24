@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { IEntity } from '@core/models/entity';
-import { PaginationRequest } from '@core/models/pagination';
+import { PaginationRequest, PaginationResponse } from '@core/models/pagination';
 
 @Injectable()
 export abstract class AbstractEntityService<TEntity = IEntity> {
@@ -16,11 +16,14 @@ export abstract class AbstractEntityService<TEntity = IEntity> {
 
   public abstract getEndpoint(): string;
 
-  public getAll(paginationRequest?: PaginationRequest): Observable<TEntity[]> {
+  public getAll(): Observable<TEntity[]> {
     const endpoint = this._endpoint;
-    return this._http.get<TEntity[]>(
-      paginationRequest ? this._createQueryEndpoint(endpoint, paginationRequest) : endpoint
-    );
+    return this._http.get<TEntity[]>(endpoint);
+  }
+
+  public getAllPaged(paginationRequest: PaginationRequest): Observable<PaginationResponse<TEntity>> {
+    const endpoint = this._endpoint;
+    return this._http.get<PaginationResponse<TEntity>>(this._createQueryEndpoint(endpoint, paginationRequest));
   }
 
   public getSingle(id: string): Observable<TEntity> {

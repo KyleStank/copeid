@@ -1,10 +1,11 @@
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { merge } from 'lodash';
 import { Observable } from 'rxjs';
 
 import { IEntity, IEntityQuery } from '@core/models/entity';
-import { PaginationRequest } from '@core/models/pagination';
+import { PaginationRequest, PaginationResponse } from '@core/models/pagination';
 
 @Injectable()
 export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery = IEntityQuery> {
@@ -16,11 +17,17 @@ export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery =
 
   public abstract getEndpoint(): string;
 
-  public getAll(query?: Partial<TQuery> | PaginationRequest): Observable<TEntity[]> {
+  public getAll(query?: Partial<TQuery>): Observable<TEntity[]> {
     const endpoint = this._endpoint;
     return this._http.get<TEntity[]>(
       query ? this._createQueryEndpoint(endpoint, query) : endpoint
     );
+  }
+
+  public getAllPaged(paginationRequest: PaginationRequest, query?: Partial<TQuery>): Observable<PaginationResponse<TEntity>> {
+    const endpoint = this._endpoint;
+    const mergedQuery = merge(paginationRequest, query ?? {});
+    return this._http.get<PaginationResponse<TEntity>>(this._createQueryEndpoint(endpoint, mergedQuery));
   }
 
   public getSingle(id: string, query?: Partial<TQuery>): Observable<TEntity> {
