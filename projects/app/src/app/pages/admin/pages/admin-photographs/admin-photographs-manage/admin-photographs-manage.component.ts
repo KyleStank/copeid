@@ -3,8 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { Photograph, PhotographService } from '@app/features';
+import { DocumentService, Photograph, PhotographService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
+import { FilePreviewDialogData, FilePreviewModalComponent } from '@shared/modals/file-preview';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
@@ -14,7 +15,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [PhotographService],
+  providers: [DocumentService, PhotographService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminPhotographsManageComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -31,6 +32,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
+    private readonly _documentService: DocumentService,
     private readonly _dialog: MatDialog,
     private readonly _photographService: PhotographService,
     private readonly _router: Router
@@ -55,6 +57,20 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
     } else {
       this._router.navigate(['create'], { relativeTo: this._activatedRoute });
     }
+  }
+
+  preview(model?: Photograph): void {
+    this._documentService.getDocumentUri(model!.document!.id!).subscribe({
+      next: uri => {
+        this._dialog.open<FilePreviewModalComponent, FilePreviewDialogData, void>(FilePreviewModalComponent, {
+          data: {
+            title: 'Preview Document',
+            uri
+          },
+          width: '650px'
+        });
+      }
+    });
   }
 
   deleteItems(models?: Photograph[]): void {
