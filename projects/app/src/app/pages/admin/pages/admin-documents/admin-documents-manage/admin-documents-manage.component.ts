@@ -5,6 +5,7 @@ import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
 import { Document, DocumentService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
+import { FilePreviewDialogData, FilePreviewModalComponent } from '@shared/modals/file-preview';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
@@ -52,6 +53,20 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
     } else {
       this._router.navigate(['create'], { relativeTo: this._activatedRoute });
     }
+  }
+
+  preview(model?: Document): void {
+    this._documentService.getDocumentUri(model!.id!).subscribe({
+      next: uri => {
+        this._dialog.open<FilePreviewModalComponent, FilePreviewDialogData, void>(FilePreviewModalComponent, {
+          data: {
+            title: 'Preview Document',
+            uri
+          },
+          width: '650px'
+        });
+      }
+    });
   }
 
   deleteItems(models?: Document[]): void {
