@@ -1,0 +1,9 @@
+{
+  "name": "@shared/modals/file-preview",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
+    }
+  }
+}

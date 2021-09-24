@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Document, DocumentService, Photograph, PhotographService } from '@app/features';
+import { FilePreviewDialogData, FilePreviewModalComponent } from '@shared/modals/file-preview';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -38,6 +40,7 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
     private readonly _changeDetectorRef: ChangeDetectorRef,
     private readonly _documentService: DocumentService,
     private readonly _fb: FormBuilder,
+    private readonly _dialog: MatDialog,
     private readonly _photographService: PhotographService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
@@ -78,6 +81,20 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
     };
 
     return !!model.id ? this._photographService.update(model) : this._photographService.create(model);
+  }
+
+  previewDocument(id: string): void {
+    this._documentService.getDocumentUri(id).subscribe({
+      next: uri => {
+        this._dialog.open<FilePreviewModalComponent, FilePreviewDialogData, void>(FilePreviewModalComponent, {
+          data: {
+            title: 'Preview Document',
+            uri
+          },
+          width: '650px'
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {
