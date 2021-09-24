@@ -2,6 +2,26 @@
   <div class="row my-1">
     <div class="col-md my-1">
       <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Document</mat-label>
+
+        <mat-select
+          aria-label="Document selection field."
+          formControlName="documentId"
+        >
+          <mat-option [value]="null">--</mat-option>
+          <mat-option [value]="document.id" *ngFor="let document of (documents$ | async)">
+            {{ document.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error>
+          Field is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md my-1">
+      <mat-form-field class="w-100" appearance="fill">
         <mat-label>Title</mat-label>
 
         <input
@@ -9,41 +29,6 @@
           type="text"
           aria-label="Title text field."
           formControlName="title"
-        />
-
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Alternate Title</mat-label>
-
-        <input
-          matInput
-          type="text"
-          aria-label="Alternate Title text field."
-          formControlName="alt"
-        />
-
-        <mat-hint>
-          Used in the <strong>alt</strong> tag on <strong>img</strong> elements.
-        </mat-hint>
-        <mat-error>
-          Field is required.
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-md my-1">
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>URL</mat-label>
-
-        <input
-          matInput
-          type="url"
-          aria-label="URL text field."
-          formControlName="url"
         />
 
         <mat-error>
@@ -66,10 +51,6 @@
           aria-label="Description textarea input."
           formControlName="description"
         ></textarea>
-
-        <mat-error>
-          Field is required.
-        </mat-error>
       </mat-form-field>
     </div>
   </div>

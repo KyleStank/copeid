@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 
 import { SharedFileUploadInputModule } from '@shared/components/file-upload-input';
 import { AdminDataTableModule } from '../../common';
@@ -31,6 +32,7 @@ const exportedDeclarations = [
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatSelectModule,
     ReactiveFormsModule,
     SharedFileUploadInputModule,
     TextFieldModule

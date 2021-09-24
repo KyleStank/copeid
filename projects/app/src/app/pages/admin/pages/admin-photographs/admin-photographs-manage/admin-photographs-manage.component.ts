@@ -23,10 +23,9 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
   private readonly _photographsSubject = new BehaviorSubject<Photograph[]>([]);
   readonly photographs$ = this._photographsSubject.asObservable();
   public readonly columns: AdminColumn[] = [
+    { title: 'Document Name', property: 'document.name' },
     { title: 'Title', property: 'title' },
-    { title: 'Description', property: 'description' },
-    { title: 'Alt. Title', property: 'alt' },
-    { title: 'URL', property: 'url' }
+    { title: 'Description', property: 'description' }
   ];
   selectedItems: any[] = [];
 
@@ -45,6 +44,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
 
   getEntities(): void {
     this._photographService.getAll({
+      include: ['document'],
       orderBy: ['title']
     }).subscribe(this._photographsSubject.next.bind(this._photographsSubject));
   }
