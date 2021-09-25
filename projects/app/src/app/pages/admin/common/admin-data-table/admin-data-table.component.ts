@@ -48,16 +48,25 @@ export class AdminDataTableComponent implements OnChanges {
   selectionData: AdminSelectionItem[] = [];
 
   @Input()
+  pageIndex = 0;
+
+  @Input()
   paginatorLength = 0;
+
+  @Input()
+  pageSize = 10;
 
   @Output()
   paged = new EventEmitter<PageEvent>();
 
   @Output()
-  selected = new EventEmitter<AdminSelectionItem[]>();
+  pageIndexChange = new EventEmitter<number>();
 
-  currentPageIndex = 0;
-  currentPageSize = 10;
+  @Output()
+  pageSizeChange = new EventEmitter<number>();
+
+  @Output()
+  selected = new EventEmitter<AdminSelectionItem[]>();
 
   ngOnChanges(): void {
     this.data = this.data ?? [];
@@ -79,8 +88,12 @@ export class AdminDataTableComponent implements OnChanges {
   }
 
   paginatorInteracted(pageEvent: PageEvent): void {
-    this.currentPageIndex = pageEvent.pageIndex;
-    this.currentPageSize = pageEvent.pageSize;
+    this.pageIndex = pageEvent.pageIndex;
+    this.pageIndexChange.emit(this.pageIndex);
+
+    this.pageSize = pageEvent.pageSize;
+    this.pageSizeChange.emit(this.pageSize);
+
     this.paged.emit(pageEvent);
   }
 }

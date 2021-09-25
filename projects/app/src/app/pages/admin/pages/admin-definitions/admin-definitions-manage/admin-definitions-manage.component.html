@@ -2,6 +2,8 @@
   [data]="(definitions$ | async) ?? []"
   [columns]="columns"
   [paginatorLength]="paginatorLength"
+  [(pageIndex)]="pageIndex"
+  [(pageSize)]="pageSize"
   (paged)="getEntities()"
   (selected)="selectedItems = $event"
 >
