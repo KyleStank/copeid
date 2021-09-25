@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, skipWhile, Subject, takeUntil, tap } from 'rxjs';
 
 import { Definition, DefinitionService } from '@app/features';
+import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { AdminColumn } from '../../../common';
+import { AdminColumn, AdminDataTableComponent } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
 @Component({
@@ -27,6 +28,10 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
     { title: 'Meaning', property: 'meaning' }
   ];
   selectedItems: any[] = [];
+  paginatorLength = 0;
+
+  @ViewChild(AdminDataTableComponent, { static: true })
+  adminDataTable!: AdminDataTableComponent;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -42,9 +47,16 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
   }
 
   getEntities(): void {
-    this._definitionService.getAll({
+    this.getPagedEntities(this.adminDataTable.currentPageIndex + 1, this.adminDataTable.currentPageSize);
+  }
+
+  getPagedEntities(pageNumber: number, pageSize: number): void {
+    this._definitionService.getAllPaged(new PaginationRequest(pageNumber, pageSize), {
       orderBy: ['name']
-    }).subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
+    }).pipe(
+      tap(response => this.paginatorLength = response?.count ?? this.paginatorLength),
+      map(response => response?.data ?? [])
+    ).subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
   }
 
   editAddItem(model?: Definition): void {

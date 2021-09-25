@@ -26,6 +26,11 @@
 
   <mat-paginator
     autoPaginator
+    [controlManually]="true"
+    [length]="paginatorLength"
+    [pageIndex]="currentPageIndex"
+    [pageSize]="currentPageSize"
     [pageSizeOptions]="[10, 25, 50]"
+    (page)="paginatorInteracted($event)"
   ></mat-paginator>
 </auto-table>

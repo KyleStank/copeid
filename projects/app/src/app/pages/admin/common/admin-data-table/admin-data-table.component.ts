@@ -9,6 +9,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 
 import { AutoTableComponent } from '@shared/components/auto-table';
 import { AdminDataTableMenuDirective } from './admin-data-table-menu.directive';
@@ -40,14 +41,23 @@ export class AdminDataTableComponent implements OnChanges {
   adminMenuDirective?: AdminDataTableMenuDirective;
 
   @Input()
+  columns: AdminColumn[] = [];
+
+  @Input()
   data: any[] | undefined | null = [];
   selectionData: AdminSelectionItem[] = [];
 
   @Input()
-  columns: AdminColumn[] = [];
+  paginatorLength = 0;
+
+  @Output()
+  paged = new EventEmitter<PageEvent>();
 
   @Output()
   selected = new EventEmitter<AdminSelectionItem[]>();
+
+  currentPageIndex = 0;
+  currentPageSize = 10;
 
   ngOnChanges(): void {
     this.data = this.data ?? [];
@@ -66,5 +76,11 @@ export class AdminDataTableComponent implements OnChanges {
   toggleItem(item: AdminSelectionItem): void {
     item.selected = !item.selected;
     this.selected.emit(this.selectionData.filter(x => x.selected));
+  }
+
+  paginatorInteracted(pageEvent: PageEvent): void {
+    this.currentPageIndex = pageEvent.pageIndex;
+    this.currentPageSize = pageEvent.pageSize;
+    this.paged.emit(pageEvent);
   }
 }
