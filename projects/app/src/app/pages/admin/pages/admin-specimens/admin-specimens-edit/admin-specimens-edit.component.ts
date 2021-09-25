@@ -4,8 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 import {
+  DocumentService,
   Genus,
   GenusService,
+  Photograph,
+  PhotographService,
   Specimen,
   SpecimenEyes,
   SpecimenFurca,
@@ -23,7 +26,7 @@ import { IAdminEditView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [GenusService, SpecimenService],
+  providers: [DocumentService, GenusService, PhotographService, SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDestroy {
@@ -35,10 +38,14 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
   private readonly _genusesSubject = new BehaviorSubject<Genus[]>([]);
   readonly genuses$ = this._genusesSubject.asObservable();
 
+  private readonly _photographsSubject = new BehaviorSubject<Photograph[]>([]);
+  readonly photographs$ = this._photographsSubject.asObservable();
+
   get valid(): boolean { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
     // Basic Information
     genusId: [null, Validators.required],
+    photographId: [null],
     gender: [null, Validators.required],
     length: [0, Validators.compose([Validators.required, Validators.min(0)])],
     summary: [null],
@@ -93,17 +100,23 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
+    private readonly _documentService: DocumentService,
     private readonly _fb: FormBuilder,
     private readonly _genusService: GenusService,
+    private readonly _photographService: PhotographService,
     private readonly _specimenService: SpecimenService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
+    this.genuses$ = this.genuses$.pipe(takeUntil(this.destroyed));
+    this.photographs$ = this.photographs$.pipe(takeUntil(this.destroyed));
+
     this.model$.subscribe({
       next: result => {
         if (!!result) {
           this.formGroup.patchValue({
             // Basic Information
             genusId: result.genusId,
+            photographId: result.photographId,
             gender: result.gender,
             length: result.length,
             summary: result.summary,
@@ -152,8 +165,6 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
         this._changeDetectorRef.markForCheck();
       }
     });
-
-    this.genuses$ = this.genuses$.pipe(takeUntil(this.destroyed));
   }
 
   ngOnInit(): void {
@@ -165,6 +176,11 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
     this._genusService.getAll({
       orderBy: ['name']
     }).subscribe(this._genusesSubject.next.bind(this._genusesSubject));
+
+    this._photographService.getAll({
+      include: ['document'],
+      orderBy: ['title']
+    }).subscribe(this._photographsSubject.next.bind(this._photographsSubject));
   }
 
   save(): Observable<Specimen> {
@@ -175,6 +191,15 @@ export class AdminSpecimensEditComponent implements IAdminEditView, OnInit, OnDe
     };
 
     return !!model.id ? this._specimenService.update(model) : this._specimenService.create(model);
+  }
+
+  previewPhotograph(id: string): void {
+    const photograph = this._photographsSubject.value.find(p => p.id === id);
+    if (!!photograph?.documentId) {
+      this._documentService.getDocumentUri(photograph.documentId).subscribe({
+        next: uri => window.open(uri, '_blank')?.focus()
+      });
+    }
   }
 
   ngOnDestroy(): void {
