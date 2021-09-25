@@ -4,7 +4,6 @@ import { ThemePalette } from '@angular/material/core';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subject, Subscription } from 'rxjs';
 
-import { IEntity } from '@core/models/entity';
 import { isTypeOf } from '@shared/utils';
 
 @Component({
@@ -35,7 +34,7 @@ export class FileSelectInputComponent implements OnChanges, OnDestroy {
   control: AbstractControl | FormControl | undefined;
 
   @Input()
-  data: IEntity[] = [];
+  data: any[] = [];
 
   @Input()
   label: string | undefined;
