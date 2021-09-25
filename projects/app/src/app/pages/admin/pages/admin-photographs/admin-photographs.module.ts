@@ -13,7 +13,6 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { SharedFileSelectInputModule } from '@shared/components/file-select-input';
 import { SharedFileUploadInputModule } from '@shared/components/file-upload-input';
-import { SharedFilePreviewModalModule } from '@shared/modals/file-preview';
 import { AdminDataTableModule } from '../../common';
 import { AdminPhotographsEditComponent } from './admin-photographs-edit';
 import { AdminPhotographsManageComponent } from './admin-photographs-manage';
@@ -38,7 +37,6 @@ const exportedDeclarations = [
     MatMenuModule,
     MatSelectModule,
     ReactiveFormsModule,
-    SharedFilePreviewModalModule,
     SharedFileSelectInputModule,
     SharedFileUploadInputModule,
     TextFieldModule

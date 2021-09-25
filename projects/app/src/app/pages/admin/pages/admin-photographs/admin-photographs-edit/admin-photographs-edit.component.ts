@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Document, DocumentService, Photograph, PhotographService } from '@app/features';
-import { FilePreviewDialogData, FilePreviewModalComponent } from '@shared/modals/file-preview';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -85,15 +84,7 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
 
   previewDocument(id: string): void {
     this._documentService.getDocumentUri(id).subscribe({
-      next: uri => {
-        this._dialog.open<FilePreviewModalComponent, FilePreviewDialogData, void>(FilePreviewModalComponent, {
-          data: {
-            title: 'Preview Document',
-            uri
-          },
-          width: '650px'
-        });
-      }
+      next: uri => window.open(uri, '_blank')?.focus()
     });
   }
 

@@ -5,7 +5,6 @@ import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
 import { DocumentService, Photograph, PhotographService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { FilePreviewDialogData, FilePreviewModalComponent } from '@shared/modals/file-preview';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
 
@@ -61,15 +60,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
 
   preview(model?: Photograph): void {
     this._documentService.getDocumentUri(model!.document!.id!).subscribe({
-      next: uri => {
-        this._dialog.open<FilePreviewModalComponent, FilePreviewDialogData, void>(FilePreviewModalComponent, {
-          data: {
-            title: 'Preview Document',
-            uri
-          },
-          width: '650px'
-        });
-      }
+      next: uri => window.open(uri, '_blank')?.focus()
     });
   }
 
