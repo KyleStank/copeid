@@ -1,6 +1,10 @@
 <app-admin-data-table
   [data]="(photographs$ | async) ?? []"
   [columns]="columns"
+  [paginatorLength]="paginatorLength"
+  [(pageIndex)]="pageIndex"
+  [(pageSize)]="pageSize"
+  (paged)="getEntities()"
   (selected)="selectedItems = $event"
 >
   <ng-container *adminDataTableMenu="let cell">

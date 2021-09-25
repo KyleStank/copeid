@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { Specimen, SpecimenService } from '@app/features';
+import { Specimen, SpecimenQuery, SpecimenService } from '@app/features';
+import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -26,6 +27,11 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
     { title: 'Name', property: 'genus.name' }
   ];
   selectedItems: any[] = [];
+  paginatorLength = 0;
+  pageIndex = 0;
+  pageSize = 10;
+  cachedData: Specimen[][] = [];
+  get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -40,11 +46,29 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
     this.getEntities();
   }
 
-  getEntities(): void {
-    this._specimenService.getAll({
+  getEntities(refreshCache: boolean = false): void {
+    this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
       orderBy: ['genus.name'],
       include: ['genus', 'photograph']
-    }).subscribe(this._specimensSubject.next.bind(this._specimensSubject));
+    }).subscribe({
+      next: results => this._specimensSubject.next(results)
+    });
+  }
+
+  private _getPagedEntities$(pageIndex: number, pageSize: number, refreshCache: boolean, query?: Partial<SpecimenQuery>): Observable<Specimen[]> {
+    const cachedItems = this.cachedData[pageIndex] ?? [];
+    if (!refreshCache && (this.cachedData.length === this.pageCount && cachedItems.length > 0)) {
+      return from(cachedItems).pipe(toArray());
+    }
+
+    return this._specimenService.getAllPaged(new PaginationRequest(pageIndex + 1, pageSize), query).pipe(
+      tap(response => {
+        this.paginatorLength = response?.count ?? this.paginatorLength;
+        this.cachedData = !refreshCache && this.cachedData.length === this.pageCount ? this.cachedData : new Array(this.pageCount).fill([]);
+        this.cachedData[pageIndex] = response?.data ?? [];
+      }),
+      map(response => response?.data ?? [])
+    );
   }
 
   editAddItem(model?: Specimen): void {
@@ -77,7 +101,7 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
           models!.forEach(m => {
             if (!!m?.id) {
               this._specimenService.delete(m.id).subscribe({
-                next: () => this.getEntities(),
+                next: () => this.getEntities(true),
                 error: (error: any) => console.error('Error:', error)
               });
             }

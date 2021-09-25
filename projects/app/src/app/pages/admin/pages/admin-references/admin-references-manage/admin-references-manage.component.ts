@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { Reference, ReferenceService } from '@app/features';
+import { Reference, ReferenceQuery, ReferenceService } from '@app/features';
+import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -26,6 +27,11 @@ export class AdminReferencesManageComponent implements IAdminManageView, OnInit,
     { title: 'Content', property: 'content' }
   ];
   selectedItems: any[] = [];
+  paginatorLength = 0;
+  pageIndex = 0;
+  pageSize = 10;
+  cachedData: Reference[][] = [];
+  get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -40,10 +46,28 @@ export class AdminReferencesManageComponent implements IAdminManageView, OnInit,
     this.getEntities();
   }
 
-  getEntities(): void {
-    this._referenceService.getAll({
+  getEntities(refreshCache: boolean = false): void {
+    this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
       orderBy: ['name']
-    }).subscribe(this._referencesSubject.next.bind(this._referencesSubject));
+    }).subscribe({
+      next: results => this._referencesSubject.next(results)
+    });
+  }
+
+  private _getPagedEntities$(pageIndex: number, pageSize: number, refreshCache: boolean, query?: Partial<ReferenceQuery>): Observable<Reference[]> {
+    const cachedItems = this.cachedData[pageIndex] ?? [];
+    if (!refreshCache && (this.cachedData.length === this.pageCount && cachedItems.length > 0)) {
+      return from(cachedItems).pipe(toArray());
+    }
+
+    return this._referenceService.getAllPaged(new PaginationRequest(pageIndex + 1, pageSize), query).pipe(
+      tap(response => {
+        this.paginatorLength = response?.count ?? this.paginatorLength;
+        this.cachedData = !refreshCache && this.cachedData.length === this.pageCount ? this.cachedData : new Array(this.pageCount).fill([]);
+        this.cachedData[pageIndex] = response?.data ?? [];
+      }),
+      map(response => response?.data ?? [])
+    );
   }
 
   editAddItem(model?: Reference): void {
@@ -76,7 +100,7 @@ export class AdminReferencesManageComponent implements IAdminManageView, OnInit,
           models!.forEach(m => {
             if (!!m?.id) {
               this._referenceService.delete(m.id).subscribe({
-                next: () => this.getEntities(),
+                next: () => this.getEntities(true),
                 error: (error: any) => console.error('Error:', error)
               });
             }
