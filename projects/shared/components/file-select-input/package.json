@@ -1,0 +1,9 @@
+{
+  "name": "@shared/components/document-select-input",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "styleIncludePaths": ["../../../app/src/styles"]
+    }
+  }
+}

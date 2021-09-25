@@ -54,6 +54,12 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
     }
   }
 
+  preview(model?: Document): void {
+    this._documentService.getDocumentUri(model!.id!).subscribe({
+      next: uri => window.open(uri, '_blank')?.focus()
+    });
+  }
+
   deleteItems(models?: Document[]): void {
     models = models ?? [];
     if (models.length === 0) return;

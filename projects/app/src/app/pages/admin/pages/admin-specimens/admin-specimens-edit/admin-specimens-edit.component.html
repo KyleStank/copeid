@@ -22,6 +22,18 @@
         </mat-form-field>
       </div>
       <div class="col-md my-1">
+        <app-file-select-input
+          class="w-100"
+          color="accent"
+          label="Photograph"
+          valueProperty="id"
+          contentProperty="title"
+          [control]="formGroup.controls['photographId']"
+          [data]="(photographs$ | async)!"
+          (preview)="previewPhotograph($event)"
+        ></app-file-select-input>
+      </div>
+      <div class="col-md my-1">
         <mat-form-field class="w-100 my-1" color="accent" appearance="fill">
           <mat-label>Gender</mat-label>
 

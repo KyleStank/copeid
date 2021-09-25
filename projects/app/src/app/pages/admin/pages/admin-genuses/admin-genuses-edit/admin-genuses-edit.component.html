@@ -1,6 +1,18 @@
 <form class="w-100" autocomplete="off" [formGroup]="formGroup">
   <div class="row my-1">
     <div class="col-md my-1">
+      <app-file-select-input
+        class="w-100"
+        label="Photograph"
+        valueProperty="id"
+        contentProperty="title"
+        [control]="formGroup.controls['photographId']"
+        [data]="(photographs$ | async)!"
+        (preview)="previewPhotograph($event)"
+      ></app-file-select-input>
+    </div>
+
+    <div class="col-md my-1">
       <mat-form-field class="w-100" appearance="fill">
         <mat-label>Name</mat-label>
 

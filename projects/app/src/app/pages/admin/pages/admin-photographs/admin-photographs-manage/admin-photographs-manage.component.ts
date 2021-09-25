@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
 
-import { Photograph, PhotographService } from '@app/features';
+import { DocumentService, Photograph, PhotographService } from '@app/features';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -14,7 +14,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [PhotographService],
+  providers: [DocumentService, PhotographService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminPhotographsManageComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -23,15 +23,15 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
   private readonly _photographsSubject = new BehaviorSubject<Photograph[]>([]);
   readonly photographs$ = this._photographsSubject.asObservable();
   public readonly columns: AdminColumn[] = [
+    { title: 'Document Name', property: 'document.name' },
     { title: 'Title', property: 'title' },
-    { title: 'Description', property: 'description' },
-    { title: 'Alt. Title', property: 'alt' },
-    { title: 'URL', property: 'url' }
+    { title: 'Description', property: 'description' }
   ];
   selectedItems: any[] = [];
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
+    private readonly _documentService: DocumentService,
     private readonly _dialog: MatDialog,
     private readonly _photographService: PhotographService,
     private readonly _router: Router
@@ -45,6 +45,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
 
   getEntities(): void {
     this._photographService.getAll({
+      include: ['document'],
       orderBy: ['title']
     }).subscribe(this._photographsSubject.next.bind(this._photographsSubject));
   }
@@ -55,6 +56,12 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
     } else {
       this._router.navigate(['create'], { relativeTo: this._activatedRoute });
     }
+  }
+
+  preview(model?: Photograph): void {
+    this._documentService.getDocumentUri(model!.documentId!).subscribe({
+      next: uri => window.open(uri, '_blank')?.focus()
+    });
   }
 
   deleteItems(models?: Photograph[]): void {

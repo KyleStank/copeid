@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { SharedFileSelectInputModule } from '@shared/components/file-select-input';
 import { AdminDataTableModule } from '../../common';
 import { AdminGenusesEditComponent } from './admin-genuses-edit';
 import { AdminGenusesManageComponent } from './admin-genuses-manage';
@@ -29,7 +30,8 @@ const exportedDeclarations = [
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedFileSelectInputModule
   ],
   declarations: exportedDeclarations,
   exports: exportedDeclarations
