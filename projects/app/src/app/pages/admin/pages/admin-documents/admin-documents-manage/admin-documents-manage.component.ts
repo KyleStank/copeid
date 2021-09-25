@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { Document, DocumentService } from '@app/features';
+import { Document, DocumentQuery, DocumentService } from '@app/features';
 import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
@@ -47,20 +47,20 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
   }
 
   getEntities(refreshCache: boolean = false): void {
-    this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache).subscribe({
+    this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
+      orderBy: ['name']
+    }).subscribe({
       next: results => this._documentsSubject.next(results)
     });
   }
 
-  private _getPagedEntities$(pageIndex: number, pageSize: number, refreshCache: boolean): Observable<Document[]> {
+  private _getPagedEntities$(pageIndex: number, pageSize: number, refreshCache: boolean, query?: Partial<DocumentQuery>): Observable<Document[]> {
     const cachedItems = this.cachedData[pageIndex] ?? [];
     if (!refreshCache && (this.cachedData.length === this.pageCount && cachedItems.length > 0)) {
       return from(cachedItems).pipe(toArray());
     }
 
-    return this._documentService.getAllPaged(new PaginationRequest(pageIndex + 1, pageSize), {
-      orderBy: ['name']
-    }).pipe(
+    return this._documentService.getAllPaged(new PaginationRequest(pageIndex + 1, pageSize), query).pipe(
       tap(response => {
         this.paginatorLength = response?.count ?? this.paginatorLength;
         this.cachedData = !refreshCache && this.cachedData.length === this.pageCount ? this.cachedData : new Array(this.pageCount).fill([]);

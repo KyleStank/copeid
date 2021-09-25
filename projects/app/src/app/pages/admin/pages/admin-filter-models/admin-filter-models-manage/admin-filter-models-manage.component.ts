@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { FilterModel, FilterModelService } from '@app/features';
+import { FilterModel, FilterModelQuery, FilterModelService } from '@app/features';
+import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -26,6 +27,11 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
     { title: 'Type Name', property: 'typeName' }
   ];
   selectedItems: any[] = [];
+  paginatorLength = 0;
+  pageIndex = 0;
+  pageSize = 10;
+  cachedData: FilterModel[][] = [];
+  get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -40,10 +46,28 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
     this.getEntities();
   }
 
-  getEntities(): void {
-    this._filterModelService.getAll({
+  getEntities(refreshCache: boolean = false): void {
+    this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
       orderBy: ['typeName']
-    }).subscribe(this._filterModelsSubject.next.bind(this._filterModelsSubject));
+    }).subscribe({
+      next: results => this._filterModelsSubject.next(results)
+    });
+  }
+
+  private _getPagedEntities$(pageIndex: number, pageSize: number, refreshCache: boolean, query?: Partial<FilterModelQuery>): Observable<FilterModel[]> {
+    const cachedItems = this.cachedData[pageIndex] ?? [];
+    if (!refreshCache && (this.cachedData.length === this.pageCount && cachedItems.length > 0)) {
+      return from(cachedItems).pipe(toArray());
+    }
+
+    return this._filterModelService.getAllPaged(new PaginationRequest(pageIndex + 1, pageSize), query).pipe(
+      tap(response => {
+        this.paginatorLength = response?.count ?? this.paginatorLength;
+        this.cachedData = !refreshCache && this.cachedData.length === this.pageCount ? this.cachedData : new Array(this.pageCount).fill([]);
+        this.cachedData[pageIndex] = response?.data ?? [];
+      }),
+      map(response => response?.data ?? [])
+    );
   }
 
   editAddItem(model?: FilterModel): void {
@@ -77,7 +101,7 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
           models!.forEach(m => {
             if (!!m?.id) {
               this._filterModelService.delete(m.id).subscribe({
-                next: () => this.getEntities(),
+                next: () => this.getEntities(true),
                 error: (error: any) => console.error('Error:', error)
               });
             }
