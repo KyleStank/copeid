@@ -59,7 +59,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
   }
 
   preview(model?: Photograph): void {
-    this._documentService.getDocumentUri(model!.document!.id!).subscribe({
+    this._documentService.getDocumentUri(model!.documentId!).subscribe({
       next: uri => window.open(uri, '_blank')?.focus()
     });
   }

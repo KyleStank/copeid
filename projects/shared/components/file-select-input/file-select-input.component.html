@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center" *ngIf="!!control">
   <div style="padding-bottom: 1.34375em" class="me-1 preview-button">
-    <button mat-icon-button [color]="color" [disabled]="control.invalid" (click)="previewFile()">
+    <button mat-icon-button [color]="color" [disabled]="control.invalid || !!!control.value" (click)="previewFile()">
       <mat-icon>visibility</mat-icon>
     </button>
   </div>

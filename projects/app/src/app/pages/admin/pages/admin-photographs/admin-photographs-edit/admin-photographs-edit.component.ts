@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
@@ -39,7 +38,6 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
     private readonly _changeDetectorRef: ChangeDetectorRef,
     private readonly _documentService: DocumentService,
     private readonly _fb: FormBuilder,
-    private readonly _dialog: MatDialog,
     private readonly _photographService: PhotographService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
