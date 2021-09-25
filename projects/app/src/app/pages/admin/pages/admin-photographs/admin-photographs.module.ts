@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatSelectModule } from '@angular/material/select';
 
 import { SharedFileSelectInputModule } from '@shared/components/file-select-input';
 import { SharedFileUploadInputModule } from '@shared/components/file-upload-input';
@@ -33,7 +32,6 @@ const exportedDeclarations = [
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
-    MatSelectModule,
     ReactiveFormsModule,
     SharedFileSelectInputModule,
     SharedFileUploadInputModule,
