@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
@@ -32,6 +33,7 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
   pageSize = 10;
   cachedData: FilterModel[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
+  sortDirection: 'asc' | 'desc' | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -48,7 +50,8 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
-      orderBy: ['typeName']
+      orderBy: this.sortDirection === 'asc' ? ['typeName'] : [],
+      orderByDescending: this.sortDirection === 'desc' ? ['typeName'] : []
     }).subscribe({
       next: results => this._filterModelsSubject.next(results)
     });
@@ -108,6 +111,11 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
           });
         }
       });
+  }
+
+  sortChange(sort: Sort): void {
+    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.getEntities(true);
   }
 
   ngOnDestroy(): void {

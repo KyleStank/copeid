@@ -6,7 +6,6 @@ import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, 
 
 import { Definition, DefinitionQuery, DefinitionService } from '@app/features';
 import { PaginationRequest } from '@core/models/pagination';
-import { AutoTableItem } from '@shared/components/auto-table';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';

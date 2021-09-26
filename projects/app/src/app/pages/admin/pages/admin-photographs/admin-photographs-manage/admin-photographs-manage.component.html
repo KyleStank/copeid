@@ -6,6 +6,7 @@
   [(pageSize)]="pageSize"
   (paged)="getEntities()"
   (selected)="selectedItems = $event"
+  (sortChange)="sortChange($event)"
 >
   <ng-container *adminDataTableMenu="let cell">
     <button mat-menu-item (click)="editAddItem(cell)">

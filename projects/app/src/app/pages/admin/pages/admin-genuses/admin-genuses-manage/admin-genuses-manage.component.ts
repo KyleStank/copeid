@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
@@ -32,6 +33,7 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
   pageSize = 10;
   cachedData: Genus[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
+  sortDirection: 'asc' | 'desc' | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -49,7 +51,8 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
       include: ['photograph', 'specimens'],
-      orderBy: ['name']
+      orderBy: this.sortDirection === 'asc' ? ['name'] : [],
+      orderByDescending: this.sortDirection === 'desc' ? ['name'] : []
     }).subscribe({
       next: results => this._genusesSubject.next(results)
     });
@@ -108,6 +111,11 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
           });
         }
       });
+  }
+
+  sortChange(sort: Sort): void {
+    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.getEntities(true);
   }
 
   ngOnDestroy(): void {

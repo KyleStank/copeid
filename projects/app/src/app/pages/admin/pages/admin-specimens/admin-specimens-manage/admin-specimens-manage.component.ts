@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
@@ -32,6 +33,7 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
   pageSize = 10;
   cachedData: Specimen[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
+  sortDirection: 'asc' | 'desc' | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -48,8 +50,9 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
-      orderBy: ['genus.name'],
-      include: ['genus', 'photograph']
+      include: ['genus', 'photograph'],
+      orderBy: this.sortDirection === 'asc' ? ['genus.name'] : [],
+      orderByDescending: this.sortDirection === 'desc' ? ['genus.name'] : []
     }).subscribe({
       next: results => this._specimensSubject.next(results)
     });
@@ -108,6 +111,11 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
           });
         }
       });
+  }
+
+  sortChange(sort: Sort): void {
+    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.getEntities(true);
   }
 
   ngOnDestroy(): void {

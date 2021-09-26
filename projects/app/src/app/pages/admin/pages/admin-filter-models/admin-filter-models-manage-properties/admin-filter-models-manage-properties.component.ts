@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
@@ -33,6 +34,7 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
   pageSize = 10;
   cachedData: FilterModelProperty[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
+  sortDirection: 'asc' | 'desc' | undefined;
 
   filterModelId: string | undefined;
 
@@ -54,7 +56,8 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
     if (!!this.filterModelId) {
       this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
         filterModelId: [this.filterModelId],
-        orderBy: ['propertyName']
+        orderBy: this.sortDirection === 'asc' ? ['propertyName'] : [],
+        orderByDescending: this.sortDirection === 'desc' ? ['propertyName'] : []
       }).subscribe({
         next: results => this._filterModelPropertiesSubject.next(results)
       });
@@ -111,6 +114,11 @@ export class AdminFilterModelsManagePropertiesComponent implements IAdminManageV
           });
         }
       });
+  }
+
+  sortChange(sort: Sort): void {
+    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.getEntities(true);
   }
 
   ngOnDestroy(): void {
