@@ -50,8 +50,8 @@ export class AdminReferencesManageComponent implements IAdminManageView, OnInit,
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
-      orderBy: this.sortDirection === 'asc' ? ['name'] : [],
-      orderByDescending: this.sortDirection === 'desc' ? ['name'] : []
+      orderBy: this.sortDirection === 'asc' ? ['content'] : [],
+      orderByDescending: this.sortDirection === 'desc' ? ['content'] : []
     }).subscribe({
       next: results => this._referencesSubject.next(results)
     });
