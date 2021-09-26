@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { DocumentService, Genus, GenusService } from '@app/features';
+import { DocumentService, Genus, GenusQuery, GenusService } from '@app/features';
+import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -27,6 +29,12 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
     { title: 'Photograph Title', property: 'photograph.title' }
   ];
   selectedItems: any[] = [];
+  paginatorLength = 0;
+  pageIndex = 0;
+  pageSize = 10;
+  cachedData: Genus[][] = [];
+  get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
+  sortDirection: 'asc' | 'desc' | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -42,11 +50,30 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
     this.getEntities();
   }
 
-  getEntities(): void {
-    this._genusService.getAll({
+  getEntities(refreshCache: boolean = false): void {
+    this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
       include: ['photograph'],
-      orderBy: ['name']
-    }).subscribe(this._genusesSubject.next.bind(this._genusesSubject));
+      orderBy: this.sortDirection === 'asc' ? ['name'] : [],
+      orderByDescending: this.sortDirection === 'desc' ? ['name'] : []
+    }).subscribe({
+      next: results => this._genusesSubject.next(results)
+    });
+  }
+
+  private _getPagedEntities$(pageIndex: number, pageSize: number, refreshCache: boolean, query?: Partial<GenusQuery>): Observable<Genus[]> {
+    const cachedItems = this.cachedData[pageIndex] ?? [];
+    if (!refreshCache && (this.cachedData.length === this.pageCount && cachedItems.length > 0)) {
+      return from(cachedItems).pipe(toArray());
+    }
+
+    return this._genusService.getAllPaged(new PaginationRequest(pageIndex + 1, pageSize), query).pipe(
+      tap(response => {
+        this.paginatorLength = response?.count ?? this.paginatorLength;
+        this.cachedData = !refreshCache && this.cachedData.length === this.pageCount ? this.cachedData : new Array(this.pageCount).fill([]);
+        this.cachedData[pageIndex] = response?.data ?? [];
+      }),
+      map(response => response?.data ?? [])
+    );
   }
 
   editAddItem(model?: Genus): void {
@@ -87,13 +114,18 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
           models!.forEach(m => {
             if (!!m?.id) {
               this._genusService.delete(m.id).subscribe({
-                next: () => this.getEntities(),
+                next: () => this.getEntities(true),
                 error: (error: any) => console.error('Error:', error)
               });
             }
           });
         }
       });
+  }
+
+  sortChange(sort: Sort): void {
+    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.getEntities(true);
   }
 
   ngOnDestroy(): void {

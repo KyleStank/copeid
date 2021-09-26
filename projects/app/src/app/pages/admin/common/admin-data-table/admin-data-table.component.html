@@ -1,6 +1,9 @@
 <ng-content></ng-content>
 
-<auto-table [data]="selectionData ?? []">
+<auto-table
+  [data]="selectionData ?? []"
+  (sortChange)="sortChange.emit($event)"
+>
   <ng-container autoColumnDef="options" header="" [sortable]="false" *ngIf="!!adminMenuDirective">
     <ng-container *autoDataCellOverride="let cell">
       <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
@@ -24,7 +27,13 @@
 
   <ng-container [autoColumnDef]="column.property" [header]="column.title" *ngFor="let column of columns"></ng-container>
 
-  <ng-container autoPaginator>
-    <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
-  </ng-container>
+  <mat-paginator
+    autoPaginator
+    [controlManually]="true"
+    [length]="paginatorLength"
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[10, 25, 50]"
+    (page)="paginatorInteracted($event)"
+  ></mat-paginator>
 </auto-table>

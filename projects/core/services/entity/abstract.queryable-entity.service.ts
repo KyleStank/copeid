@@ -1,9 +1,11 @@
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { merge } from 'lodash';
 import { Observable } from 'rxjs';
 
 import { IEntity, IEntityQuery } from '@core/models/entity';
+import { PaginationRequest, PaginationResponse } from '@core/models/pagination';
 
 @Injectable()
 export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery = IEntityQuery> {
@@ -20,6 +22,12 @@ export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery =
     return this._http.get<TEntity[]>(
       query ? this._createQueryEndpoint(endpoint, query) : endpoint
     );
+  }
+
+  public getAllPaged(paginationRequest: PaginationRequest, query?: Partial<TQuery>): Observable<PaginationResponse<TEntity>> {
+    const endpoint = this._endpoint;
+    const mergedQuery = merge(paginationRequest, query ?? {});
+    return this._http.get<PaginationResponse<TEntity>>(this._createQueryEndpoint(endpoint, mergedQuery));
   }
 
   public getSingle(id: string, query?: Partial<TQuery>): Observable<TEntity> {
@@ -50,7 +58,7 @@ export abstract class AbstractQueryableEntityService<TEntity = IEntity, TQuery =
     return this._http.delete<string>(endpoint);
   }
 
-  protected _createQueryEndpoint(endpoint: string, query: Partial<TQuery>): string {
+  protected _createQueryEndpoint(endpoint: string, query: Object): string {
     const params: KeyValue<string, string>[] = [];
     Object.keys(query).forEach(key => {
       const value = (query as any)[key];

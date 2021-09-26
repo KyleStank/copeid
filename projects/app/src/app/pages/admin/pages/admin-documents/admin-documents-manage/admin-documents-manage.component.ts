@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, skipWhile, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { Document, DocumentService } from '@app/features';
+import { Document, DocumentQuery, DocumentService } from '@app/features';
+import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -20,12 +22,18 @@ import { IAdminManageView } from '../../../components';
 export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
-  private readonly _definitionsSubject = new BehaviorSubject<Document[]>([]);
-  readonly definitions$ = this._definitionsSubject.asObservable();
+  private readonly _documentsSubject = new BehaviorSubject<Document[]>([]);
+  readonly documents$ = this._documentsSubject.asObservable();
   readonly columns: AdminColumn[] = [
     { title: 'Name', property: 'name' }
   ];
   selectedItems: any[] = [];
+  paginatorLength = 0;
+  pageIndex = 0;
+  pageSize = 10;
+  cachedData: Document[][] = [];
+  get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
+  sortDirection: 'asc' | 'desc' | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -33,17 +41,36 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
     private readonly _dialog: MatDialog,
     private readonly _router: Router
   ) {
-    this.definitions$ = this.definitions$.pipe(takeUntil(this.destroyed));
+    this.documents$ = this.documents$.pipe(takeUntil(this.destroyed));
   }
 
   ngOnInit(): void {
     this.getEntities();
   }
 
-  getEntities(): void {
-    this._documentService.getAll({
-      orderBy: ['name']
-    }).subscribe(this._definitionsSubject.next.bind(this._definitionsSubject));
+  getEntities(refreshCache: boolean = false): void {
+    this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
+      orderBy: this.sortDirection === 'asc' ? ['name'] : [],
+      orderByDescending: this.sortDirection === 'desc' ? ['name'] : []
+    }).subscribe({
+      next: results => this._documentsSubject.next(results)
+    });
+  }
+
+  private _getPagedEntities$(pageIndex: number, pageSize: number, refreshCache: boolean, query?: Partial<DocumentQuery>): Observable<Document[]> {
+    const cachedItems = this.cachedData[pageIndex] ?? [];
+    if (!refreshCache && (this.cachedData.length === this.pageCount && cachedItems.length > 0)) {
+      return from(cachedItems).pipe(toArray());
+    }
+
+    return this._documentService.getAllPaged(new PaginationRequest(pageIndex + 1, pageSize), query).pipe(
+      tap(response => {
+        this.paginatorLength = response?.count ?? this.paginatorLength;
+        this.cachedData = !refreshCache && this.cachedData.length === this.pageCount ? this.cachedData : new Array(this.pageCount).fill([]);
+        this.cachedData[pageIndex] = response?.data ?? [];
+      }),
+      map(response => response?.data ?? [])
+    );
   }
 
   editAddItem(model?: Document): void {
@@ -82,13 +109,18 @@ export class AdminDocumentsManageComponent implements IAdminManageView, OnInit, 
           models!.forEach(m => {
             if (!!m?.id) {
               this._documentService.delete(m.id).subscribe({
-                next: () => this.getEntities(),
+                next: () => this.getEntities(true),
                 error: (error: any) => console.error('Error:', error)
               });
             }
           });
         }
       });
+  }
+
+  sortChange(sort: Sort): void {
+    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.getEntities(true);
   }
 
   ngOnDestroy(): void {

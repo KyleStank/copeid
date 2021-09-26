@@ -1,7 +1,12 @@
 <app-admin-data-table
   [data]="(definitions$ | async) ?? []"
   [columns]="columns"
+  [paginatorLength]="paginatorLength"
+  [(pageIndex)]="pageIndex"
+  [(pageSize)]="pageSize"
+  (paged)="getEntities()"
   (selected)="selectedItems = $event"
+  (sortChange)="sortChange($event)"
 >
   <ng-container *adminDataTableMenu="let cell">
     <button mat-menu-item (click)="editAddItem(cell)">
