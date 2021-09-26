@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
-import { DocumentService, Photograph, PhotographService } from '@app/features';
+import { Document, DocumentService, Photograph, PhotographService } from '@app/features';
 import { IAdminEditView } from '../../../components';
 
 @Component({
@@ -21,12 +21,14 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
   private readonly _modelSubject = new BehaviorSubject<Photograph | undefined>(undefined);
   readonly model$ = this._modelSubject.asObservable();
 
+  private readonly _documentsSubject = new BehaviorSubject<Document[]>([]);
+  readonly documents$ = this._documentsSubject.asObservable();
+
   get valid() { return this.formGroup.valid; }
   readonly formGroup = this._fb.group({
+    documentId: ['', Validators.required],
     title: ['', Validators.required],
-    description: ['', Validators.required],
-    alt: [''],
-    url: ['']
+    description: ['']
   });
 
   id: string | undefined;
@@ -34,18 +36,20 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _changeDetectorRef: ChangeDetectorRef,
+    private readonly _documentService: DocumentService,
     private readonly _fb: FormBuilder,
     private readonly _photographService: PhotographService
   ) {
     this.model$ = this.model$.pipe(takeUntil(this.destroyed));
+    this.documents$ = this.documents$.pipe(takeUntil(this.destroyed));
+
     this.model$.subscribe({
       next: result => {
         if (!!result) {
           this.formGroup.patchValue({
+            documentId: result.documentId,
             title: result.title,
-            description: result.description,
-            alt: result.alt,
-            url: result.url
+            description: result.description
           });
         }
 
@@ -60,6 +64,10 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
     if (!!this.id) {
       this._photographService.getSingle(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
     }
+
+    this._documentService.getAll({
+      orderBy: ['name']
+    }).subscribe(this._documentsSubject.next.bind(this._documentsSubject));
   }
 
   save(): Observable<Photograph> {
@@ -70,6 +78,12 @@ export class AdminPhotographsEditComponent implements IAdminEditView, OnInit, On
     };
 
     return !!model.id ? this._photographService.update(model) : this._photographService.create(model);
+  }
+
+  previewDocument(id: string): void {
+    this._documentService.getDocumentUri(id).subscribe({
+      next: uri => window.open(uri, '_blank')?.focus()
+    });
   }
 
   ngOnDestroy(): void {

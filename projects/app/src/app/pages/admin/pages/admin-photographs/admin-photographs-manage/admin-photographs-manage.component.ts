@@ -4,7 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { Photograph, PhotographQuery, PhotographService } from '@app/features';
+import { DocumentService, Photograph, PhotographQuery, PhotographService } from '@app/features';
 import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
@@ -16,7 +16,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [PhotographService],
+  providers: [DocumentService, PhotographService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminPhotographsManageComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -25,10 +25,9 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
   private readonly _photographsSubject = new BehaviorSubject<Photograph[]>([]);
   readonly photographs$ = this._photographsSubject.asObservable();
   public readonly columns: AdminColumn[] = [
+    { title: 'Document Name', property: 'document.name' },
     { title: 'Title', property: 'title' },
-    { title: 'Description', property: 'description' },
-    { title: 'Alt. Title', property: 'alt' },
-    { title: 'URL', property: 'url' }
+    { title: 'Description', property: 'description' }
   ];
   selectedItems: any[] = [];
   paginatorLength = 0;
@@ -40,6 +39,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
+    private readonly _documentService: DocumentService,
     private readonly _dialog: MatDialog,
     private readonly _photographService: PhotographService,
     private readonly _router: Router
@@ -53,6 +53,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
+      include: ['document'],
       orderBy: this.sortDirection === 'asc' ? ['title'] : [],
       orderByDescending: this.sortDirection === 'desc' ? ['title'] : []
     }).subscribe({
@@ -82,6 +83,12 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
     } else {
       this._router.navigate(['create'], { relativeTo: this._activatedRoute });
     }
+  }
+
+  preview(model?: Photograph): void {
+    this._documentService.getDocumentUri(model!.documentId!).subscribe({
+      next: uri => window.open(uri, '_blank')?.focus()
+    });
   }
 
   deleteItems(models?: Photograph[]): void {

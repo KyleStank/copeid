@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { environment } from '@app/environments';
 import { AbstractQueryableEntityService } from '@core/services/entity';
@@ -10,6 +10,13 @@ import { DocumentMimeType } from '../view-models';
 export class DocumentService extends AbstractQueryableEntityService<Document, DocumentQuery> {
   public getEndpoint(): string {
     return `${environment.apiUrl}/Document`;
+  }
+
+  public getDocumentUri(id: string): Observable<string> {
+    const endpoint = `${this._endpoint}/${id}/Uri`;
+    return this._http.get(endpoint, {
+      responseType: 'text'
+    });
   }
 
   public verifyMime(model: DocumentMimeType): Observable<boolean> {

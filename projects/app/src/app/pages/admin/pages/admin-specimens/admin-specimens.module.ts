@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 
+import { SharedFileSelectInputModule } from '@shared/components/file-select-input';
 import { AdminDataTableModule } from '../../common';
 import { AdminEditModule } from '../../components';
 import { AdminSpecimensEditComponent } from './admin-specimens-edit';
@@ -37,6 +38,7 @@ const exportedDeclarations = [
     MatMenuModule,
     MatSelectModule,
     ReactiveFormsModule,
+    SharedFileSelectInputModule,
     TextFieldModule
   ],
   declarations: exportedDeclarations,

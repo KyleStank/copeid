@@ -4,7 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { Specimen, SpecimenQuery, SpecimenService } from '@app/features';
+import { DocumentService, Specimen, SpecimenQuery, SpecimenService } from '@app/features';
 import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
@@ -16,7 +16,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [SpecimenService],
+  providers: [DocumentService, SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -25,7 +25,8 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
   private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
   readonly specimens$ = this._specimensSubject.asObservable();
   public readonly columns: AdminColumn[] = [
-    { title: 'Name', property: 'genus.name' }
+    { title: 'Genus Name', property: 'genus.name' },
+    { title: 'Photograph Title', property: 'photograph.title' }
   ];
   selectedItems: any[] = [];
   paginatorLength = 0;
@@ -37,8 +38,9 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-    private readonly _specimenService: SpecimenService,
+    private readonly _documentService: DocumentService,
     private readonly _dialog: MatDialog,
+    private readonly _specimenService: SpecimenService,
     private readonly _router: Router
   ) {
     this.specimens$ = this.specimens$.pipe(takeUntil(this.destroyed));
@@ -79,6 +81,14 @@ export class AdminSpecimensManageComponent implements IAdminManageView, OnInit, 
       this._router.navigate(['edit', model.id], { relativeTo: this._activatedRoute });
     } else {
       this._router.navigate(['create'], { relativeTo: this._activatedRoute });
+    }
+  }
+
+  previewPhotograph(model?: Specimen): void {
+    if (!!model?.photograph?.documentId) {
+      this._documentService.getDocumentUri(model.photograph.documentId).subscribe({
+        next: uri => window.open(uri, '_blank')?.focus()
+      });
     }
   }
 

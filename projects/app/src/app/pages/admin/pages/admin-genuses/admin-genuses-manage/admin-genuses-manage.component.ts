@@ -4,7 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
-import { Genus, GenusQuery, GenusService } from '@app/features';
+import { DocumentService, Genus, GenusQuery, GenusService } from '@app/features';
 import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
@@ -16,7 +16,7 @@ import { IAdminManageView } from '../../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [GenusService],
+  providers: [DocumentService, GenusService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminGenusesManageComponent implements IAdminManageView, OnInit, OnDestroy {
@@ -25,7 +25,8 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
   private readonly _genusesSubject = new BehaviorSubject<Genus[]>([]);
   readonly genuses$ = this._genusesSubject.asObservable();
   public readonly columns: AdminColumn[] = [
-    { title: 'Name', property: 'name' }
+    { title: 'Name', property: 'name' },
+    { title: 'Photograph Title', property: 'photograph.title' }
   ];
   selectedItems: any[] = [];
   paginatorLength = 0;
@@ -37,6 +38,7 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
+    private readonly _documentService: DocumentService,
     private readonly _genusService: GenusService,
     private readonly _dialog: MatDialog,
     private readonly _router: Router
@@ -50,7 +52,7 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
-      include: ['photograph', 'specimens'],
+      include: ['photograph'],
       orderBy: this.sortDirection === 'asc' ? ['name'] : [],
       orderByDescending: this.sortDirection === 'desc' ? ['name'] : []
     }).subscribe({
@@ -79,6 +81,14 @@ export class AdminGenusesManageComponent implements IAdminManageView, OnInit, On
       this._router.navigate(['edit', model.id], { relativeTo: this._activatedRoute });
     } else {
       this._router.navigate(['create'], { relativeTo: this._activatedRoute });
+    }
+  }
+
+  previewPhotograph(model?: Genus): void {
+    if (!!model?.photograph?.documentId) {
+      this._documentService.getDocumentUri(model.photograph.documentId).subscribe({
+        next: uri => window.open(uri, '_blank')?.focus()
+      });
     }
   }
 
