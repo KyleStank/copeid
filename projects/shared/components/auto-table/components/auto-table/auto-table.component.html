@@ -3,6 +3,7 @@
   auto-table
   matSort
   [dataSource]="dataSource"
+  (matSortChange)="sorted($event)"
 >
   <ng-container [matColumnDef]="column.property" *ngFor="let column of columnDefs">
     <ng-container *ngIf="column.sortable then sortableHeader else defaultHeader"></ng-container>

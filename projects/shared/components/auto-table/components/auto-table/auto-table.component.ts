@@ -6,13 +6,15 @@ import {
   Component,
   ContentChild,
   ContentChildren,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   QueryList,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { recursivePropertySearch } from '@shared/utils';
@@ -33,20 +35,29 @@ type DataItem = { index: number; value: any };
 export class AutoTableComponent implements OnChanges, AfterContentInit, AfterViewInit {
   private _isFirstChange = true;
 
-  @ViewChild(MatSort)
-  matSort: MatSort | undefined;
-
   @ContentChild(AutoPaginatorDirective)
   autoPaginator: AutoPaginatorDirective | undefined;
 
   @ContentChildren(AutoColumnDefDirective, { descendants: true })
   autoColumnDefs: QueryList<AutoColumnDefDirective> | undefined;
 
+  @ViewChild(MatSort)
+  matSort: MatSort | undefined;
+
+  @Input()
+  columns: string[] = [];
+
+  @Input()
+  customSorter: ((item: DataItem, sortId: string) => string | number) | undefined;
+
   @Input()
   data: any[] = [];
 
   @Input()
-  columns: string[] = [];
+  sort: Sort | undefined;
+
+  @Output()
+  sortChange = new EventEmitter<Sort>();
 
   readonly dataSource = new MatTableDataSource<DataItem>([]);
   columnDefs: AutoColumnDefDirective[] = [];
@@ -54,11 +65,17 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
 
   isEmpty = false;
 
-  constructor(readonly changeDetectorRef: ChangeDetectorRef) {
-    this.dataSource.sortingDataAccessor = (item: DataItem, property: string) => recursivePropertySearch(item.value, property);
-  }
+  constructor(readonly changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnChanges(): void {
+    this.dataSource.sortingDataAccessor = this.customSorter ??
+      ((item: DataItem, property: string) => recursivePropertySearch(item.value, property));
+
+    if (!!this.sort && !!this.dataSource.sort && !this._isFirstChange) {
+      this.dataSource.sort.active = this.sort.active;
+      this.dataSource.sort.direction = this.sort.direction;
+    }
+
     this.data = this.data ?? [];
     if (!!this.data && !this._isFirstChange) {
       this._refreshDataSource();
@@ -85,7 +102,16 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.matSort ?? this.dataSource.sort;
+    if (!!this.matSort) {
+      this.matSort.active = this.sort?.active ?? this.matSort.active;
+      this.matSort.direction = this.sort?.direction ?? this.matSort.direction;
+      this.dataSource.sort = this.matSort;
+    }
+  }
+
+  sorted(sort: Sort): void {
+    this.sort = sort;
+    this.sortChange.emit(this.sort);
   }
 
   /**
