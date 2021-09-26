@@ -1,6 +1,9 @@
 <ng-content></ng-content>
 
-<auto-table [data]="selectionData ?? []">
+<auto-table
+  [data]="selectionData ?? []"
+  (sortChange)="sortChange.emit($event)"
+>
   <ng-container autoColumnDef="options" header="" [sortable]="false" *ngIf="!!adminMenuDirective">
     <ng-container *autoDataCellOverride="let cell">
       <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">

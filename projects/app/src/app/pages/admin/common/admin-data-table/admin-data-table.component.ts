@@ -10,8 +10,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 
-import { AutoTableComponent } from '@shared/components/auto-table';
+import { AutoTableComponent, AutoTableItem } from '@shared/components/auto-table';
 import { AdminDataTableMenuDirective } from './admin-data-table-menu.directive';
 
 export interface AdminSelectionItem {
@@ -67,6 +68,9 @@ export class AdminDataTableComponent implements OnChanges {
 
   @Output()
   selected = new EventEmitter<AdminSelectionItem[]>();
+
+  @Output()
+  sortChange = new EventEmitter<Sort>();
 
   ngOnChanges(): void {
     this.data = this.data ?? [];

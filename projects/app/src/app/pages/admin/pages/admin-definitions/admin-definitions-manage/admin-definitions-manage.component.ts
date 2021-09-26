@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, tap, toArray } from 'rxjs';
 
 import { Definition, DefinitionQuery, DefinitionService } from '@app/features';
 import { PaginationRequest } from '@core/models/pagination';
+import { AutoTableItem } from '@shared/components/auto-table';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
 import { AdminColumn } from '../../../common';
 import { IAdminManageView } from '../../../components';
@@ -33,6 +35,7 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
   pageSize = 10;
   cachedData: Definition[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
+  sortDirection: 'asc' | 'desc' | undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -49,7 +52,8 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
-      orderBy: ['name']
+      orderBy: this.sortDirection === 'asc' ? ['name'] : [],
+      orderByDescending: this.sortDirection === 'desc' ? ['name'] : []
     }).subscribe({
       next: results => this._definitionsSubject.next(results)
     });
@@ -108,6 +112,11 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
           });
         }
       });
+  }
+
+  sortChange(sort: Sort): void {
+    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.getEntities(true);
   }
 
   ngOnDestroy(): void {

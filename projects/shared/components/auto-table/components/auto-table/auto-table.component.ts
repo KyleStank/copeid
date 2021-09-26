@@ -20,7 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { recursivePropertySearch } from '@shared/utils';
 import { AutoColumnDefDirective, AutoPaginatorDirective } from '../../directives';
 
-type DataItem = { index: number; value: any };
+export type AutoTableItem<T = any> = { index: number; value: T; };
 
 @Component({
   selector: 'auto-table',
@@ -48,18 +48,15 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
   columns: string[] = [];
 
   @Input()
-  customSorter: ((item: DataItem, sortId: string) => string | number) | undefined;
+  customSorter: ((item: AutoTableItem, sortId: string) => string | number) | undefined;
 
   @Input()
   data: any[] = [];
 
-  @Input()
-  sort: Sort | undefined;
-
   @Output()
   sortChange = new EventEmitter<Sort>();
 
-  readonly dataSource = new MatTableDataSource<DataItem>([]);
+  readonly dataSource = new MatTableDataSource<AutoTableItem>([]);
   columnDefs: AutoColumnDefDirective[] = [];
   columnProps: string[] = [];
 
@@ -68,50 +65,26 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
   constructor(readonly changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnChanges(): void {
-    this.dataSource.sortingDataAccessor = this.customSorter ??
-      ((item: DataItem, property: string) => recursivePropertySearch(item.value, property));
-
-    if (!!this.sort && !!this.dataSource.sort && !this._isFirstChange) {
-      this.dataSource.sort.active = this.sort.active;
-      this.dataSource.sort.direction = this.sort.direction;
-    }
-
     this.data = this.data ?? [];
-    if (!!this.data && !this._isFirstChange) {
-      this._refreshDataSource();
-    }
-
     this.columns = this.columns ?? [];
-    if (!!this.columns && !this._isFirstChange) {
-      this._refreshColumns(this.autoColumnDefs?.toArray() || []);
+    if (!this._isFirstChange) {
+      if (!!this.data) this._refreshDataSource();
+      if (!!this.columns) this._refreshColumns(this.autoColumnDefs?.toArray() || []);
+      this._refreshSorter();
     }
 
     this._isFirstChange = false;
   }
 
   ngAfterContentInit(): void {
-    if (!!this.autoPaginator?.paginator && !this.autoPaginator?.controlManually) {
-      this.dataSource.paginator = this.autoPaginator.paginator;
-    }
-
-    if (this.autoColumnDefs) {
-      this._refreshColumns(this.autoColumnDefs.toArray());
-    }
-
+    if (!!this.autoPaginator?.paginator && !this.autoPaginator?.controlManually) this.dataSource.paginator = this.autoPaginator.paginator;
+    if (!!this.autoColumnDefs) this._refreshColumns(this.autoColumnDefs.toArray());
     this._refreshDataSource(); // Data should initially be set after the paginator and sorter due to performance reasons.
   }
 
   ngAfterViewInit(): void {
-    if (!!this.matSort) {
-      this.matSort.active = this.sort?.active ?? this.matSort.active;
-      this.matSort.direction = this.sort?.direction ?? this.matSort.direction;
-      this.dataSource.sort = this.matSort;
-    }
-  }
-
-  sorted(sort: Sort): void {
-    this.sort = sort;
-    this.sortChange.emit(this.sort);
+    this.dataSource.sort = this.matSort ?? this.dataSource.sort;
+    this._refreshSorter();
   }
 
   /**
@@ -133,15 +106,27 @@ export class AutoTableComponent implements OnChanges, AfterContentInit, AfterVie
    * Due to MatTableDataSource acting weirdly with OnPush components, this function invokes both detectChanges() and markForCheck().
    */
   private _refreshDataSource(): void {
-    const dataItems: DataItem[] = Array(this.data.length);
-    for (let i = 0; i < dataItems.length; i++) {
-      dataItems[i] = { index: i, value: this.data[i] };
-    }
+    const dataItems: AutoTableItem[] = Array(this.data.length);
+    for (let i = 0; i < dataItems.length; i++) dataItems[i] = { index: i, value: this.data[i] };
 
     this.dataSource.data = dataItems;
     this.isEmpty = this.dataSource.data.length === 0;
 
     this.changeDetectorRef.detectChanges();
     this.changeDetectorRef.markForCheck();
+  }
+
+  /**
+   * Refreshes the `sortingDataAccessor` of the table `dataSource` depending on the state of the table.
+   */
+  private _refreshSorter(): void {
+    if (!!this.customSorter) this.dataSource.sortingDataAccessor = this.customSorter;
+    else if (this.autoPaginator?.controlManually) this.dataSource.sortingDataAccessor = () => '';
+    else this.dataSource.sortingDataAccessor = this.dataSource.sortingDataAccessor = (item, property) => recursivePropertySearch(item.value, property);
+  }
+
+  sorted(sort: Sort): void {
+    if (!!this.autoPaginator?.paginator && this.autoPaginator?.controlManually) this.autoPaginator.paginator.firstPage();
+    this.sortChange.emit(sort);
   }
 }
