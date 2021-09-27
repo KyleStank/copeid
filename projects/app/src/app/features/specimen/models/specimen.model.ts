@@ -1,4 +1,4 @@
-import { IGenus, IPhotograph } from '@app/features';
+import { Genus, GenusDisplay, IGenus, IPhotograph } from '@app/features';
 import { IEntity } from '@core/models/entity';
 
 import { SpecimenEyes } from './specimen-eyes.model';
@@ -158,6 +158,7 @@ export class Specimen implements ISpecimen {
 }
 
 export class SpecimenDisplay extends Specimen {
+  public genus: Genus | GenusDisplay | undefined;
   public documentUri: string | undefined;
 
   constructor(model?: Partial<ISpecimen>, documentUri?: string) {

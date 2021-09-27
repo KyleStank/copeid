@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, map, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, mergeMap, Observable, Subject, take, takeUntil } from 'rxjs';
 
-import { DocumentService, Specimen, SpecimenDisplay, SpecimenService } from '@app/features';
+import { DocumentService, GenusDisplay, Specimen, SpecimenDisplay, SpecimenService } from '@app/features';
 
 @Component({
   selector: 'app-info-single',
@@ -40,7 +40,7 @@ export class InfoSinglePageComponent implements OnInit, OnDestroy {
       const id = this._activatedRoute.snapshot.paramMap.get('id');
       if (!!id) {
         this._specimenService.getSingle(id, {
-          include: ['genus', 'photograph']
+          include: ['genus', 'genus.photograph', 'photograph']
         }).pipe(
           mergeMap(result => this._getSpecimenPhotoUri$(result))
         ).subscribe({
@@ -51,13 +51,23 @@ export class InfoSinglePageComponent implements OnInit, OnDestroy {
   }
 
   private _getSpecimenPhotoUri$(model: Specimen | SpecimenDisplay): Observable<SpecimenDisplay> {
-    if (!!model.photograph?.documentId) {
-      return this._documentService.getDocumentUri(model.photograph.documentId).pipe(
-        map(result => new SpecimenDisplay(model, result))
-      );
-    } else {
-      return of(new SpecimenDisplay(model, undefined));
-    }
+    const empty$ = new Observable<undefined>(sub => {
+      sub.next(undefined);
+      sub.complete();
+    });
+
+    return combineLatest([
+      !!model.photograph?.documentId ? this._documentService.getDocumentUri(model.photograph.documentId) : empty$,
+      !!model.genus?.photograph?.documentId ? this._documentService.getDocumentUri(model.genus.photograph.documentId) : empty$
+    ]).pipe(
+      take(1),
+      map(([specimenUri, genusUri]) =>
+        new SpecimenDisplay({
+          ...model,
+          genus: new GenusDisplay(model.genus, genusUri)
+        }, specimenUri)
+      )
+    );
   }
 
   ngOnDestroy(): void {
