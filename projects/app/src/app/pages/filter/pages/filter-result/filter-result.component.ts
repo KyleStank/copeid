@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 
-import { Specimen, SpecimenEyes, SpecimenService } from '@app/features';
+import { DocumentService, Specimen, SpecimenDisplay, SpecimenEyes, SpecimenService } from '@app/features';
 
 @Component({
   selector: 'app-filter-result',
@@ -11,13 +11,13 @@ import { Specimen, SpecimenEyes, SpecimenService } from '@app/features';
   host: {
     'class': 'd-block'
   },
-  providers: [SpecimenService],
+  providers: [DocumentService, SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterResultPageComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
-  private readonly _specimenSubject = new BehaviorSubject<Specimen | undefined>(undefined);
+  private readonly _specimenSubject = new BehaviorSubject<SpecimenDisplay | undefined>(undefined);
   readonly specimen$ = this._specimenSubject.asObservable();
 
   readonly enumSpecimenEyes: typeof SpecimenEyes = SpecimenEyes;
@@ -26,13 +26,18 @@ export class FilterResultPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
+    private readonly _documentService: DocumentService,
     private readonly _specimenService: SpecimenService,
     private readonly _router: Router
   ) {
     this.specimen$ = this.specimen$.pipe(takeUntil(this._destroyed));
 
     const specimenResult: Specimen = this._router.getCurrentNavigation()?.extras.state?.result;
-    if (!!specimenResult) this._specimenSubject.next(specimenResult);
+    if (!!specimenResult) {
+      this._getSpecimenPhotoUri$(specimenResult).subscribe({
+        next: result => this._specimenSubject.next(result)
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -43,10 +48,22 @@ export class FilterResultPageComponent implements OnInit, OnDestroy {
       if (!!id) {
         this._specimenService.getSingle(id, {
           include: ['genus', 'photograph']
-        }).subscribe({
-          next: specimen => this._specimenSubject.next(specimen)
+        }).pipe(
+          mergeMap(result => this._getSpecimenPhotoUri$(result))
+        ).subscribe({
+          next: result => this._specimenSubject.next(result)
         });
       }
+    }
+  }
+
+  private _getSpecimenPhotoUri$(model: Specimen | SpecimenDisplay): Observable<SpecimenDisplay> {
+    if (!!model.photograph?.documentId) {
+      return this._documentService.getDocumentUri(model.photograph.documentId).pipe(
+        map(result => new SpecimenDisplay(model, result))
+      );
+    } else {
+      return of(new SpecimenDisplay(model, undefined));
     }
   }
 

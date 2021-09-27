@@ -25,3 +25,12 @@ export class Genus implements IGenus {
     this.specimens = model?.specimens;
   }
 }
+
+export class GenusDisplay extends Genus {
+  public documentUri: string | undefined;
+
+  constructor(model?: Partial<Genus>, documentUri?: string | undefined) {
+    super(model);
+    this.documentUri = documentUri;
+  }
+}

@@ -6,10 +6,21 @@
         <br />
         <span>({{ specimen.gender === enumSpecimenGender.Male ? 'Male' : 'Female' }})</span>
       </h2>
+
+      <!-- Genus Photo -->
       <img
-        class="img-fluid mx-auto d-block border rounded"
-        src="/assets/annotated_cope_cropped.jpg"
+        class="my-1 img-fluid mx-auto d-block border rounded"
+        alt="Genus Photo"
+        [src]="$any(specimen).genus.documentUri"
+        *ngIf="!!$any(specimen).genus?.documentUri"
+      />
+
+      <!-- Specimen Photo -->
+      <img
+        class="my-1 img-fluid mx-auto d-block border rounded"
         alt="Specimen Photo"
+        [src]="$any(specimen).documentUri"
+        *ngIf="!!$any(specimen).documentUri"
       />
     </div>
     <div class="col-lg py-2">
