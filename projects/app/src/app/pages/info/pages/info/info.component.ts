@@ -29,7 +29,8 @@ export class InfoPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._specimenService.getAll({
-      include: ['genus', 'photograph']
+      include: ['genus', 'photograph'],
+      orderBy: ['genus.name']
     }).pipe(
       map(specimens => specimens.sort((a, b) => a.genus!.name! > b.genus!.name! ? 1 : -1))
     ).subscribe({

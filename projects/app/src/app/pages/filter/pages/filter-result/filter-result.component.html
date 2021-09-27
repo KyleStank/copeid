@@ -3,12 +3,12 @@
 </div>
 
 <ng-container *ngIf="specimen$ | async as specimen">
-  <div class="my-3 d-flex align-items-center justify-content-center flex-wrap">
+  <div class="my-3 d-flex align-items-center justify-content-center flex-wrap" *ngIf="!!specimen.documentUri">
     <img
       style="width: 40%"
       class="img-fluid mx-auto d-block border rounded"
-      src="/assets/annotated_cope_cropped.jpg"
       alt="Specimen Image"
+      [src]="specimen.documentUri"
     />
   </div>
 

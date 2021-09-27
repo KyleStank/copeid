@@ -156,3 +156,12 @@ export class Specimen implements ISpecimen {
     this.setea = model?.setea;
   }
 }
+
+export class SpecimenDisplay extends Specimen {
+  public documentUri: string | undefined;
+
+  constructor(model?: Partial<ISpecimen>, documentUri?: string) {
+    super(model);
+    this.documentUri = documentUri;
+  }
+}
