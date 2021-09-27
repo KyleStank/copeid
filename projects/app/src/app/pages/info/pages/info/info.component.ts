@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, from, map, mergeMap, Observable, of, Subject, takeUntil, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, map, mergeMap, Observable, Subject, take, takeUntil, toArray } from 'rxjs';
 
-import { DocumentService, Specimen, SpecimenDisplay, SpecimenService } from '@app/features';
+import { DocumentService, GenusDisplay, Specimen, SpecimenDisplay, SpecimenService } from '@app/features';
 import { ISpecimenFilterValue } from '../../components';
 
 @Component({
@@ -32,10 +32,13 @@ export class InfoPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._specimenService.getAll({
-      include: ['genus', 'photograph'],
+      include: ['genus', 'genus.photograph', 'photograph'],
       orderBy: ['genus.name']
     }).pipe(
-      mergeMap(result => this._getSpecimensPhotoUris$(result))
+      mergeMap(results => from(results).pipe(
+        mergeMap(model => this._getSpecimenPhotoUri$(model)),
+        toArray()
+      ))
     ).subscribe({
       next: results => {
         this._specimensSubject.next(results);
@@ -44,20 +47,23 @@ export class InfoPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _getSpecimensPhotoUris$(models: Specimen[] | SpecimenDisplay[]): Observable<SpecimenDisplay[]> {
-    return from(models).pipe(
-      mergeMap(model => {
-        if (!!model.photograph?.documentId) {
-          return this._documentService.getDocumentUri(model.photograph?.documentId).pipe(
-            map(result => new SpecimenDisplay(model, result))
-          );
-        } else {
-          return of(model).pipe(
-            map(result => new SpecimenDisplay(result))
-          );
-        }
-      }),
-      toArray()
+  private _getSpecimenPhotoUri$(model: Specimen | SpecimenDisplay): Observable<SpecimenDisplay> {
+    const empty$ = new Observable<undefined>(sub => {
+      sub.next(undefined);
+      sub.complete();
+    });
+
+    return combineLatest([
+      !!model.photograph?.documentId ? this._documentService.getDocumentUri(model.photograph.documentId) : empty$,
+      !!model.genus?.photograph?.documentId ? this._documentService.getDocumentUri(model.genus.photograph.documentId) : empty$
+    ]).pipe(
+      take(1),
+      map(([specimenUri, genusUri]) =>
+        new SpecimenDisplay({
+          ...model,
+          genus: new GenusDisplay(model.genus, genusUri)
+        }, specimenUri)
+      )
     );
   }
 
