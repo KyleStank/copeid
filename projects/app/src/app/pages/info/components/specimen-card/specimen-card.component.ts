@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { Specimen, SpecimenGender } from '@app/features';
+import { Specimen, SpecimenDisplay, SpecimenGender } from '@app/features';
 
 @Component({
   selector: 'app-specimen-card',
@@ -14,5 +14,5 @@ export class SpecimenCardComponent {
   readonly enumSpecimenGender: typeof SpecimenGender = SpecimenGender;
 
   @Input()
-  specimen: Specimen | undefined;
+  specimen: Specimen | SpecimenDisplay | undefined;
 }

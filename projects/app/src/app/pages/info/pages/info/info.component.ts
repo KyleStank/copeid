@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, map, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, map, mergeMap, Observable, of, Subject, takeUntil, toArray } from 'rxjs';
 
-import { Specimen, SpecimenService } from '@app/features';
+import { DocumentService, Specimen, SpecimenDisplay, SpecimenService } from '@app/features';
 import { ISpecimenFilterValue } from '../../components';
 
 @Component({
@@ -10,19 +10,22 @@ import { ISpecimenFilterValue } from '../../components';
   host: {
     'class': 'd-block'
   },
-  providers: [SpecimenService],
+  providers: [DocumentService, SpecimenService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InfoPageComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
-  private readonly _specimensSubject = new BehaviorSubject<Specimen[]>([]);
+  private readonly _specimensSubject = new BehaviorSubject<SpecimenDisplay[]>([]);
   readonly specimens$ = this._specimensSubject.asObservable();
 
-  private readonly _filteredSpecimensSubject = new BehaviorSubject<Specimen[]>([]);
+  private readonly _filteredSpecimensSubject = new BehaviorSubject<SpecimenDisplay[]>([]);
   readonly filteredSpecimens$ = this._filteredSpecimensSubject.asObservable();
 
-  constructor(private readonly _specimenService: SpecimenService) {
+  constructor(
+    private readonly _documentService: DocumentService,
+    private readonly _specimenService: SpecimenService
+  ) {
     this.specimens$ = this.specimens$.pipe(takeUntil(this._destroyed));
     this.filteredSpecimens$ = this.filteredSpecimens$.pipe(takeUntil(this._destroyed));
   }
@@ -32,13 +35,30 @@ export class InfoPageComponent implements OnInit, OnDestroy {
       include: ['genus', 'photograph'],
       orderBy: ['genus.name']
     }).pipe(
-      map(specimens => specimens.sort((a, b) => a.genus!.name! > b.genus!.name! ? 1 : -1))
+      mergeMap(result => this._getSpecimensPhotoUris$(result))
     ).subscribe({
-      next: specimens => {
-        this._specimensSubject.next(specimens);
-        this._filteredSpecimensSubject.next(specimens);
+      next: results => {
+        this._specimensSubject.next(results);
+        this._filteredSpecimensSubject.next(results);
       }
     });
+  }
+
+  private _getSpecimensPhotoUris$(models: Specimen[] | SpecimenDisplay[]): Observable<SpecimenDisplay[]> {
+    return from(models).pipe(
+      mergeMap(model => {
+        if (!!model.photograph?.documentId) {
+          return this._documentService.getDocumentUri(model.photograph?.documentId).pipe(
+            map(result => new SpecimenDisplay(model, result))
+          );
+        } else {
+          return of(model).pipe(
+            map(result => new SpecimenDisplay(result))
+          );
+        }
+      }),
+      toArray()
+    );
   }
 
   filterChange(filterValue: ISpecimenFilterValue): void {
