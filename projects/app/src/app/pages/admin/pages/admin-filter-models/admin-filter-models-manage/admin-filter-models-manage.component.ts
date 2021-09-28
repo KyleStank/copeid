@@ -33,7 +33,7 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
   pageSize = 10;
   cachedData: FilterModel[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
-  sortDirection: 'asc' | 'desc' | undefined;
+  sort?: Sort = undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -50,8 +50,8 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
-      orderBy: this.sortDirection === 'asc' ? ['typeName'] : [],
-      orderByDescending: this.sortDirection === 'desc' ? ['typeName'] : []
+      orderBy: this.sort?.direction === 'asc' ? [this.sort.active] : [],
+      orderByDescending: this.sort?.direction === 'desc' ? [this.sort.active] : []
     }).subscribe({
       next: results => this._filterModelsSubject.next(results)
     });
@@ -114,7 +114,7 @@ export class AdminFilterModelsManageComponent implements IAdminManageView, OnIni
   }
 
   sortChange(sort: Sort): void {
-    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.sort = sort.direction !== '' ? sort : undefined;
     this.getEntities(true);
   }
 
