@@ -35,7 +35,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
   pageSize = 10;
   cachedData: Photograph[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
-  sortDirection: 'asc' | 'desc' | undefined;
+  sort?: Sort = undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -54,8 +54,8 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
       include: ['document'],
-      orderBy: this.sortDirection === 'asc' ? ['title'] : [],
-      orderByDescending: this.sortDirection === 'desc' ? ['title'] : []
+      orderBy: this.sort?.direction === 'asc' ? [this.sort.active] : [],
+      orderByDescending: this.sort?.direction === 'desc' ? [this.sort.active] : []
     }).subscribe({
       next: results => this._photographsSubject.next(results)
     });
@@ -123,7 +123,7 @@ export class AdminPhotographsManageComponent implements IAdminManageView, OnInit
   }
 
   sortChange(sort: Sort): void {
-    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.sort = sort.direction !== '' ? sort : undefined;
     this.getEntities(true);
   }
 

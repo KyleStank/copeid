@@ -34,7 +34,7 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
   pageSize = 10;
   cachedData: Definition[][] = [];
   get pageCount(): number { return Math.ceil(this.paginatorLength / this.pageSize); }
-  sortDirection: 'asc' | 'desc' | undefined;
+  sort?: Sort = undefined;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -51,8 +51,8 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
 
   getEntities(refreshCache: boolean = false): void {
     this._getPagedEntities$(this.pageIndex, this.pageSize, refreshCache, {
-      orderBy: this.sortDirection === 'asc' ? ['name'] : [],
-      orderByDescending: this.sortDirection === 'desc' ? ['name'] : []
+      orderBy: this.sort?.direction === 'asc' ? [this.sort.active] : [],
+      orderByDescending: this.sort?.direction === 'desc' ? [this.sort.active] : []
     }).subscribe({
       next: results => this._definitionsSubject.next(results)
     });
@@ -114,7 +114,7 @@ export class AdminDefinitionsManageComponent implements IAdminManageView, OnInit
   }
 
   sortChange(sort: Sort): void {
-    this.sortDirection = sort.direction !== '' ? sort.direction : undefined;
+    this.sort = sort.direction !== '' ? sort : undefined;
     this.getEntities(true);
   }
 
