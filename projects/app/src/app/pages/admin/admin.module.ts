@@ -6,11 +6,7 @@ import { SnackBarModule } from '@core/services/snackbar';
 import { SharedAutoTableModule } from '@shared/components/auto-table';
 import { SharedConfirmationAlertModalModule } from '@shared/modals/confirmation-alert';
 import { AdminRoutingModule } from './admin-routing.module';
-import {
-  AdminEditModule,
-  AdminManageModule
-} from './components';
-import { AdminDataTableModule } from './common';
+import { AdminDataTableModule, AdminEditModule, AdminManageModule } from './components';
 
 @NgModule({
   imports: [

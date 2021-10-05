@@ -11,7 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { SharedFileSelectInputModule } from '@shared/components/file-select-input';
 import { SharedFileUploadInputModule } from '@shared/components/file-upload-input';
-import { AdminDataTableModule } from '../../common';
+import { AdminDataTableModule } from '../../components';
 import { AdminPhotographsEditComponent } from './admin-photographs-edit';
 import { AdminPhotographsManageComponent } from './admin-photographs-manage';
 import { AdminPhotographsRoutingModule } from './admin-photographs-routing.module';

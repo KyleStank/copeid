@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxEditorModule } from 'ngx-editor';
 
-import { AdminDataTableModule } from '../../common';
+import { AdminDataTableModule } from '../../components';
 import { AdminReferencesEditComponent } from './admin-references-edit';
 import { AdminReferencesManageComponent } from './admin-references-manage';
 import { AdminReferencesRoutingModule } from './admin-references-routing.module';

@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { AdminDataTableModule } from '../../common';
+import { AdminDataTableModule } from '../../components';
 import { AdminContributorsEditComponent } from './admin-contributors-edit';
 import { AdminContributorsManageComponent } from './admin-contributors-manage';
 import { AdminContributorsRoutingModule } from './admin-contributors-routing.module';

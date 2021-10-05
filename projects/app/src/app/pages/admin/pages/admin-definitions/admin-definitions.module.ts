@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { AdminDataTableModule } from '../../common';
+import { AdminDataTableModule } from '../../components';
 import { AdminDefinitionsEditComponent } from './admin-definitions-edit';
 import { AdminDefinitionsManageComponent } from './admin-definitions-manage';
 import { AdminDefinitionsRoutingModule } from './admin-definitions-routing.module';

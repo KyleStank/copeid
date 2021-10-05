@@ -12,8 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 
 import { SharedFileSelectInputModule } from '@shared/components/file-select-input';
-import { AdminDataTableModule } from '../../common';
-import { AdminEditModule } from '../../components';
+import { AdminDataTableModule, AdminEditModule } from '../../components';
 import { AdminSpecimensEditComponent } from './admin-specimens-edit';
 import { AdminSpecimensManageComponent } from './admin-specimens-manage';
 import { AdminSpecimensRoutingModule } from './admin-specimens-routing.module';
