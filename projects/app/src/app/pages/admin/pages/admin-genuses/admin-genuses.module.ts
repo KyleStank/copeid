@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { SharedFileSelectInputModule } from '@shared/components/file-select-input';
-import { AdminDataTableModule } from '../../common';
+import { AdminDataTableModule } from '../../components';
 import { AdminGenusesEditComponent } from './admin-genuses-edit';
 import { AdminGenusesManageComponent } from './admin-genuses-manage';
 import { AdminGenusesRoutingModule } from './admin-genuses-routing.module';

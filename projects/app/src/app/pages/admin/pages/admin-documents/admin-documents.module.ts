@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { SharedFileUploadInputModule } from '@shared/components/file-upload-input';
-import { AdminDataTableModule } from '../../common';
+import { AdminDataTableModule } from '../../components';
 import { AdminDocumentsEditComponent } from './admin-documents-edit';
 import { AdminDocumentsManageComponent } from './admin-documents-manage';
 import { AdminDocumentsRoutingModule } from './admin-documents-routing.module';

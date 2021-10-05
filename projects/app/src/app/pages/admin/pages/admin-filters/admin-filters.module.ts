@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 
-import { AdminDataTableModule } from '../../common';
+import { AdminDataTableModule } from '../../components';
 import { AdminFiltersSectionsEditComponent } from './admin-filter-sections-edit';
 import { AdminFiltersSectionsManageComponent } from './admin-filter-sections-manage';
 import { AdminFiltersSectionsPartsEditComponent } from './admin-filter-sections-parts-edit';

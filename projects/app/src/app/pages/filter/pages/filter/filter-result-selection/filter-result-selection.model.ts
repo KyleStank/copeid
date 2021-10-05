@@ -1,4 +1,5 @@
 import { KeyValue } from '@angular/common';
+
 import { IEntity } from '@core/models/entity';
 
 export interface IFilterResultSelectionModalData {

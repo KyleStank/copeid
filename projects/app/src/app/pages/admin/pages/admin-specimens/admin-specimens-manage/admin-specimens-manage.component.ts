@@ -7,8 +7,7 @@ import { BehaviorSubject, from, map, Observable, skipWhile, Subject, takeUntil, 
 import { DocumentService, Specimen, SpecimenQuery, SpecimenService } from '@app/features';
 import { PaginationRequest } from '@core/models/pagination';
 import { ConfirmationAlertModalCompoonent } from '@shared/modals/confirmation-alert';
-import { AdminColumn } from '../../../common';
-import { IAdminManageView } from '../../../components';
+import { AdminColumn, IAdminManageView } from '../../../components';
 
 @Component({
   selector: 'app-admin-specimens-manage',
