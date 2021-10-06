@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Editor, toDoc } from 'ngx-editor';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Reference, ReferenceService } from '@app/features';
@@ -25,6 +26,7 @@ export class AdminReferencesEditComponent implements IAdminEditView, OnInit, OnD
   readonly formGroup = this._fb.group({
     content: ['', Validators.required]
   });
+  readonly editor = new Editor();
 
   id: string | undefined;
 
@@ -52,7 +54,15 @@ export class AdminReferencesEditComponent implements IAdminEditView, OnInit, OnD
   ngOnInit(): void {
     this.id = this._activatedRoute.snapshot.paramMap.get('id') ?? undefined;
     if (!!this.id) {
-      this._referenceService.getSingle(this.id).subscribe(this._modelSubject.next.bind(this._modelSubject));
+      this._referenceService.getSingle(this.id).subscribe({
+        next: result => {
+          if (!!result.content) {
+            this.editor.setContent(toDoc(result.content));
+          }
+
+          this._modelSubject.next(result);
+        }
+      });
     }
   }
 
@@ -67,6 +77,8 @@ export class AdminReferencesEditComponent implements IAdminEditView, OnInit, OnD
   }
 
   ngOnDestroy(): void {
+    this.editor.destroy();
+
     this.destroyed.next();
     this.destroyed.complete();
   }

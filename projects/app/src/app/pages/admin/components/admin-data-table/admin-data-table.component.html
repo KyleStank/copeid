@@ -25,7 +25,11 @@
     </ng-container>
   </ng-container>
 
-  <ng-container [autoColumnDef]="column.property" [header]="column.title" *ngFor="let column of columns"></ng-container>
+  <ng-container [autoColumnDef]="column.property" [header]="column.title" *ngFor="let column of columns">
+    <ng-container *autoDataCellOverride="let cell">
+      <span [innerHTML]="cell | autoPropertyValue : column.property"></span>
+    </ng-container>
+  </ng-container>
 
   <mat-paginator
     autoPaginator
